@@ -1,0 +1,44 @@
+# Build output folders
+bin/
+obj/
+
+# IDE-specific folders
+.vs/
+.idea/
+.vscode/
+*.csproj.user
+*.userosscache
+*.suo
+*.sln.docstates
+
+# Content Pipeline
+Content/bin/
+Content/obj/
+
+# Logs and crash reports
+*.log
+
+# Environment variables
+.env
+.env.*
+
+# NuGet packages
+packages/
+*.nupkg
+
+# C# temporary files
+*.pidb
+*.pdb
+*.mdb
+*.cache
+*.ilk
+*.meta
+*.obj
+*.dll
+*.exe
+*.app
+*.ipa
+*.iobj
+*.ipdb
+*.tlog
+*.tmp
