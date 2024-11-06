@@ -5,18 +5,8 @@ using System.Collections.Generic;
 
 namespace SlipThrough2.World
 {
-
     public class Map
     {
-        private int[,] mapPattern = {
-            { 6, 10, 10, 10, 10, 3 },
-            { 7,  0,  1,  0,  0, 8 },
-            { 7,  0,  0,  0,  2, 8 },
-            { 7,  0,  1,  1,  0, 8 },
-            { 7,  2,  0,  0,  0, 8 },
-            { 5,  9,  9,  9,  9, 4 }
-        };
-
         private List<Texture2D> textures;
 
         public Map(List<Texture2D> mapTextures)
@@ -30,16 +20,36 @@ namespace SlipThrough2.World
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            for (int y = 0; y < mapPattern.GetLength(0); y++)
+            // Map is divided into a grid of rooms
+            // Each room is divided into a grid of tiles
+            // Draw each tile in a horizontal line of the room, then
+            // Draw each horizontal line of the room, then
+            // Draw each room in a horizontal line of the map, then
+            // Draw each horizontal line of the grid in the map
+            for (int column = 0; column < Constants.COLUMN_COUNT; column++)
             {
-                for (int x = 0; x < mapPattern.GetLength(1); x++)
+                for (int row = 0; row < Constants.ROW_COUNT; row++)
                 {
-                    int tileId = mapPattern[y, x];
-                    Texture2D tileTexture = textures[tileId];
-                    spriteBatch.Draw(tileTexture, new Rectangle(x * Constants.CELL_SIZE, y * Constants.CELL_SIZE, Constants.CELL_SIZE, Constants.CELL_SIZE), Color.White);
+                    for (int y = 0; y < Constants.ROOM_SIZE; y++)
+                    {
+                        for (int x = 0; x < Constants.ROOM_SIZE; x++)
+                        {
+                            int tileId = Constants.TILE_PATTERNS[column + Constants.COLUMN_COUNT * row][y, x];
+                            Texture2D tileTexture = textures[tileId];
+                            spriteBatch.Draw(
+                                tileTexture,
+                                new Rectangle(
+                                    x * Constants.CELL_SIZE + column * Constants.ROOM_SIZE * Constants.CELL_SIZE,
+                                    y * Constants.CELL_SIZE + row * Constants.ROOM_SIZE * Constants.CELL_SIZE,
+                                    Constants.CELL_SIZE,
+                                    Constants.CELL_SIZE
+                                ),
+                                Color.White
+                            );
+                        }
+                    }
                 }
             }
-
         }
     }
 }

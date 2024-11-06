@@ -6,7 +6,7 @@
 ## Order of creation
 1. [x] Character and enemies basic movement 
    1. [x] Basic sprites
-   2. [x] Basic animation (movement)
+   2. [x] Basic movement
 2. [x] Map
 3. [ ] Interacting with the map
 4. [ ] Starting screen

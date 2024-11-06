@@ -48,7 +48,6 @@ namespace SlipThrough2.Managers
             }
 
             spriteBatch.End();
-
         }
     }
 }

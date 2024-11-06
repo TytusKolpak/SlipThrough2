@@ -11,12 +11,15 @@ namespace SlipThrough2
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private Player player;
         private GameManager gameManager;
 
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
+            _graphics.PreferredBackBufferWidth = Constants.WINDOW_WIDTH;
+            _graphics.PreferredBackBufferHeight = Constants.WINDOW_HEIGHT;
+            _graphics.ApplyChanges();
+
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
