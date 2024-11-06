@@ -1,6 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SlipThrough2.Entities;
+using SlipThrough2.Managers;
+using System.Collections.Generic;
 
 namespace SlipThrough2
 {
@@ -8,6 +11,8 @@ namespace SlipThrough2
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private Player player;
+        private GameManager gameManager;
 
         public Game1()
         {
@@ -18,8 +23,6 @@ namespace SlipThrough2
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
             base.Initialize();
         }
 
@@ -27,25 +30,46 @@ namespace SlipThrough2
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            Texture2D playerTexture = Content.Load<Texture2D>("Tiles/tile_0096");
+
+            List<Texture2D> enemyTextures = new List<Texture2D>
+            {
+                Content.Load<Texture2D>("Tiles/tile_0123"),
+                Content.Load<Texture2D>("Tiles/tile_0124")
+            };
+
+            List<Texture2D> mapTextures = new List<Texture2D>
+            {
+                Content.Load<Texture2D>("Tiles/tile_0000"), // 0 blank ground
+                Content.Load<Texture2D>("Tiles/tile_0012"), // 1 ground v2
+                Content.Load<Texture2D>("Tiles/tile_0024"), // 2 ground v3
+                Content.Load<Texture2D>("Tiles/tile_0005"), // 3 right upper corner
+                Content.Load<Texture2D>("Tiles/tile_0017"), // 4 right bottom corner
+                Content.Load<Texture2D>("Tiles/tile_0016"), // 5 left bottom corner
+                Content.Load<Texture2D>("Tiles/tile_0004"), // 6 left upper corner
+                Content.Load<Texture2D>("Tiles/tile_0015"), // 7 left wall
+                Content.Load<Texture2D>("Tiles/tile_0013"), // 8 right wall
+                Content.Load<Texture2D>("Tiles/tile_0002"), // 9 bottom wall
+                Content.Load<Texture2D>("Tiles/tile_0026"), // 10 upper wall
+            };
+
+            gameManager = new GameManager(playerTexture, enemyTextures, mapTextures);
         }
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
-
+            gameManager.Update(gameTime);
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.DarkGray);
 
-            // TODO: Add your drawing code here
-
+            gameManager.Draw(_spriteBatch);
             base.Draw(gameTime);
         }
     }
