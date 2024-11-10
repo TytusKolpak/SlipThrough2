@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using static SlipThrough2.Constants;
+using SlipThrough2.Managers;
 
 namespace SlipThrough2.World
 {
