@@ -58,7 +58,19 @@ echo "" >> $COMMIT_MSG_FILE
 echo "Version: $new_version" >> $COMMIT_MSG_FILE
 ```
 
-## Order of creation
+The versioning pattern I assume to treat in this way:
+
+1. Version is X.Y.Z - Major.Minor.Unit.
+2. Unit version (Z) will just be for commit and ease of tracking.
+    1. I expect larger commits at least per 1 point in below To be done sections.
+3. Minor version (Y) will be for the game element which is being developed. So that it is also clear which commit focuses on which part.
+    1. Once the Y value is increased the elements before are left as they are.
+    2. Any further changes to them I assume to perform after changing Major version.
+4. Major version (X) will be for large game changes.
+    1. This one will be the only one the end user would care about since only at its end will the game be complete and in the form suitable for intended gameplay.
+    2. Once I have all elements of the game implemented to any satisfying extent I will be able to come back and improve any parts which I consider as with room for improvement, change or refactor.
+
+## Order of game element creation
 
 1. Character and enemies basic movement 
    1. Basic sprites
@@ -93,20 +105,20 @@ Done:
 Done: 
 
 1. The main map is built as a 3x6 grid where each cell is a "room" (for now that's the name).
-1. Rooms:
+2. Rooms:
     1. Each room is a 6x6 grid where each cell is a tile.
-    1. The room's tile pattern is a 2D table of ints where each value is an index in table of passed tiles.
-    1. There is one type of room for every unique shape (type being as example: with opening to the left and right).
-
-To be done:
-
-Make Map.cs be responsible for wall detection in entity movement.
+    2. The room's tile pattern is a 2D table of ints where each value is an index in table of passed tiles.
+    3. There is one type of room for every unique shape (type being as example: with opening to the left and right).
 
 ### 3. Interacting with the map
 
-To be done:
+Done: 
 
 1. Make walls block movement - don't leave the screen.
-2. Be able to enter a new location by the doors in some of the rooms.
+2. Make Map.cs be responsible for wall detection in entity movement. 
+
+To be done:
+
+1. Be able to enter a new location by the doors in some of the rooms.
 	1. New location will show new screen with new map. Some platforming maybe?
 	2. New location will change HUD (health bar, mana or smthng).
