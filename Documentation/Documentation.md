@@ -100,6 +100,10 @@ Done:
     1. Once per 15 frames it is checked if they hold the key down and if they do then the character changes position.
     2. His movement is confined by the walls at the edges of the map.
 
+To be done:
+
+1. Make player movement start when user clicks a movement key and count frames from there.
+
 ### 2. Map
 
 Done: 
@@ -116,9 +120,9 @@ Done:
 
 1. Make walls block movement - don't leave the screen.
 2. Make Map.cs be responsible for wall detection in entity movement. 
+3. Be able to enter a new location by the doors in some of the rooms.
+	1. New location will show new screen with new map. Some platforming maybe?
 
 To be done:
 
-1. Be able to enter a new location by the doors in some of the rooms.
-	1. New location will show new screen with new map. Some platforming maybe?
-	2. New location will change HUD (health bar, mana or smthng).
+2. New location to change HUD (health bar, mana or smthng).

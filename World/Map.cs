@@ -2,33 +2,18 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using static SlipThrough2.Constants;
-using SlipThrough2.Entities;
-using System.Diagnostics;
 
 namespace SlipThrough2.World
 {
     public class Map
     {
-        private List<Texture2D> textures;
+        private readonly List<Texture2D> textures;
+        public int[,][,] currentPattern; // Of rooms in a map (and of tiles in a room)
+        public int[,] currentFunctionalPattern; // Where player can move, what to enter and so on
 
         public Map(List<Texture2D> mapTextures)
         {
             textures = mapTextures;
-        }
-
-        public void Update(GameTime gameTime, Player Player)
-        {
-            // Player cell position in grid
-            int PCX = (int)Player.position.X / CELL_SIZE;
-            int PCY = (int)Player.position.Y / CELL_SIZE;
-
-            // Top, right, down, left
-            Player.availableMoves = new bool[4] {
-                FUNCTIONAL_MAP_PATTERN[PCY - 1, PCX] == 1,
-                FUNCTIONAL_MAP_PATTERN[PCY, PCX + 1] == 1,
-                FUNCTIONAL_MAP_PATTERN[PCY + 1, PCX] == 1,
-                FUNCTIONAL_MAP_PATTERN[PCY, PCX - 1] == 1
-            };
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -47,7 +32,7 @@ namespace SlipThrough2.World
                     {
                         for (int x = 0; x < ROOM_SIZE; x++)
                         {
-                            int tileId = ROOM_PATTERN[row, column][y, x];
+                            int tileId = currentPattern[row, column][y, x];
                             Texture2D tileTexture = textures[tileId];
                             spriteBatch.Draw(
                                 tileTexture,

@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using SlipThrough2.Entities;
-using SlipThrough2.World;
 
 namespace SlipThrough2.Managers
 {
@@ -10,11 +9,12 @@ namespace SlipThrough2.Managers
     {
         public Player Player { get; private set; }
         public List<Enemy> Enemies { get; private set; }
-        public Map Map { get; private set; }
+
+        public MapManager MapManager { get; private set; }
 
         public GameManager(Texture2D playerTexture, List<Texture2D> enemyTextures, List<Texture2D> mapTextures)
         {
-            Map = new Map(mapTextures);
+            MapManager = new MapManager(mapTextures);
 
             Player = new Player(playerTexture);
 
@@ -23,8 +23,6 @@ namespace SlipThrough2.Managers
             {
                 Enemies.Add(new Enemy(texture));
             }
-
-            Constants.Initialize();
         }
 
         public void Update(GameTime gameTime)
@@ -36,14 +34,14 @@ namespace SlipThrough2.Managers
                 enemy.Update(gameTime);
             }
 
-            Map.Update(gameTime, Player);
+            MapManager.Update(Player);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
-            Map.Draw(spriteBatch);
+            MapManager.Draw(spriteBatch);
 
             Player.Draw(spriteBatch);
             foreach (var enemy in Enemies)

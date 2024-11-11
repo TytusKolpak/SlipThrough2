@@ -15,9 +15,11 @@ namespace SlipThrough2
 
         public Game1()
         {
-            _graphics = new GraphicsDeviceManager(this);
-            _graphics.PreferredBackBufferWidth = WINDOW_WIDTH;
-            _graphics.PreferredBackBufferHeight = WINDOW_HEIGHT;
+            _graphics = new GraphicsDeviceManager(this)
+            {
+                PreferredBackBufferWidth = WINDOW_WIDTH,
+                PreferredBackBufferHeight = WINDOW_HEIGHT
+            };
             _graphics.ApplyChanges();
 
             Content.RootDirectory = "Content";
@@ -33,33 +35,15 @@ namespace SlipThrough2
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            Texture2D playerTexture = Content.Load<Texture2D>("Tiles/tile_0096");
+            Texture2D playerTexture = Content.Load<Texture2D>(PLAYER_TILE_PATH);
 
-            List<Texture2D> enemyTextures = new List<Texture2D>
-            {
-                Content.Load<Texture2D>("Tiles/tile_0123"),
-                Content.Load<Texture2D>("Tiles/tile_0124")
-            };
+            List<Texture2D> enemyTextures = new();
+            foreach (string tilePath in ENEMY_TILE_PATHS)
+                enemyTextures.Add(Content.Load<Texture2D>(tilePath));
 
-            List<Texture2D> mapTextures = new List<Texture2D>
-            {
-                Content.Load<Texture2D>("Tiles/tile_0000"), // 0 blank ground
-                Content.Load<Texture2D>("Tiles/tile_0012"), // 1 ground v2
-                Content.Load<Texture2D>("Tiles/tile_0024"), // 2 ground v3
-                Content.Load<Texture2D>("Tiles/tile_0005"), // 3 right upper corner
-                Content.Load<Texture2D>("Tiles/tile_0017"), // 4 right bottom corner
-                Content.Load<Texture2D>("Tiles/tile_0016"), // 5 left bottom corner
-                Content.Load<Texture2D>("Tiles/tile_0004"), // 6 left upper corner
-                Content.Load<Texture2D>("Tiles/tile_0015"), // 7 left wall
-                Content.Load<Texture2D>("Tiles/tile_0013"), // 8 right wall
-                Content.Load<Texture2D>("Tiles/tile_0002"), // 9 bottom wall
-                Content.Load<Texture2D>("Tiles/tile_0026"), // 10 upper wall
-                Content.Load<Texture2D>("Tiles/tile_0025"), // 11 bottom left wall edge
-                Content.Load<Texture2D>("Tiles/tile_0027"), // 12 bottom right wall edge
-                Content.Load<Texture2D>("Tiles/tile_0001"), // 13 upper left wall edge
-                Content.Load<Texture2D>("Tiles/tile_0003"), // 14 upper right wall edge
-                Content.Load<Texture2D>("Tiles/tile_0089"), // 15 upper right wall edge
-            };
+            List<Texture2D> mapTextures = new();
+            foreach (string tilePath in TILE_PATHS)
+                mapTextures.Add(Content.Load<Texture2D>(tilePath));
 
             gameManager = new GameManager(playerTexture, enemyTextures, mapTextures);
         }
@@ -75,7 +59,7 @@ namespace SlipThrough2
 
         protected override void Draw(GameTime gameTime)
         {
-            Color backgroundColor = new Color(118, 59, 54);
+            Color backgroundColor = new(118, 59, 54);
             GraphicsDevice.Clear(backgroundColor);
 
             gameManager.Draw(_spriteBatch);
