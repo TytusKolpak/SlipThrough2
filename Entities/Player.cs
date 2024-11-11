@@ -9,14 +9,18 @@ namespace SlipThrough2.Entities
 {
     public class Player
     {
-        private Vector2 position;
         private Texture2D texture;
         private int iteration;
+
+        // Can go top, right, bottom, left (as in clockwise)
+        // Controlled by Map.cs
+        public Vector2 position;
+        public bool[] availableMoves = new bool[4] { true, true, true, true }; 
 
         public Player(Texture2D playerTexture)
         {
             texture = playerTexture;
-            position = new Vector2(CELL_SIZE * 1, CELL_SIZE * 1); // Starting position, for example
+            position = new Vector2(CELL_SIZE * 1, CELL_SIZE * 1); // Starting position is cell: (1,1) for example
         }
 
         public void Update(GameTime gameTime)
@@ -26,60 +30,18 @@ namespace SlipThrough2.Entities
             if (iteration % ITERATION_TIME != 0) return;
 
             // Check if the new move would not be entering a wall
+            // elses are here so that diagonal movement is impossible
             KeyboardState state = Keyboard.GetState();
             int velocity = CELL_SIZE;
-            if (state.IsKeyDown(Keys.W) && moveIsLegal('W')) position.Y -= velocity;
-            if (state.IsKeyDown(Keys.S) && moveIsLegal('S')) position.Y += velocity;
-            if (state.IsKeyDown(Keys.A) && moveIsLegal('A')) position.X -= velocity;
-            if (state.IsKeyDown(Keys.D) && moveIsLegal('D')) position.X += velocity;
+            if (state.IsKeyDown(Keys.W) && availableMoves[0]) position.Y -= velocity;
+            else if (state.IsKeyDown(Keys.D) && availableMoves[1]) position.X += velocity;
+            else if(state.IsKeyDown(Keys.S) && availableMoves[2]) position.Y += velocity;
+            else if(state.IsKeyDown(Keys.A) && availableMoves[3]) position.X -= velocity;
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(
-                texture,
-                new Rectangle(
-                    (int)position.X,
-                    (int)position.Y,
-                    CELL_SIZE,
-                    CELL_SIZE
-                ),
-                Color.Gray
-            );
-        }
-
-        // Helper functions
-        public bool moveIsLegal(char direction)
-        {
-            Debug.WriteLine(position);
-            if (direction == 'W')
-            {
-                // Always the top most edge
-                if (position.Y == CELL_SIZE) return false;
-
-                // If the cell in the global grid above the player is a wall
-
-                // TODO: make a data structure for where all the other "custom" walls are and detect them here (check just the neighbors)
-            }
-
-            if (direction == 'S')
-            {
-                // Always the top most edge
-                if (position.Y == WINDOW_HEIGHT - 2 * CELL_SIZE) return false;
-            }
-
-            if (direction == 'A')
-            {
-                // Always the top most edge
-                if (position.X == CELL_SIZE) return false;
-            }
-
-            if (direction == 'D')
-            {
-                // Always the top most edge
-                if (position.X == WINDOW_WIDTH - 2 * CELL_SIZE) return false;
-            }
-            return true;
+            spriteBatch.Draw(texture, new Rectangle((int)position.X, (int)position.Y, CELL_SIZE, CELL_SIZE), Color.Gray);
         }
     }
 }

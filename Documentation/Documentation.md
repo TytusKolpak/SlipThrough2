@@ -98,11 +98,11 @@ Done:
     1. The room's tile pattern is a 2D table of ints where each value is an index in table of passed tiles.
     1. There is one type of room for every unique shape (type being as example: with opening to the left and right).
 
+To be done:
+
+Make Map.cs be responsible for wall detection in entity movement.
+
 ### 3. Interacting with the map
-
-Done:
-
-1. 
 
 To be done:
 

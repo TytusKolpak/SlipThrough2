@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using SlipThrough2.Entities;
 using System.Collections.Generic;
+using SlipThrough2.Entities;
 using SlipThrough2.World;
 
 namespace SlipThrough2.Managers
@@ -23,6 +23,8 @@ namespace SlipThrough2.Managers
             {
                 Enemies.Add(new Enemy(texture));
             }
+
+            Constants.Initialize();
         }
 
         public void Update(GameTime gameTime)
@@ -33,6 +35,8 @@ namespace SlipThrough2.Managers
             {
                 enemy.Update(gameTime);
             }
+
+            Map.Update(gameTime, Player);
         }
 
         public void Draw(SpriteBatch spriteBatch)
