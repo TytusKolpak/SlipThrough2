@@ -1,76 +1,4 @@
-# Slip through2
-
-This project is a successor game to my previous [Slip Through](https://github.com/TytusKolpak/SlipThroughGame), which was created using Windows Forms (xd). This one uses MonoGame which is much more appropriate and hopefully will allow me to make a better game.
-
-## Building overview - initial idea
-
-1. As in [Slip Through](https://github.com/TytusKolpak/SlipThroughGame) I think this one can be build in 5x6 grid, divded into 3 "Acts" of 2 rows.
-2. Every fight will not be automatic, but rather than that will work simillar to the [Shooter](https://github.com/TytusKolpak/Shooter) game in Golang.
-
-## Misc
-
-Git hook to keep track of versioning:
-
-```shell
-#!/bin/sh
-
-COMMIT_MSG_FILE=$1
-COMMIT_SOURCE=$2
-SHA1=$3
-
-### Search for the value of Version
-# XML file path
-xml_file="SlipThrough2.csproj"
-node_name="Version"  # Node you want to search for
-
-# Check if the file exists
-if [ ! -f "$xml_file" ]; then
-    echo "Error: File '$xml_file' does not exist."
-    exit 1
-fi
-
-# Extract the version number using grep
-version=$(grep -oP "<$node_name>\K[0-9]+\.[0-9]+\.[0-9]+(?=</$node_name>)" "$xml_file")
-
-# Check if version was found
-if [ -z "$version" ]; then
-    echo "Error: Version node <$node_name> not found in the file."
-    exit 1
-fi
-
-# Separate X, Y, and Z parts of the version
-IFS='.' read -r major minor patch <<< "$version"
-
-# Increment the patch version
-((patch++))
-
-# Construct the new version
-new_version="$major.$minor.$patch"
-
-# Replace the old version with the new version in the file
-sed -i "s/<$node_name>$version<\/$node_name>/<$node_name>$new_version<\/$node_name>/" "$xml_file"
-
-# Notify
-echo "Version updated from $version to $new_version in $xml_file"
-
-# Add a new line to the commit and a custom message
-echo "" >> $COMMIT_MSG_FILE
-echo "Version: $new_version" >> $COMMIT_MSG_FILE
-```
-
-The versioning pattern I assume to treat in this way:
-
-1. Version is X.Y.Z - Major.Minor.Unit.
-2. Unit version (Z) will just be for commit and ease of tracking.
-    1. I expect larger commits at least per 1 point in below To be done sections.
-3. Minor version (Y) will be for the game element which is being developed. So that it is also clear which commit focuses on which part.
-    1. Once the Y value is increased the elements before are left as they are.
-    2. Any further changes to them I assume to perform after changing Major version.
-4. Major version (X) will be for large game changes.
-    1. This one will be the only one the end user would care about since only at its end will the game be complete and in the form suitable for intended gameplay.
-    2. Once I have all elements of the game implemented to any satisfying extent I will be able to come back and improve any parts which I consider as with room for improvement, change or refactor.
-
-## Order of game element creation
+# Order of game element creation
 
 1. Character and enemies basic movement
     1. Basic sprites
@@ -84,7 +12,7 @@ The versioning pattern I assume to treat in this way:
 8. Refactoring
 9. Better sprites + Animation
 
-### 1. Entity movement
+## 1. Entity movement
 
 Done:
 
@@ -99,7 +27,7 @@ For version 2.X.X
 2. Cover smooth transition between tiles
 3. Cover walking animation (eg. left right bobbing)
 
-### 2. Map
+## 2. Map
 
 Done:
 
@@ -114,7 +42,7 @@ For version 2.X.X
 1. Build better main map xd.
     1. I think it's fine to give up the 3x6 grid for sake of something more organic/natural.
 
-### 3. Interacting with the map
+## 3. Interacting with the map
 
 Done:
 
@@ -127,26 +55,29 @@ Done:
     2. Mana bar.
 5. Make minor maps "spawn" player at the oposite from where they entered the door - as if the minor map was in fact placed in the world but outside of the window.
 
-To be done:
+For version 2.X.X
 
-### 4. Starting Screen
+1. Maybe some height differences - low ground, high ground, starircases
+2. Actual rooms with semi transparent roofs
+
+## 4. Starting Screen
 
 1. Game name
 2. Begin
 3. Quit
 
-### 5. Options
+## 5. Options
 
 1. Reset
 2. Quit
 
-### 6. Levels
+## 6. Levels
 
 1.  Wolf
 2.  Werevolf
 3.  Cerber
 
-### 7. Commbat
+## 7. Commbat
 
 1. Program Health behavior.
 2. Enemy behavior there.

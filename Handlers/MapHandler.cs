@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static SlipThrough2.Constants;
 
-namespace SlipThrough2.World
+namespace SlipThrough2.Handlers
 {
     public class MapHandler
     {

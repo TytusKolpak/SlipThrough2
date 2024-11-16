@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SlipThrough2.Entities;
-using SlipThrough2.Managers;
-using SlipThrough2.World;
+using SlipThrough2.Handlers;
 using static SlipThrough2.Constants;
 
-namespace SlipThrough2
+namespace SlipThrough2.Managers
 {
     public class MapManager
     {
@@ -110,7 +108,7 @@ namespace SlipThrough2
             {
                 SetMap(MAP_NAME.Encounter1);
 
-                GameManager.SpawnEnemies();
+                EnemyManager.SpawnEnemies();
                 Player.HUD.ArrangeTextures();
                 Player.position = new(
                     Player.position.X,

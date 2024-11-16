@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static SlipThrough2.Constants;
@@ -9,6 +10,7 @@ namespace SlipThrough2.Entities
     {
         private Vector2 position;
         private Texture2D texture;
+
         private int iteration;
 
         public Enemy(Texture2D enemyTexture)
