@@ -42,3 +42,6 @@ packages/
 *.ipdb
 *.tlog
 *.tmp
+
+# Me specific
+.ignorable/

@@ -1,15 +1,15 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SlipThrough2.Managers;
-using System.Collections.Generic;
 using static SlipThrough2.Constants;
 
 namespace SlipThrough2
 {
     public class Game1 : Game
     {
-        private GraphicsDeviceManager _graphics;
+        private readonly GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private GameManager gameManager;
 
@@ -37,6 +37,10 @@ namespace SlipThrough2
 
             Texture2D playerTexture = Content.Load<Texture2D>(PLAYER_TILE_PATH);
 
+            List<Texture2D> HUDTextures = new();
+            foreach (string tilePath in HUD_TILE_PATHS)
+                HUDTextures.Add(Content.Load<Texture2D>(tilePath));
+
             List<Texture2D> enemyTextures = new();
             foreach (string tilePath in ENEMY_TILE_PATHS)
                 enemyTextures.Add(Content.Load<Texture2D>(tilePath));
@@ -45,7 +49,15 @@ namespace SlipThrough2
             foreach (string tilePath in TILE_PATHS)
                 mapTextures.Add(Content.Load<Texture2D>(tilePath));
 
-            gameManager = new GameManager(playerTexture, enemyTextures, mapTextures);
+            SpriteFont font = Content.Load<SpriteFont>("Font1");
+
+            gameManager = new GameManager(
+                playerTexture,
+                enemyTextures,
+                mapTextures,
+                HUDTextures,
+                font
+            );
         }
 
         protected override void Update(GameTime gameTime)
@@ -53,7 +65,7 @@ namespace SlipThrough2
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            gameManager.Update(gameTime);
+            gameManager.Update();
             base.Update(gameTime);
         }
 
@@ -61,7 +73,6 @@ namespace SlipThrough2
         {
             Color backgroundColor = new(118, 59, 54);
             GraphicsDevice.Clear(backgroundColor);
-
             gameManager.Draw(_spriteBatch);
             base.Draw(gameTime);
         }

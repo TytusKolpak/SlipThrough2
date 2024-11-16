@@ -1,47 +1,94 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System.Diagnostics;
 using static SlipThrough2.Constants;
-
 
 namespace SlipThrough2.Entities
 {
     public class Player
     {
-        private Texture2D texture;
-        private int iteration;
-
-        // Can go top, right, bottom, left (as in clockwise)
-        // Controlled by Map.cs
+        private readonly Texture2D texture;
+        int idleIterations = 0;
+        private bool playerIsCooledDown = true;
         public Vector2 position;
-        public bool[] availableMoves = new bool[4] { true, true, true, true }; 
+        public bool[] availableMoves = { true, true, true, true };
+        public HUD HUD;
+        public bool HUDIsVisible = false;
 
-        public Player(Texture2D playerTexture)
+        public Player(Texture2D playerTexture, List<Texture2D> HUDTextures, SpriteFont font)
         {
             texture = playerTexture;
             position = new Vector2(CELL_SIZE * 1, CELL_SIZE * 1); // Starting position is cell: (1,1) for example
+            HUD = new HUD(HUDTextures, font);
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(MAP_NAME roomName)
         {
-            iteration++;
+            if (roomName != MAP_NAME.Main)
+            {
+                HUDIsVisible = true;
+            }
+            else
+            {
+                HUDIsVisible = false;
+            }
 
-            if (iteration % ITERATION_TIME != 0) return;
+            if (!playerIsCooledDown)
+            {
+                HandleCooldown();
+                return;
+            }
 
-            // Check if the new move would not be entering a wall
-            // elses are here so that diagonal movement is impossible
+            // Define movement directions and their corresponding keys and move validation
+            var movements = new (Keys key, int moveIndex, Vector2 direction)[]
+            {
+                (Keys.W, 0, new Vector2(0, -CELL_SIZE)), // Up
+                (Keys.D, 1, new Vector2(CELL_SIZE, 0)), // Right
+                (Keys.S, 2, new Vector2(0, CELL_SIZE)), // Down
+                (Keys.A, 3, new Vector2(-CELL_SIZE, 0)) // Left
+            };
+
             KeyboardState state = Keyboard.GetState();
-            int velocity = CELL_SIZE;
-            if (state.IsKeyDown(Keys.W) && availableMoves[0]) position.Y -= velocity;
-            else if (state.IsKeyDown(Keys.D) && availableMoves[1]) position.X += velocity;
-            else if(state.IsKeyDown(Keys.S) && availableMoves[2]) position.Y += velocity;
-            else if(state.IsKeyDown(Keys.A) && availableMoves[3]) position.X -= velocity;
+
+            foreach (var (key, moveIndex, direction) in movements)
+            {
+                if (state.IsKeyDown(key) && availableMoves[moveIndex])
+                {
+                    ApplyMovement(direction);
+                    return; // Prevents diagonal movement
+                }
+            }
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, MAP_NAME mapName)
         {
-            spriteBatch.Draw(texture, new Rectangle((int)position.X, (int)position.Y, CELL_SIZE, CELL_SIZE), Color.Gray);
+            spriteBatch.Draw(
+                texture,
+                new Rectangle((int)position.X, (int)position.Y, CELL_SIZE, CELL_SIZE),
+                Color.White
+            );
+
+            if (HUDIsVisible)
+            {
+                HUD.Draw(spriteBatch, mapName);
+            }
+        }
+
+        private void HandleCooldown()
+        {
+            idleIterations++;
+            if (idleIterations > ITERATION_TIME)
+            {
+                idleIterations = 0;
+                playerIsCooledDown = true;
+            }
+        }
+
+        private void ApplyMovement(Vector2 direction)
+        {
+            playerIsCooledDown = false;
+            position += direction;
         }
     }
 }

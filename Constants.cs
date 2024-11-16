@@ -4,7 +4,29 @@ namespace SlipThrough2
 {
     public static class Constants
     {
-        public static readonly string[] TILE_PATHS = new string[]
+        public const int CELL_SIZE = 32;
+        public const int COLUMN_COUNT = 6;
+        public const int ROW_COUNT = 3;
+        public const int ROOM_SIZE = 6; // We assume square rooms for now with 6x6 cell grid
+        public const int WINDOW_WIDTH = COLUMN_COUNT * ROOM_SIZE * CELL_SIZE;
+        public const int WINDOW_HEIGHT = ROW_COUNT * ROOM_SIZE * CELL_SIZE;
+        public const int MAP_WIDTH = COLUMN_COUNT * ROOM_SIZE; // Witdh in Cells
+        public const int MAP_HEIGHT = ROW_COUNT * ROOM_SIZE;
+
+        public const int ITERATION_TIME = 10; // Frames (right now there are 60 frames per second)
+        public const int FONT_SIZE = 12; // Frames (right now there are 60 frames per second)
+
+        public static readonly int[] STEPPABLE_TILES = { 0, 1, 2, 19, 20, 21, 22, 23 };
+        public static readonly int[] HEALTH_HUD_TILE_PATTERN = { 2, 2, 2, 2, 0 };
+        public static readonly int[] MANA_HUD_TILE_PATTERN = { 3, 3, 3, 0, 0 };
+
+        public enum MAP_NAME
+        {
+            Main,
+            Encounter1
+        };
+
+        public static readonly string[] TILE_PATHS =
         {
             "Tiles/tile_0000", // 0 blank ground
             "Tiles/tile_0012", // 1 ground v2
@@ -38,97 +60,109 @@ namespace SlipThrough2
             "Tiles/tile_3052", // 29 sand with shade left down (custom)
         };
 
-        public static readonly int[] STEPPABLE_TILES = new int[] { 0, 1, 2, 19, 20, 21, 22, 23 };
-
-        public static readonly string[] ENEMY_TILE_PATHS = new string[]{
-            "Tiles/tile_0123",
-            "Tiles/tile_0124"
-        };
+        public static readonly string[] ENEMY_TILE_PATHS = { "Tiles/tile_0123", "Tiles/tile_0124" };
 
         public const string PLAYER_TILE_PATH = "Tiles/tile_0096";
-
-        public const int CELL_SIZE = 32;
-        public const int COLUMN_COUNT = 6;
-        public const int ROW_COUNT = 3;
-        public const int ROOM_SIZE = 6; // We assume square rooms for now with 6x6 cell grid
-        public const int WINDOW_WIDTH = COLUMN_COUNT * ROOM_SIZE * CELL_SIZE;
-        public const int WINDOW_HEIGHT = ROW_COUNT * ROOM_SIZE * CELL_SIZE;
-        public const int MAP_WIDTH = COLUMN_COUNT * ROOM_SIZE; // Witdh in Cells
-        public const int MAP_HEIGHT = ROW_COUNT * ROOM_SIZE;
-
-        public const int ITERATION_TIME = 15; // Frames (right now there are 60 frames per second)
+        public static readonly string[] HUD_TILE_PATHS =
+        {
+            "Tiles/tile_0113", // 0. Empty potion
+            "Tiles/tile_0114", // 1. Green potion
+            "Tiles/tile_0115", // 2. Red potion
+            "Tiles/tile_0116", // 3. Blue potion
+        };
 
         // Original tile pattern TPO = Tile patter Open
         // Set of Rooms for first main map
         public static readonly int[,] TPO_RIGHT = new int[ROOM_SIZE, ROOM_SIZE]
         {
             { 6, 10, 17, 16, 18, 3 },
-            { 7,  2,  1,  0,  0, 11},
-            { 7,  0,  0,  0,  0, 0 },
-            { 7,  0,  0,  1,  0, 13},
-            { 7,  2,  0,  0, 15, 8 },
-            { 5,  9,  9,  9,  9, 4 }
+            { 7, 2, 1, 0, 0, 11 },
+            { 7, 0, 0, 0, 0, 0 },
+            { 7, 0, 0, 1, 0, 13 },
+            { 7, 2, 0, 0, 15, 8 },
+            { 5, 9, 9, 9, 9, 4 }
         };
         public static readonly int[,] TPO_LEFT = new int[ROOM_SIZE, ROOM_SIZE]
         {
             { 6, 10, 10, 10, 10, 3 },
-            {12,  0,  1,  0,  0, 8 },
-            { 0,  0,  0,  0,  2, 8 },
-            {14,  0,  0,  0,  0, 8 },
-            { 7,  2,  0,  0,  2, 8 },
-            { 5,  9,  9,  9,  9, 4 }
+            { 12, 0, 1, 0, 0, 8 },
+            { 0, 0, 0, 0, 2, 8 },
+            { 14, 0, 0, 0, 0, 8 },
+            { 7, 2, 0, 0, 2, 8 },
+            { 5, 9, 9, 9, 9, 4 }
         };
         public static readonly int[,] TPO_RIGHT_LEFT = new int[ROOM_SIZE, ROOM_SIZE]
         {
             { 6, 10, 10, 10, 10, 3 },
-            {12,  0,  1,  0,  0, 11},
-            { 0,  0,  0,  0,  0, 0 },
-            {14,  0,  0,  0,  0, 13},
-            { 7,  1,  0,  0,  0, 8 },
-            { 5,  9,  9,  9,  9, 4 }
+            { 12, 0, 1, 0, 0, 11 },
+            { 0, 0, 0, 0, 0, 0 },
+            { 14, 0, 0, 0, 0, 13 },
+            { 7, 1, 0, 0, 0, 8 },
+            { 5, 9, 9, 9, 9, 4 }
         };
         public static readonly int[,] TPO_LEFT_DOWN = new int[ROOM_SIZE, ROOM_SIZE]
         {
             { 6, 10, 10, 10, 10, 3 },
-            {12,  0,  1,  0,  2, 8 },
-            { 0,  0,  0,  0,  2, 8 },
-            {14,  0,  1,  1,  0, 8 },
-            { 7, 15,  0,  0,  0, 8 },
-            { 5,  9, 14,  0, 13, 4 }
+            { 12, 0, 1, 0, 2, 8 },
+            { 0, 0, 0, 0, 2, 8 },
+            { 14, 0, 1, 1, 0, 8 },
+            { 7, 15, 0, 0, 0, 8 },
+            { 5, 9, 14, 0, 13, 4 }
         };
         public static readonly int[,] TPO_UP_LEFT = new int[ROOM_SIZE, ROOM_SIZE]
         {
-            { 6, 10, 12,  0, 11, 3 },
-            {12,  0,  0,  0,  0, 8 },
-            { 0,  0,  0,  0,  2, 8 },
-            {14,  0,  1,  1,  0, 8 },
-            { 7,  2,  0,  2,  2, 8 },
-            { 5,  9,  9,  9,  9, 4 }
+            { 6, 10, 12, 0, 11, 3 },
+            { 12, 0, 0, 0, 0, 8 },
+            { 0, 0, 0, 0, 2, 8 },
+            { 14, 0, 1, 1, 0, 8 },
+            { 7, 2, 0, 2, 2, 8 },
+            { 5, 9, 9, 9, 9, 4 }
         };
         public static readonly int[,] TPO_RIGHT_DOWN = new int[ROOM_SIZE, ROOM_SIZE]
         {
             { 6, 10, 10, 10, 10, 3 },
-            { 7,  0,  1,  0,  0, 11},
-            { 7,  1,  0,  0,  0, 0 },
-            { 7,  0,  0,  0,  0, 13},
-            { 7,  0,  0,  0,  0, 8 },
-            { 5,  9, 14,  0, 13, 4 }
+            { 7, 0, 1, 0, 0, 11 },
+            { 7, 1, 0, 0, 0, 0 },
+            { 7, 0, 0, 0, 0, 13 },
+            { 7, 0, 0, 0, 0, 8 },
+            { 5, 9, 14, 0, 13, 4 }
         };
         public static readonly int[,] TPO_UP_RIGHT = new int[ROOM_SIZE, ROOM_SIZE]
         {
-            { 6, 10, 12,  0, 11, 3 },
-            { 7,  2,  0,  0,  0, 11},
-            { 7, 15,  0,  0,  2, 0 },
-            { 7,  0,  1,  0,  0, 13},
-            { 7,  2,  0,  0,  0, 8 },
-            { 5,  9,  9,  9,  9, 4 }
+            { 6, 10, 12, 0, 11, 3 },
+            { 7, 2, 0, 0, 0, 11 },
+            { 7, 15, 0, 0, 2, 0 },
+            { 7, 0, 1, 0, 0, 13 },
+            { 7, 2, 0, 0, 0, 8 },
+            { 5, 9, 9, 9, 9, 4 }
         };
 
         public static readonly int[,][,] MAP_ROOM_PATTERN = new int[ROW_COUNT, COLUMN_COUNT][,]
         {
-            {TPO_RIGHT      , TPO_RIGHT_LEFT, TPO_RIGHT_LEFT, TPO_RIGHT_LEFT, TPO_RIGHT_LEFT, TPO_LEFT_DOWN },
-            {TPO_RIGHT_DOWN , TPO_RIGHT_LEFT, TPO_RIGHT_LEFT, TPO_RIGHT_LEFT, TPO_RIGHT_LEFT, TPO_UP_LEFT   },
-            {TPO_UP_RIGHT   , TPO_RIGHT_LEFT, TPO_RIGHT_LEFT, TPO_RIGHT_LEFT, TPO_RIGHT_LEFT, TPO_LEFT      }
+            {
+                TPO_RIGHT,
+                TPO_RIGHT_LEFT,
+                TPO_RIGHT_LEFT,
+                TPO_RIGHT_LEFT,
+                TPO_RIGHT_LEFT,
+                TPO_LEFT_DOWN
+            },
+            {
+                TPO_RIGHT_DOWN,
+                TPO_RIGHT_LEFT,
+                TPO_RIGHT_LEFT,
+                TPO_RIGHT_LEFT,
+                TPO_RIGHT_LEFT,
+                TPO_UP_LEFT
+            },
+            {
+                TPO_UP_RIGHT,
+                TPO_RIGHT_LEFT,
+                TPO_RIGHT_LEFT,
+                TPO_RIGHT_LEFT,
+                TPO_RIGHT_LEFT,
+                TPO_LEFT
+            }
         };
 
         // Set of Rooms for first encounter map (open rooms) FER = First Encounter Room LU = Left Upper
@@ -194,7 +228,7 @@ namespace SlipThrough2
             { 19, 20, 19, 19, 19, 19 },
             { 19, 19, 19, 19, 19, 19 },
             { 26, 26, 26, 26, 26, 26 }
-        }; 
+        };
         public static readonly int[,] FER_LD = new int[ROOM_SIZE, ROOM_SIZE]
         {
             { 24, 19, 19, 19, 19, 19 },
@@ -203,7 +237,7 @@ namespace SlipThrough2
             { 24, 20, 19, 19, 19, 19 },
             { 24, 19, 19, 19, 19, 19 },
             { 29, 26, 26, 26, 26, 26 }
-        }; 
+        };
         public static readonly int[,] FER_RD = new int[ROOM_SIZE, ROOM_SIZE]
         {
             { 19, 19, 19, 19, 19, 25 },
@@ -214,18 +248,14 @@ namespace SlipThrough2
             { 26, 26, 26, 26, 26, 28 }
         };
 
-        public static readonly int[,][,] MAP_ROOM_PATTERN_FIRST_ENCOUNTER = new int[ROW_COUNT, COLUMN_COUNT][,]
+        public static readonly int[,][,] MAP_ROOM_PATTERN_FIRST_ENCOUNTER = new int[
+            ROW_COUNT,
+            COLUMN_COUNT
+        ][,]
         {
-            {FER_LU, FER_U, FER_U, FER_U, FER_U, FER_RU},
-            {FER_LC, FER_C, FER_C, FER_C, FER_C, FER_RC},
-            {FER_LD, FER_D, FER_D, FER_D, FER_D, FER_RD}
+            { FER_LU, FER_U, FER_U, FER_U, FER_U, FER_RU },
+            { FER_LC, FER_C, FER_C, FER_C, FER_C, FER_RC },
+            { FER_LD, FER_D, FER_D, FER_D, FER_D, FER_RD }
         };
-
-        // Functional room pattern
-        // Only tiles with index 0,1 or 2 are available to stand on
-        // 3-14 are different types of walls
-        // 15 is a chest (can't be stood on but can be "opened" by attempting to stand on)
-        // 16 is a door
-        public static readonly int[,] FUNCTIONAL_MAP_PATTERN = new int[MAP_HEIGHT, MAP_WIDTH];
     }
 }

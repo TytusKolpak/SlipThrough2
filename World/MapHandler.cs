@@ -1,17 +1,18 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
 using static SlipThrough2.Constants;
 
 namespace SlipThrough2.World
 {
-    public class Map
+    public class MapHandler
     {
         private readonly List<Texture2D> textures;
         public int[,][,] currentPattern; // Of rooms in a map (and of tiles in a room)
         public int[,] currentFunctionalPattern; // Where player can move, what to enter and so on
+        public MAP_NAME roomName; // For easy tracking
 
-        public Map(List<Texture2D> mapTextures)
+        public MapHandler(List<Texture2D> mapTextures)
         {
             textures = mapTextures;
         }
@@ -48,6 +49,11 @@ namespace SlipThrough2.World
                     }
                 }
             }
+        }
+
+        public MAP_NAME GetCurrentMapNumber()
+        {
+            return roomName;
         }
     }
 }

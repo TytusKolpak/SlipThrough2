@@ -1,27 +1,30 @@
-﻿using System.Collections.Generic;
-using static SlipThrough2.Constants;
-using SlipThrough2.World;
-using SlipThrough2.Entities;
-using Microsoft.Xna.Framework.Graphics;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using SlipThrough2.Entities;
+using SlipThrough2.Managers;
+using SlipThrough2.World;
+using static SlipThrough2.Constants;
 
 namespace SlipThrough2
 {
     public class MapManager
     {
         // Stores all available maps in a dictionary
-        private readonly Dictionary<string, int[,][,]> allMaps = new();
-        private readonly Dictionary<string, int[,]> allFunctionalMaps = new();
+        private readonly Dictionary<MAP_NAME, int[,][,]> allMaps = new();
+        private readonly Dictionary<MAP_NAME, int[,]> allFunctionalMaps = new();
 
-        public Map Map { get; private set; }
+        public MapHandler MapHandler { get; private set; }
 
         // Constructor to initialize maps
         public MapManager(List<Texture2D> mapTextures)
         {
             LoadMaps();
-            Map = new Map(mapTextures);
-            SetMap("mainMap");
+            MapHandler = new MapHandler(mapTextures);
+            SetMap(MAP_NAME.Main);
         }
 
         public void Update(Player Player)
@@ -31,42 +34,42 @@ namespace SlipThrough2
             int PCY = (int)Player.position.Y / CELL_SIZE;
 
             // Top, right, down, left
-            // (PCY > 0) is so that when the player is at index 0 (upper most cell) then we won't check cell at X=-1 since it doesn't exist 
-            Player.availableMoves = new bool[4] {
-                (PCY > 0) && Map.currentFunctionalPattern[PCY - 1, PCX] == 1 || (PCY > 0) && Map.currentFunctionalPattern[PCY - 1, PCX] == 2,
-                (PCX < MAP_WIDTH - 1) && Map.currentFunctionalPattern[PCY, PCX + 1] == 1,
-                (PCY < MAP_HEIGHT - 1)  && Map.currentFunctionalPattern[PCY + 1, PCX] == 1,
-                (PCX > 0) && Map.currentFunctionalPattern[PCY, PCX - 1] == 1
+            // (PCY > 0) is so that when the player is at index 0 (upper most cell) then we won't check cell at X=-1 since it doesn't exist
+            Player.availableMoves = new bool[4]
+            {
+                (PCY > 0) && MapHandler.currentFunctionalPattern[PCY - 1, PCX] == 1
+                    || (PCY > 0) && MapHandler.currentFunctionalPattern[PCY - 1, PCX] == 2,
+                (PCX < MAP_WIDTH - 1) && MapHandler.currentFunctionalPattern[PCY, PCX + 1] == 1,
+                (PCY < MAP_HEIGHT - 1) && MapHandler.currentFunctionalPattern[PCY + 1, PCX] == 1,
+                (PCX > 0) && MapHandler.currentFunctionalPattern[PCY, PCX - 1] == 1
             };
 
-            if (Map.currentFunctionalPattern[PCY, PCX] == 2)
-            {
-                Debug.WriteLine("Enter a room");
-                SetMap("Map2");
-            }
+            CheckIfEnteringDoor(PCY, PCX, Player);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            Map.Draw(spriteBatch);
+            MapHandler.Draw(spriteBatch);
         }
 
         // Load maps into the dictionary
         private void LoadMaps()
         {
-            // Assign the MAP_ROOM_PATTERN to a name: mainMap in dictionary of all maps
-            allMaps["mainMap"] = MAP_ROOM_PATTERN;
-            allFunctionalMaps["mainMap"] = GenerateFunctionalMapPattern(allMaps["mainMap"]);
+            // Assign the MAP_ROOM_PATTERN to a name: Main in dictionary of all maps
+            allMaps[MAP_NAME.Main] = MAP_ROOM_PATTERN;
+            allFunctionalMaps[MAP_NAME.Main] = GenerateFunctionalMapPattern(allMaps[MAP_NAME.Main]);
 
-            // Here temporarily, change to something with sense and move to Constants.cs 
-            allMaps["Map2"] = MAP_ROOM_PATTERN_FIRST_ENCOUNTER;            
-            allFunctionalMaps["Map2"] = GenerateFunctionalMapPattern(allMaps["Map2"]);
+            // Here temporarily, change to something with sense and move to Constants.cs
+            allMaps[MAP_NAME.Encounter1] = MAP_ROOM_PATTERN_FIRST_ENCOUNTER;
+            allFunctionalMaps[MAP_NAME.Encounter1] = GenerateFunctionalMapPattern(
+                allMaps[MAP_NAME.Encounter1]
+            );
         }
 
         private static int[,] GenerateFunctionalMapPattern(int[,][,] pattern)
         {
-            // Mapping tile map to a functional map 
-            Debug.WriteLine("Generating Functional Map Pattern");
+            // Mapping tile map to a functional map
+            Debug.WriteLine("Generating Functional MapHandler Pattern");
             int[,] functionalPattern = new int[MAP_HEIGHT, MAP_WIDTH];
 
             // For every room in the map
@@ -94,10 +97,26 @@ namespace SlipThrough2
             return functionalPattern;
         }
 
-        private void SetMap(string mapName)
+        private void SetMap(MAP_NAME mapName)
         {
-            Map.currentPattern = allMaps[mapName];
-            Map.currentFunctionalPattern = allFunctionalMaps[mapName];
+            MapHandler.currentPattern = allMaps[mapName];
+            MapHandler.currentFunctionalPattern = allFunctionalMaps[mapName];
+            MapHandler.roomName = mapName;
+        }
+
+        private void CheckIfEnteringDoor(int PCY, int PCX, Player Player)
+        {
+            if (MapHandler.currentFunctionalPattern[PCY, PCX] == 2)
+            {
+                SetMap(MAP_NAME.Encounter1);
+
+                GameManager.SpawnEnemies();
+                Player.HUD.ArrangeTextures();
+                Player.position = new(
+                    Player.position.X,
+                    WINDOW_HEIGHT - Player.position.Y - CELL_SIZE * 1
+                );
+            }
         }
     }
 }

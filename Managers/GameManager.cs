@@ -1,37 +1,40 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
+using Microsoft.Xna.Framework.Graphics;
 using SlipThrough2.Entities;
 
 namespace SlipThrough2.Managers
 {
     public class GameManager
     {
-        public Player Player { get; private set; }
-        public List<Enemy> Enemies { get; private set; }
+        public Player Player;
+        public static List<Enemy> Enemies;
+        public static List<Texture2D> enemyTextureList;
+        public MapManager MapManager;
 
-        public MapManager MapManager { get; private set; }
-
-        public GameManager(Texture2D playerTexture, List<Texture2D> enemyTextures, List<Texture2D> mapTextures)
+        public GameManager(
+            Texture2D playerTexture,
+            List<Texture2D> enemyTextures,
+            List<Texture2D> mapTextures,
+            List<Texture2D> HUDTextures,
+            SpriteFont font
+        )
         {
             MapManager = new MapManager(mapTextures);
-
-            Player = new Player(playerTexture);
-
-            Enemies = new List<Enemy>();
-            foreach (var texture in enemyTextures)
-            {
-                Enemies.Add(new Enemy(texture));
-            }
+            Player = new Player(playerTexture, HUDTextures, font);
+            enemyTextureList = enemyTextures;
         }
 
-        public void Update(GameTime gameTime)
+        public void Update()
         {
-            Player.Update(gameTime);
+            Player.Update(MapManager.MapHandler.roomName);
 
-            foreach (var enemy in Enemies)
+            if (Enemies != null)
             {
-                enemy.Update(gameTime);
+                foreach (var enemy in Enemies)
+                {
+                    enemy.Update();
+                }
             }
 
             MapManager.Update(Player);
@@ -43,13 +46,26 @@ namespace SlipThrough2.Managers
 
             MapManager.Draw(spriteBatch);
 
-            Player.Draw(spriteBatch);
-            foreach (var enemy in Enemies)
+            if (Enemies != null)
             {
-                enemy.Draw(spriteBatch);
+                foreach (var enemy in Enemies)
+                {
+                    enemy.Draw(spriteBatch);
+                }
             }
 
+            Player.Draw(spriteBatch, MapManager.MapHandler.roomName);
+
             spriteBatch.End();
+        }
+
+        public static void SpawnEnemies()
+        {
+            Enemies = new List<Enemy>();
+            foreach (var texture in enemyTextureList)
+            {
+                Enemies.Add(new Enemy(texture));
+            }
         }
     }
 }
