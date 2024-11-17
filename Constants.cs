@@ -69,7 +69,24 @@ namespace SlipThrough2
             "Tiles/tile_3052", // 29 sand with shade left down (custom)
         };
 
-        public static readonly string[] ENEMY_TILE_PATHS = { "Tiles/tile_0123", "Tiles/tile_0124" };
+        public static readonly string[] ENEMY_TILE_PATHS =
+        {
+            "Tiles/tile_0120", // 0. Bat
+            "Tiles/tile_0122", // 1. Spider
+            "Tiles/tile_0123", // 2. Brown Rat
+            "Tiles/tile_0124", // 3. Gray Rat
+            "Tiles/tile_0109", // 4. Cyclops
+            "Tiles/tile_0110", // 5. Crab
+            "Tiles/tile_0111", // 6. Dark Wizard
+            "Tiles/tile_0121", // 7. Ghost
+        };
+
+        public static readonly int[][] ENEMY_SPAWN_PATTERN =
+        {
+            new int[] { 0, 1, 2, 3 },
+            new int[] { 4, 5 },
+            new int[] { 6, 7 }
+        };
 
         public const string PLAYER_TILE_PATH = "Tiles/tile_0096";
         public static readonly string[] HUD_TILE_PATHS =

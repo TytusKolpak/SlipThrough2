@@ -16,7 +16,7 @@ namespace SlipThrough2.Handlers
         public int[,] currentFunctionalPattern;
 
         // For easy tracking
-        public MAP_NAME roomName;
+        public MAP_NAME mapName;
 
         public MapHandler(List<Texture2D> mapTextures)
         {
@@ -55,11 +55,6 @@ namespace SlipThrough2.Handlers
                     }
                 }
             }
-        }
-
-        public MAP_NAME GetCurrentMapNumber()
-        {
-            return roomName;
         }
     }
 }

@@ -24,9 +24,9 @@ namespace SlipThrough2.Entities
             HUD = new HUD(HUDTextures, font);
         }
 
-        public void Update(MAP_NAME roomName)
+        public void Update(MAP_NAME mapName)
         {
-            if (roomName != MAP_NAME.Main)
+            if (mapName != MAP_NAME.Main)
             {
                 HUDIsVisible = true;
             }
@@ -73,7 +73,7 @@ namespace SlipThrough2.Entities
 
             if (HUDIsVisible)
             {
-                HUD.Draw(spriteBatch, mapName);
+                HUD.Draw(spriteBatch);
             }
         }
 

@@ -91,9 +91,11 @@ For version 2.X.X:
 
 ## 6. Levels
 
-1.  Wolf
-2.  Werevolf
-3.  Cerber
+Done:
+
+1.  Rats, Spiders and Bats
+2.  Cyclop and Crabs
+3.  Dark Wizard and Ghosts
 
 ## 7. Commbat
 

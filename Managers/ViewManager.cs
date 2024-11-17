@@ -10,10 +10,10 @@ namespace SlipThrough2.Managers
     public class ViewManager
     {
         private static VIEW_NAME currentView;
-        private Dictionary<VIEW_NAME, View> views = new();
-        private Dictionary<Keys, bool> keyStates = new();
+        private static readonly Dictionary<VIEW_NAME, View> views = new();
+        private static readonly Dictionary<Keys, bool> keyStates = new();
 
-        private (
+        private static (
             Texture2D PlayerTexture,
             List<Texture2D> EnemyTextures,
             List<Texture2D> MapTextures,
@@ -41,20 +41,9 @@ namespace SlipThrough2.Managers
             View.spriteBatch = gameAssets.spriteBatch;
             currentView = VIEW_NAME.StartScreen;
             gameAssetsBackup = gameAssets;
-
-            // Populate the dictionary with default states (all keys are initially not pressed)
-            foreach (var key in TRACKED_KEYS)
-            {
-                keyStates[key] = false; // False means key is not pressed
-            }
         }
 
-        public static void SwitchView(VIEW_NAME newName)
-        {
-            currentView = newName;
-        }
-
-        public void Update(Game1 game1)
+        public static void Update(Game1 game1)
         {
             HandleKeyPresses(game1);
 
@@ -62,12 +51,17 @@ namespace SlipThrough2.Managers
             views[currentView].Update();
         }
 
-        public void Draw()
+        public static void Draw()
         {
             views[currentView].Draw();
         }
 
-        private void HandleKeyPresses(Game1 game1)
+        public static void SwitchView(VIEW_NAME newName)
+        {
+            currentView = newName;
+        }
+
+        private static void HandleKeyPresses(Game1 game1)
         {
             foreach (var key in TRACKED_KEYS)
             {
@@ -75,7 +69,6 @@ namespace SlipThrough2.Managers
                 if (Keyboard.GetState().IsKeyDown(key) && !keyStates[key])
                 {
                     keyStates[key] = true; // Mark the key as being pressed
-                    Console.WriteLine($"{key} is pressed.");
 
                     // Use switch statement for key-specific actions
                     switch (key)

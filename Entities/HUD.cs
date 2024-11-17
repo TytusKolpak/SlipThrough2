@@ -1,7 +1,7 @@
-using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SlipThrough2.Managers;
 using static SlipThrough2.Constants;
 
 namespace SlipThrough2.Entities
@@ -22,10 +22,10 @@ namespace SlipThrough2.Entities
 
         public void Update() { }
 
-        public void Draw(SpriteBatch spriteBatch, MAP_NAME mapName)
+        public void Draw(SpriteBatch spriteBatch)
         {
             // Draw the string
-            string displayText = $"You have enetered the {mapName.ToString()}!";
+            string displayText = $"You have entered the door {MapManager.doorNumber}!";
             DisplayText(spriteBatch, displayText, new(WINDOW_WIDTH / 2, FONT_SIZE), centered: true);
 
             // Icons as potions to display health level
@@ -41,7 +41,7 @@ namespace SlipThrough2.Entities
             );
         }
 
-        public void ArrangeTextures()
+        public void BuildBars()
         {
             foreach (int index in HEALTH_HUD_TILE_PATTERN)
                 healthBarTextures.Add(textures[index]);
