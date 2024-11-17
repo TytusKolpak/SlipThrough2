@@ -9,12 +9,12 @@ namespace SlipThrough2.Entities
     public class Player
     {
         private readonly Texture2D texture;
-        int idleIterations = 0;
         private bool playerIsCooledDown = true;
+        private int idleIterations = 0;
         public Vector2 position;
-        public bool[] availableMoves = { true, true, true, true };
         public HUD HUD;
         public bool HUDIsVisible = false;
+        public bool[] availableMoves = { true, true, true, true };
 
         public Player(Texture2D playerTexture, List<Texture2D> HUDTextures, SpriteFont font)
         {

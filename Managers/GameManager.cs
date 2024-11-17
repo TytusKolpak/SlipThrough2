@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
-using SlipThrough2.Entities;
+using Microsoft.Xna.Framework.Input;
 
 namespace SlipThrough2.Managers
 {
     public class GameManager
     {
-        private ViewManager ViewManager;
+        private readonly ViewManager ViewManager;
 
         public GameManager(
             (
@@ -14,15 +14,23 @@ namespace SlipThrough2.Managers
                 List<Texture2D> EnemyTextures,
                 List<Texture2D> MapTextures,
                 List<Texture2D> HUDTextures,
-                SpriteFont Font
+                SpriteFont Font,
+                SpriteBatch spriteBatch
             ) gameAssets
         )
         {
             ViewManager = new ViewManager(gameAssets);
         }
 
-        public void Update()
+        public void Update(Game1 game1)
         {
+            // Main Keys behavior
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                game1.Exit();
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+                ViewManager.SwitchView(Constants.VIEW_NAME.MainGame);
+
             ViewManager.Update();
         }
 
@@ -30,7 +38,7 @@ namespace SlipThrough2.Managers
         {
             spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
-            ViewManager.Draw(spriteBatch);
+            ViewManager.Draw();
 
             spriteBatch.End();
         }

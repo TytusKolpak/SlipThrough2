@@ -56,7 +56,8 @@ namespace SlipThrough2
                 EnemyTexturesAsset: enemyTextures,
                 MapTexturesAsset: mapTextures,
                 HUDTexturesAsset: HUDTextures,
-                FontAsset: font
+                FontAsset: font,
+                SpriteBatch: _spriteBatch
             );
 
             gameManager = new GameManager(gameAssets);
@@ -64,10 +65,7 @@ namespace SlipThrough2
 
         protected override void Update(GameTime gameTime)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
-            gameManager.Update();
+            gameManager.Update(this);
             base.Update(gameTime);
         }
 

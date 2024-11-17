@@ -7,7 +7,7 @@ namespace SlipThrough2.Managers
 {
     public class ViewManager
     {
-        private static VIEW_NAME currentView = VIEW_NAME.StartScreen;
+        private static VIEW_NAME currentView;
         private Dictionary<VIEW_NAME, View> views = new Dictionary<VIEW_NAME, View>();
 
         public ViewManager(
@@ -15,8 +15,9 @@ namespace SlipThrough2.Managers
                 Texture2D PlayerTexture,
                 List<Texture2D> EnemyTextures,
                 List<Texture2D> MapTextures,
-                List<Texture2D>,
-                SpriteFont Font
+                List<Texture2D> HUDTextures,
+                SpriteFont Font,
+                SpriteBatch spriteBatch
             ) gameAssets
         )
         {
@@ -24,10 +25,12 @@ namespace SlipThrough2.Managers
             views[VIEW_NAME.MainGame] = new MainGame(VIEW_NAME.MainGame, gameAssets);
             views[VIEW_NAME.Options] = new Options(VIEW_NAME.Options);
 
-            currentView = VIEW_NAME.MainGame;
+            View.font = gameAssets.Font;
+            View.spriteBatch = gameAssets.spriteBatch;
+            currentView = VIEW_NAME.StartScreen;
         }
 
-        public void SwitchState(VIEW_NAME newName)
+        public static void SwitchView(VIEW_NAME newName)
         {
             currentView = newName;
         }
@@ -37,9 +40,9 @@ namespace SlipThrough2.Managers
             views[currentView].Update();
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw()
         {
-            views[currentView].Draw(spriteBatch);
+            views[currentView].Draw();
         }
     }
 }

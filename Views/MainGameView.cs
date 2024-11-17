@@ -19,7 +19,8 @@ namespace SlipThrough2.Views
                 List<Texture2D> EnemyTextures,
                 List<Texture2D> MapTextures,
                 List<Texture2D> HUDTextures,
-                SpriteFont Font
+                SpriteFont Font,
+                SpriteBatch spriteBatch
             ) gameAssets
         )
         {
@@ -32,14 +33,12 @@ namespace SlipThrough2.Views
 
         public override void Update()
         {
-            TestTK(view);
-
             MapManager.Update(Player);
             EnemyManager.Update();
             Player.Update(MapManager.MapHandler.roomName);
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Draw()
         {
             MapManager.Draw(spriteBatch);
             EnemyManager.Draw(spriteBatch);

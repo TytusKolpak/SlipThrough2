@@ -62,9 +62,18 @@ For version 2.X.X
 
 ## 4. Starting Screen
 
-1. Game name
-2. Begin
-3. Quit
+Done:
+
+1. Game name.
+2. Begin.
+3. Quit.
+
+For version 2.X.X:
+
+1. Some cool effects:
+    1. Maybe a simple image.
+    2. Maybe a gif or any action.
+    3. "Paralax effect"?.
 
 ## 5. Options
 

@@ -10,11 +10,8 @@ namespace SlipThrough2.Views
             view = viewName;
         }
 
-        public override void Update()
-        {
-            TestTK(view);
-        }
+        public override void Update() { }
 
-        public override void Draw(SpriteBatch spriteBatch) { }
+        public override void Draw() { }
     }
 }

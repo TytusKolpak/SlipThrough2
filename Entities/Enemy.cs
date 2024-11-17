@@ -9,7 +9,7 @@ namespace SlipThrough2.Entities
     public class Enemy
     {
         private Vector2 position;
-        private Texture2D texture;
+        private readonly Texture2D texture;
 
         private int iteration;
 

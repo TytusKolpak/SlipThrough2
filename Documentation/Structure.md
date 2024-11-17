@@ -15,8 +15,12 @@ Most classes are built in this pattern:
 (Program -> Game1 -> GameManager)
 
 1. GameManager
-    1. MapManager
-        1. MapHandler
-    2. Player
-        1. HUD
-    3. Enemy
+    1. ViewManager
+        1. StartScreenView
+        2. MainGameView
+            1. MapManager
+                1. MapHandler
+            2. Player
+                1. HUD
+            3. Enemy
+        3. OptionsView

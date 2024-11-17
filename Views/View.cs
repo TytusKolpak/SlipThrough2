@@ -1,4 +1,5 @@
 using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static SlipThrough2.Constants;
 
@@ -7,14 +8,33 @@ namespace SlipThrough2.Views
     public abstract class View
     {
         public VIEW_NAME view;
+        public static SpriteFont font;
+        public static SpriteBatch spriteBatch;
 
         public abstract void Update();
 
-        public abstract void Draw(SpriteBatch spriteBatch);
+        public abstract void Draw();
 
-        public void TestTK(VIEW_NAME viewName)
+        public static void DisplayText(string text, Vector2 position, int textAlignmentType)
         {
-            Console.WriteLine($"This is the {viewName.ToString()} :D!");
+            Vector2 origin = textAlignmentType switch
+            {
+                0 => Vector2.Zero,
+                1 => font.MeasureString(text) / 2,
+                _ => font.MeasureString(text)
+            };
+
+            spriteBatch.DrawString(
+                font,
+                text,
+                position,
+                Color.Black,
+                0,
+                origin,
+                1.0f,
+                SpriteEffects.None,
+                0.5f
+            );
         }
     }
 }

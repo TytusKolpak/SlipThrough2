@@ -14,7 +14,7 @@ namespace SlipThrough2
         public const int MAP_HEIGHT = ROW_COUNT * ROOM_SIZE;
 
         public const int ITERATION_TIME = 10; // Frames (right now there are 60 frames per second)
-        public const int FONT_SIZE = 12; // Frames (right now there are 60 frames per second)
+        public const int FONT_SIZE = 24;
 
         public static readonly int[] STEPPABLE_TILES = { 0, 1, 2, 19, 20, 21, 22, 23 };
         public static readonly int[] HEALTH_HUD_TILE_PATTERN = { 2, 2, 2, 2, 0 };

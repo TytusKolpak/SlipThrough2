@@ -8,10 +8,10 @@ namespace SlipThrough2.Entities
 {
     public class HUD
     {
-        private List<Texture2D> textures;
-        private List<Texture2D> healthBarTextures = new();
-        private List<Texture2D> manaBarTextures = new();
-        private SpriteFont Font;
+        private readonly List<Texture2D> textures;
+        private readonly List<Texture2D> healthBarTextures = new();
+        private readonly List<Texture2D> manaBarTextures = new();
+        private readonly SpriteFont Font;
         public Vector2 position = new(CELL_SIZE * 0.5f, WINDOW_HEIGHT - CELL_SIZE * 1.5f);
 
         public HUD(List<Texture2D> HUDTexture, SpriteFont font)
