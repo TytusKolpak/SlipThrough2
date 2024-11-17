@@ -51,13 +51,15 @@ namespace SlipThrough2
 
             SpriteFont font = Content.Load<SpriteFont>("Font1");
 
-            gameManager = new GameManager(
-                playerTexture,
-                enemyTextures,
-                mapTextures,
-                HUDTextures,
-                font
+            var gameAssets = (
+                PlayerTextureAsset: playerTexture,
+                EnemyTexturesAsset: enemyTextures,
+                MapTexturesAsset: mapTextures,
+                HUDTexturesAsset: HUDTextures,
+                FontAsset: font
             );
+
+            gameManager = new GameManager(gameAssets);
         }
 
         protected override void Update(GameTime gameTime)

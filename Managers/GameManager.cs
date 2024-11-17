@@ -6,39 +6,31 @@ namespace SlipThrough2.Managers
 {
     public class GameManager
     {
-        public MapManager MapManager;
-        public EnemyManager EnemyManager;
-        public Player Player;
-
-        // Move to Enemies.cs and handle there along with Spawning at certain time
+        private ViewManager ViewManager;
 
         public GameManager(
-            Texture2D playerTexture,
-            List<Texture2D> enemyTextures,
-            List<Texture2D> mapTextures,
-            List<Texture2D> HUDTextures,
-            SpriteFont font
+            (
+                Texture2D PlayerTexture,
+                List<Texture2D> EnemyTextures,
+                List<Texture2D> MapTextures,
+                List<Texture2D> HUDTextures,
+                SpriteFont Font
+            ) gameAssets
         )
         {
-            MapManager = new MapManager(mapTextures);
-            EnemyManager = new EnemyManager(enemyTextures);
-            Player = new Player(playerTexture, HUDTextures, font);
+            ViewManager = new ViewManager(gameAssets);
         }
 
         public void Update()
         {
-            Player.Update(MapManager.MapHandler.roomName);
-            EnemyManager.Update();
-            MapManager.Update(Player);
+            ViewManager.Update();
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
-            MapManager.Draw(spriteBatch);
-            EnemyManager.Draw(spriteBatch);
-            Player.Draw(spriteBatch, MapManager.MapHandler.roomName);
+            ViewManager.Draw(spriteBatch);
 
             spriteBatch.End();
         }

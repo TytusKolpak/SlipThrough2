@@ -26,6 +26,13 @@ namespace SlipThrough2
             Encounter1
         };
 
+        public enum VIEW_NAME
+        {
+            StartScreen,
+            MainGame,
+            Options
+        }
+
         public static readonly string[] TILE_PATHS =
         {
             "Tiles/tile_0000", // 0 blank ground

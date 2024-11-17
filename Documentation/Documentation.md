@@ -83,3 +83,7 @@ For version 2.X.X
 2. Enemy behavior there.
 3. Player, enemy stats.
 4. Tie together combat.
+
+## 8. Refactoring
+
+1. HUD can be a Handler rather than an entity.
