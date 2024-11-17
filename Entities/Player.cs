@@ -19,7 +19,8 @@ namespace SlipThrough2.Entities
         public Player(Texture2D playerTexture, List<Texture2D> HUDTextures, SpriteFont font)
         {
             texture = playerTexture;
-            position = new Vector2(CELL_SIZE * 1, CELL_SIZE * 1); // Starting position is cell: (1,1) for example
+            // Starting position is cell: (1,1) for example
+            position = new Vector2(CELL_SIZE * 1, CELL_SIZE * 1);
             HUD = new HUD(HUDTextures, font);
         }
 
@@ -56,7 +57,8 @@ namespace SlipThrough2.Entities
                 if (state.IsKeyDown(key) && availableMoves[moveIndex])
                 {
                     ApplyMovement(direction);
-                    return; // Prevents diagonal movement
+                    return;
+                    // Prevents diagonal movement
                 }
             }
         }

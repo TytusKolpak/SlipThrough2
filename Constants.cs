@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Microsoft.Xna.Framework.Input;
 
 namespace SlipThrough2
 {
@@ -19,6 +20,7 @@ namespace SlipThrough2
         public static readonly int[] STEPPABLE_TILES = { 0, 1, 2, 19, 20, 21, 22, 23 };
         public static readonly int[] HEALTH_HUD_TILE_PATTERN = { 2, 2, 2, 2, 0 };
         public static readonly int[] MANA_HUD_TILE_PATTERN = { 3, 3, 3, 0, 0 };
+        public static readonly Keys[] TRACKED_KEYS = { Keys.Escape, Keys.Enter, Keys.R };
 
         public enum MAP_NAME
         {

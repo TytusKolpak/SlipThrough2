@@ -36,5 +36,7 @@ namespace SlipThrough2.Views
                 0.5f
             );
         }
+
+        public abstract void Remove();
     }
 }

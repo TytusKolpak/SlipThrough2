@@ -27,8 +27,6 @@ namespace SlipThrough2.Views
                 1
             );
 
-            // Inform that the user can simply press Enter key to start
-            // To be implemented
             textToDisplay = "Press Enter key to start";
             DisplayText(
                 textToDisplay,
@@ -36,14 +34,14 @@ namespace SlipThrough2.Views
                 1
             );
 
-            // Inform that the user can press Esc key to quit
-            // (later to enter Options sreen) to be implemented
-            textToDisplay = "Press Esc to quit at any time";
+            textToDisplay = "Press Esc to go to Options";
             DisplayText(
                 textToDisplay,
                 new Vector2(WINDOW_WIDTH * 0.5f, WINDOW_HEIGHT * 0.3f + FONT_SIZE * 7),
                 1
             );
         }
+
+        public override void Remove() { }
     }
 }

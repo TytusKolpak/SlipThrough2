@@ -24,14 +24,7 @@ namespace SlipThrough2.Managers
 
         public void Update(Game1 game1)
         {
-            // Main Keys behavior
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-                game1.Exit();
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Enter))
-                ViewManager.SwitchView(Constants.VIEW_NAME.MainGame);
-
-            ViewManager.Update();
+            ViewManager.Update(game1);
         }
 
         public void Draw(SpriteBatch spriteBatch)

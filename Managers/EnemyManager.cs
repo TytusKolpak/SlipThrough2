@@ -7,14 +7,14 @@ namespace SlipThrough2.Managers
     public class EnemyManager
     {
         private static List<Texture2D> textures;
-        private static List<Enemy> Enemies;
+        public static List<Enemy> Enemies;
 
         public EnemyManager(List<Texture2D> enemyTextures)
         {
             textures = enemyTextures;
         }
 
-        public void Update()
+        public static void Update()
         {
             if (Enemies == null)
                 return;
@@ -25,7 +25,7 @@ namespace SlipThrough2.Managers
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public static void Draw(SpriteBatch spriteBatch)
         {
             if (Enemies == null)
                 return;

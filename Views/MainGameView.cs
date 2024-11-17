@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 using SlipThrough2.Entities;
@@ -9,7 +10,7 @@ namespace SlipThrough2.Views
     public class MainGame : View
     {
         private readonly MapManager MapManager;
-        private readonly EnemyManager EnemyManager;
+        private EnemyManager EnemyManager;
         private readonly Player Player;
 
         public MainGame(
@@ -43,6 +44,13 @@ namespace SlipThrough2.Views
             MapManager.Draw(spriteBatch);
             EnemyManager.Draw(spriteBatch);
             Player.Draw(spriteBatch, MapManager.MapHandler.roomName);
+        }
+
+        // Here we assume that Remove affects The enemies and their manager
+        public override void Remove()
+        {
+            EnemyManager = null;
+            EnemyManager.Enemies = null;
         }
     }
 }

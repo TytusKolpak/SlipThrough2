@@ -67,7 +67,6 @@ namespace SlipThrough2.Managers
         private static int[,] GenerateFunctionalMapPattern(int[,][,] pattern)
         {
             // Mapping tile map to a functional map
-            Debug.WriteLine("Generating Functional MapHandler Pattern");
             int[,] functionalPattern = new int[MAP_HEIGHT, MAP_WIDTH];
 
             // For every room in the map

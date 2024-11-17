@@ -72,7 +72,8 @@ namespace SlipThrough2.Entities
                 sb.Draw(
                     textures[i],
                     new Rectangle(
-                        (int)(position.X + i * CELL_SIZE * 0.625f), // Bottle is 10 px wide, sprite has 16 px 10/16 = 0.625
+                        // Bottle is 10 px wide, sprite has 16 px 10/16 = 0.625
+                        (int)(position.X + i * CELL_SIZE * 0.625f),
                         (int)position.Y,
                         CELL_SIZE,
                         CELL_SIZE

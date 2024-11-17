@@ -57,8 +57,10 @@ Done:
 
 For version 2.X.X
 
-1. Maybe some height differences - low ground, high ground, starircases
-2. Actual rooms with semi transparent roofs
+1. Sound effects.
+2. Music.
+3. Maybe some height differences - low ground, high ground, starircases.
+4. Actual rooms with semi transparent roofs.
 
 ## 4. Starting Screen
 
@@ -77,8 +79,15 @@ For version 2.X.X:
 
 ## 5. Options
 
-1. Reset
-2. Quit
+Done:
+
+1. Reset.
+2. Quit.
+
+For version 2.X.X:
+
+1. Music off/on.
+2. Sound effects off/on.
 
 ## 6. Levels
 
@@ -96,3 +105,4 @@ For version 2.X.X:
 ## 8. Refactoring
 
 1. HUD can be a Handler rather than an entity.
+2. Introduce Key Handler?
