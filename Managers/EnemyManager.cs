@@ -42,6 +42,7 @@ namespace SlipThrough2.Managers
         {
             Enemies = new List<Enemy>();
 
+            // Cover spawning only for these patterns which are declared
             if (ENEMY_SPAWN_PATTERN.Length < doorNumber)
                 return;
 
@@ -56,9 +57,9 @@ namespace SlipThrough2.Managers
             for (int i = 0; i < numberOfEnemies; i++)
                 enemyTextures[i] = textures[enemiesInRoom[i]];
 
-            // Add them to the list
+            // Create them and add them to the list
             foreach (var texture in enemyTextures)
-                Enemies.Add(new Enemy(texture));
+                Enemies.Add(new Enemy(texture, doorNumber));
         }
     }
 }

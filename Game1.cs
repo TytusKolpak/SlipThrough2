@@ -38,8 +38,8 @@ namespace SlipThrough2
             Texture2D playerTexture = Content.Load<Texture2D>(PLAYER_TILE_PATH);
 
             List<Texture2D> HUDTextures = new();
-            foreach (string tilePath in HUD_TILE_PATHS)
-                HUDTextures.Add(Content.Load<Texture2D>(tilePath));
+            foreach (var potion in POTIONS)
+                HUDTextures.Add(Content.Load<Texture2D>(potion.Value.TilePath));
 
             List<Texture2D> enemyTextures = new();
             foreach (string tilePath in ENEMY_TILE_PATHS)

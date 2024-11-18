@@ -107,11 +107,11 @@ namespace SlipThrough2.Managers
             SetMap(MAP_NAME.Encounter1);
 
             EnemyManager.SpawnEnemies(doorNumber);
+            HUD.BuildTexturesForBars();
 
-            Player.HUD.BuildBars();
             Player.position = new(
                 Player.position.X,
-                WINDOW_HEIGHT - Player.position.Y - CELL_SIZE * 1
+                WINDOW_HEIGHT - Player.position.Y - CELL_SIZE * 2
             );
         }
 

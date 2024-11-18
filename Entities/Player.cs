@@ -6,36 +6,24 @@ using static SlipThrough2.Constants;
 
 namespace SlipThrough2.Entities
 {
-    public class Player
+    // Player is a player and a playerManager at the same time
+    public class Player : Entity
     {
-        private readonly Texture2D texture;
-        private bool playerIsCooledDown = true;
-        private int idleIterations = 0;
-        public Vector2 position;
-        public HUD HUD;
-        public bool HUDIsVisible = false;
         public bool[] availableMoves = { true, true, true, true };
 
-        public Player(Texture2D playerTexture, List<Texture2D> HUDTextures, SpriteFont font)
+        public Player(Texture2D playerTexture)
         {
             texture = playerTexture;
             // Starting position is cell: (1,1) for example
             position = new Vector2(CELL_SIZE * 1, CELL_SIZE * 1);
-            HUD = new HUD(HUDTextures, font);
+
+            // -1 just means "for the player"
+            AssignStats(-1);
         }
 
-        public void Update(MAP_NAME mapName)
+        public void Update()
         {
-            if (mapName != MAP_NAME.Main)
-            {
-                HUDIsVisible = true;
-            }
-            else
-            {
-                HUDIsVisible = false;
-            }
-
-            if (!playerIsCooledDown)
+            if (!entityIsCooledDown)
             {
                 HandleCooldown();
                 return;
@@ -63,33 +51,18 @@ namespace SlipThrough2.Entities
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch, MAP_NAME mapName)
+        public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(
                 texture,
                 new Rectangle((int)position.X, (int)position.Y, CELL_SIZE, CELL_SIZE),
                 Color.White
             );
-
-            if (HUDIsVisible)
-            {
-                HUD.Draw(spriteBatch);
-            }
-        }
-
-        private void HandleCooldown()
-        {
-            idleIterations++;
-            if (idleIterations > ITERATION_TIME)
-            {
-                idleIterations = 0;
-                playerIsCooledDown = true;
-            }
         }
 
         private void ApplyMovement(Vector2 direction)
         {
-            playerIsCooledDown = false;
+            entityIsCooledDown = false;
             position += direction;
         }
     }

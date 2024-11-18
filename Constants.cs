@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.Xna.Framework.Input;
 
 namespace SlipThrough2
@@ -18,8 +19,6 @@ namespace SlipThrough2
         public const int FONT_SIZE = 24;
 
         public static readonly int[] STEPPABLE_TILES = { 0, 1, 2, 19, 20, 21, 22, 23 };
-        public static readonly int[] HEALTH_HUD_TILE_PATTERN = { 2, 2, 2, 2, 0 };
-        public static readonly int[] MANA_HUD_TILE_PATTERN = { 3, 3, 3, 0, 0 };
         public static readonly Keys[] TRACKED_KEYS = { Keys.Escape, Keys.Enter, Keys.R };
 
         public enum MAP_NAME
@@ -88,14 +87,66 @@ namespace SlipThrough2
             new int[] { 6, 7 }
         };
 
+        public static readonly Dictionary<string, Dictionary<string, int>> STATS =
+            new()
+            {
+                {
+                    "Player",
+                    new Dictionary<string, int>
+                    {
+                        { "maxHealth", 5 },
+                        { "health", 4 },
+                        { "maxMana", 3 },
+                        { "mana", 1 },
+                        { "attack", 1 },
+                    }
+                },
+                {
+                    "EasyEnemy",
+                    new Dictionary<string, int>
+                    {
+                        { "maxHealth", 2 },
+                        { "health", 2 },
+                        { "maxMana", 1 },
+                        { "mana", 1 },
+                        { "attack", 1 },
+                    }
+                },
+                {
+                    "MediumEnemy",
+                    new Dictionary<string, int>
+                    {
+                        { "maxHealth", 5 },
+                        { "health", 5 },
+                        { "maxMana", 2 },
+                        { "mana", 2 },
+                        { "attack", 2 },
+                    }
+                },
+                {
+                    "HardEnemy",
+                    new Dictionary<string, int>
+                    {
+                        { "maxHealth", 15 },
+                        { "health", 15 },
+                        { "maxMana", 5 },
+                        { "mana", 5 },
+                        { "attack", 3 },
+                    }
+                }
+            };
+
         public const string PLAYER_TILE_PATH = "Tiles/tile_0096";
-        public static readonly string[] HUD_TILE_PATHS =
-        {
-            "Tiles/tile_0113", // 0. Empty potion
-            "Tiles/tile_0114", // 1. Green potion
-            "Tiles/tile_0115", // 2. Red potion
-            "Tiles/tile_0116", // 3. Blue potion
-        };
+
+        // Funky ass data sructure amiright? Yet it might have the clearest use in code.
+        public static readonly Dictionary<string, (int Index, string TilePath)> POTIONS =
+            new()
+            {
+                { "Empty potion", (0, "Tiles/tile_0113") },
+                { "Green potion", (1, "Tiles/tile_0114") },
+                { "Red potion", (2, "Tiles/tile_0115") },
+                { "Blue potion", (3, "Tiles/tile_0116") }
+            };
 
         // Original tile pattern TPO = Tile patter Open
         // Set of Rooms for first main map

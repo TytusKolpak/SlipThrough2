@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -8,16 +9,25 @@ namespace SlipThrough2.Entities
 {
     public class HUD
     {
-        private readonly List<Texture2D> textures;
-        private readonly List<Texture2D> healthBarTextures = new();
-        private readonly List<Texture2D> manaBarTextures = new();
+        private static List<Texture2D> textures;
+        public static List<Texture2D> healthBarTextures = new();
+        public static List<Texture2D> manaBarTextures = new();
         private readonly SpriteFont Font;
-        public Vector2 position = new(CELL_SIZE * 0.5f, WINDOW_HEIGHT - CELL_SIZE * 1.5f);
+        public static int[] healthBarTilePattern;
+        public static int[] manaBarTilePattern;
 
-        public HUD(List<Texture2D> HUDTexture, SpriteFont font)
+        public HUD(List<Texture2D> HUDTexture, SpriteFont font, Player player)
         {
             textures = HUDTexture;
             Font = font;
+
+            // Create data for player's health bar
+            string color = "Red potion";
+            healthBarTilePattern = PrepareDataForBars(player, color);
+
+            // Mana bar
+            color = "Blue potion";
+            manaBarTilePattern = PrepareDataForBars(player, color);
         }
 
         public void Update() { }
@@ -41,12 +51,30 @@ namespace SlipThrough2.Entities
             );
         }
 
-        public void BuildBars()
+        private static int[] PrepareDataForBars(Player player, string potionColor)
         {
-            foreach (int index in HEALTH_HUD_TILE_PATTERN)
+            string empty = "Empty potion";
+            int maxStat = potionColor == "Red potion" ? player.maxHealth : player.maxMana;
+            int stat = potionColor == "Red potion" ? player.health : player.mana;
+            int[] bar = new int[maxStat];
+
+            // Fill the array with correct values
+            for (int i = 0; i < stat; i++)
+                bar[i] = POTIONS[potionColor].Index;
+
+            // Fill the rest with empty potion if needed
+            for (int i = stat; i < maxStat; i++)
+                bar[i] = POTIONS[empty].Index;
+
+            return bar;
+        }
+
+        public static void BuildTexturesForBars()
+        {
+            foreach (int index in healthBarTilePattern)
                 healthBarTextures.Add(textures[index]);
 
-            foreach (int index in MANA_HUD_TILE_PATTERN)
+            foreach (int index in manaBarTilePattern)
                 manaBarTextures.Add(textures[index]);
         }
 

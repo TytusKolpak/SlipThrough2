@@ -99,10 +99,30 @@ Done:
 
 ## 7. Commbat
 
+Done:
+
 1. Program Health behavior.
+    1. In form of reconstructable bars (health and mana also).
+    2. Both displayed independently.
 2. Enemy behavior there.
+    1. Movement.
+    2. Death.
 3. Player, enemy stats.
-4. Tie together combat.
+    1. Assign to Entity.
+    2. Use in combat.
+4. Have enemies have complex stats.
+    1. Based on the room (difficulty level)
+    2. Meaning more health than 1.
+
+For version 2.X.X:
+
+1. Have player carry a weapon.
+    1. Use it without stepping onto an enemy
+2. Have enemies
+    1. Be able to attack.
+    2. Have their health displayed.
+        1. Beneath the sprite?
+3. Give enemy unique movement pattern?
 
 ## 8. Refactoring
 

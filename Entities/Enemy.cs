@@ -1,31 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static SlipThrough2.Constants;
 
 namespace SlipThrough2.Entities
 {
-    public class Enemy
+    public class Enemy : Entity
     {
-        private Vector2 position;
-        private readonly Texture2D texture;
-
-        private int iteration;
-
-        public Enemy(Texture2D enemyTexture)
+        public Enemy(Texture2D enemyTexture, int doorNumber)
         {
             texture = enemyTexture;
             position = new Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2); // Starting position, for example
-            iteration = 0;
+            AssignStats(doorNumber);
         }
 
         public void Update()
         {
-            iteration++;
-
-            if (iteration % ITERATION_TIME != 0)
+            if (!entityIsCooledDown)
+            {
+                HandleCooldown();
                 return;
+            }
+
+            entityIsCooledDown = false;
 
             Random rnd = new();
             position.X += CELL_SIZE * (rnd.Next(3) - 1);
