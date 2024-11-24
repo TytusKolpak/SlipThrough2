@@ -12,7 +12,7 @@ namespace SlipThrough2.Views
         private readonly MapManager MapManager;
         private EnemyManager EnemyManager;
         private readonly Player Player;
-        private HUD HUD;
+        private HUDManager HUDManager;
         public bool playerInEncounter;
 
         public MainGame(
@@ -32,7 +32,7 @@ namespace SlipThrough2.Views
             MapManager = new MapManager(gameAssets.MapTextures);
             EnemyManager = new EnemyManager(gameAssets.EnemyTextures);
             Player = new Player(gameAssets.PlayerTexture);
-            HUD = new HUD(gameAssets.HUDTextures, gameAssets.Font, Player);
+            HUDManager = new HUDManager(gameAssets.HUDTextures, gameAssets.Font, Player);
         }
 
         public override void Update()
@@ -41,11 +41,11 @@ namespace SlipThrough2.Views
             EnemyManager.Update();
             Player.Update();
 
-            playerInEncounter = MapManager.MapHandler.mapName != MAP_NAME.Main;
+            playerInEncounter = MapHandler.mapName != MAP_NAME.Main;
 
             if (playerInEncounter)
             {
-                HUD.Update();
+                HUDManager.Update();
                 CombatHandler.Update(Player, EnemyManager.Enemies);
             }
         }
@@ -57,7 +57,7 @@ namespace SlipThrough2.Views
             Player.Draw(spriteBatch);
 
             if (playerInEncounter)
-                HUD.Draw(spriteBatch);
+                HUDManager.Draw(spriteBatch);
         }
 
         // Here we assume that Remove affects The enemies and their manager
@@ -65,11 +65,11 @@ namespace SlipThrough2.Views
         {
             EnemyManager = null;
             EnemyManager.Enemies = null;
-            HUD = null;
-            HUD.healthBarTilePattern = null;
-            HUD.manaBarTilePattern = null;
-            HUD.healthBarTextures = new();
-            HUD.manaBarTextures = new();
+            HUDManager = null;
+            HUDManager.healthBarTilePattern = null;
+            HUDManager.manaBarTilePattern = null;
+            HUDManager.healthBarTextures = new();
+            HUDManager.manaBarTextures = new();
         }
     }
 }

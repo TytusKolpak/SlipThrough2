@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 using SlipThrough2.Entities;

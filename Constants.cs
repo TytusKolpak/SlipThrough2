@@ -15,10 +15,27 @@ namespace SlipThrough2
         public const int MAP_WIDTH = COLUMN_COUNT * ROOM_SIZE; // Witdh in Cells
         public const int MAP_HEIGHT = ROW_COUNT * ROOM_SIZE;
 
-        public const int ITERATION_TIME = 10; // Frames (right now there are 60 frames per second)
+        public const int ITERATION_TIME = 6; // Frames (right now there are 60 frames per second)
         public const int FONT_SIZE = 24;
 
-        public static readonly int[] STEPPABLE_TILES = { 0, 1, 2, 19, 20, 21, 22, 23 };
+        public static readonly int[] STEPPABLE_TILES =
+        {
+            0,
+            1,
+            2,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29
+        };
+        public static readonly int[] DOOR_TILES = { 16, 36, 37 };
         public static readonly Keys[] TRACKED_KEYS = { Keys.Escape, Keys.Enter, Keys.R };
 
         public enum MAP_NAME
@@ -66,6 +83,15 @@ namespace SlipThrough2
             "Tiles/tile_1052", // 27 sand with shade left up (custom)
             "Tiles/tile_2052", // 28 sand with shade right down (custom)
             "Tiles/tile_3052", // 29 sand with shade left down (custom)
+            "Tiles/tile_0046", // 30 two-part doors closed left
+            "Tiles/tile_0047", // 31 two-part doors closed right
+            "Tiles/tile_0034", // 32 two-part doors open left stage 1
+            "Tiles/tile_0035", // 33 two-part doors open right stage 1
+            "Tiles/tile_0022", // 34 two-part doors open left stage 2
+            "Tiles/tile_0023", // 35 two-part doors open right stage 2
+            "Tiles/tile_0010", // 36 two-part doors open left stage 3
+            "Tiles/tile_0011", // 37 two-part doors open right stage 3
+            "Tiles/tile_0045", // 38 single closed doors
         };
 
         public static readonly string[] ENEMY_TILE_PATHS =
@@ -82,7 +108,7 @@ namespace SlipThrough2
 
         public static readonly int[][] ENEMY_SPAWN_PATTERN =
         {
-            new int[] { 0, 1, 2, 3 },
+            new int[] { 0 }, //, 1, 2, 3 }, // for easier testing
             new int[] { 4, 5 },
             new int[] { 6, 7 }
         };

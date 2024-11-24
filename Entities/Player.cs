@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SlipThrough2.Handlers;
 using static SlipThrough2.Constants;
 
 namespace SlipThrough2.Entities
@@ -23,6 +25,27 @@ namespace SlipThrough2.Entities
 
         public void Update()
         {
+            // Top, right, down, left
+            // (PCY > 0) is there for the reason that when the player is at index 0
+            // (upper most cell) then we can't check cell at X=-1 since it doesn't exist
+            // The >= 1  check is for 1 representing a free space and
+            // 2,3,4,... for doors (each door has it's unique number)
+            // Player cell position in grid
+            int PCX = (int)position.X / CELL_SIZE;
+            int PCY = (int)position.Y / CELL_SIZE;
+
+            availableMoves = new bool[4]
+            {
+                (PCY > 0)
+                    && (
+                        MapHandler.currentFunctionalPattern[PCY - 1, PCX] >= 1
+                        || MapHandler.currentFunctionalPattern[PCY - 1, PCX] == -1
+                    ),
+                (PCX < MAP_WIDTH - 1) && MapHandler.currentFunctionalPattern[PCY, PCX + 1] == 1,
+                (PCY < MAP_HEIGHT - 1) && MapHandler.currentFunctionalPattern[PCY + 1, PCX] == 1,
+                (PCX > 0) && MapHandler.currentFunctionalPattern[PCY, PCX - 1] == 1
+            };
+
             if (!entityIsCooledDown)
             {
                 HandleCooldown();
@@ -64,6 +87,12 @@ namespace SlipThrough2.Entities
         {
             entityIsCooledDown = false;
             position += direction;
+
+            // Console.WriteLine($"Pos: ({position.X / CELL_SIZE},{position.Y / CELL_SIZE}).");
+            // char[] canGo = availableMoves.Select(move => move ? 'y' : 'n').ToArray();
+            // Console.WriteLine($"  {canGo[0]}");
+            // Console.WriteLine($"{canGo[3]} P {canGo[1]}");
+            // Console.WriteLine($"  {canGo[2]}");
         }
     }
 }

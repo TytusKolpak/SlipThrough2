@@ -25,8 +25,8 @@ namespace SlipThrough2.Entities
             entityIsCooledDown = false;
 
             Random rnd = new();
-            position.X += CELL_SIZE * (rnd.Next(3) - 1);
-            position.Y += CELL_SIZE * (rnd.Next(3) - 1);
+            Vector2 delta = new(CELL_SIZE * (rnd.Next(3) - 1), CELL_SIZE * (rnd.Next(3) - 1));
+            position += delta;
         }
 
         public void Draw(SpriteBatch spriteBatch)

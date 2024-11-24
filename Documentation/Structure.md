@@ -21,7 +21,7 @@ Most classes are built in this pattern:
             1. MapManager
                 1. MapHandler
             2. Player
-            3. HUD
+            3. HUDManager
             4. EnemyManager
                 1. Enemy
         3. OptionsView

@@ -1,22 +1,22 @@
-using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SlipThrough2.Managers;
+using SlipThrough2.Entities;
 using static SlipThrough2.Constants;
 
-namespace SlipThrough2.Entities
+namespace SlipThrough2.Managers
 {
-    public class HUD
+    public class HUDManager
     {
         private static List<Texture2D> textures;
-        public static List<Texture2D> healthBarTextures = new();
-        public static List<Texture2D> manaBarTextures = new();
+        public static List<Texture2D> healthBarTextures = new(),
+            manaBarTextures = new();
         private readonly SpriteFont Font;
-        public static int[] healthBarTilePattern;
-        public static int[] manaBarTilePattern;
+        public static int[] healthBarTilePattern,
+            manaBarTilePattern;
+        private int iteration; // For "time"keeping
 
-        public HUD(List<Texture2D> HUDTexture, SpriteFont font, Player player)
+        public HUDManager(List<Texture2D> HUDTexture, SpriteFont font, Player player)
         {
             textures = HUDTexture;
             Font = font;
@@ -28,15 +28,29 @@ namespace SlipThrough2.Entities
             // Mana bar
             color = "Blue potion";
             manaBarTilePattern = PrepareDataForBars(player, color);
+
+            iteration = 0;
         }
 
-        public void Update() { }
+        public void Update()
+        {
+            if (iteration < 3 * 60)
+                iteration++;
+        }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            // Draw the string
-            string displayText = $"You have entered the door {MapManager.doorNumber}!";
-            DisplayText(spriteBatch, displayText, new(WINDOW_WIDTH / 2, FONT_SIZE), centered: true);
+            // Draw the string for the first 3s
+            if (iteration < 3 * 60)
+            {
+                string displayText = $"You have entered the door {MapManager.doorNumber}!";
+                DisplayText(
+                    spriteBatch,
+                    displayText,
+                    new(WINDOW_WIDTH / 2, FONT_SIZE * 2),
+                    centered: true
+                );
+            }
 
             // Icons as potions to display health level
             DisplayBar(

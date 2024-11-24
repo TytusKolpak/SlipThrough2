@@ -50,7 +50,7 @@ Done:
 2. Make Map.cs be responsible for wall detection in entity movement.
 3. Be able to enter a new location by the doors in some of the rooms.
     1. New location will show new screen with new map.
-4. New location to change HUD (health bar, mana and text).
+4. New location to change HUDHandler (health bar, mana and text).
     1. Design health bar.
     2. Mana bar.
 5. Make minor maps "spawn" player at the oposite from where they entered the door - as if the minor map was in fact placed in the world but outside of the window.
@@ -126,5 +126,19 @@ For version 2.X.X:
 
 ## 8. Refactoring
 
-1. HUD can be a Handler rather than an entity.
-2. Introduce Key Handler?
+Done:
+
+1. HUDHandler can be a Handler rather than an entity.
+2. After the fight is over the doors in an encounter open with an animation
+3. Have player be able to go back through the door after killing all enemies in a room.
+4. Close doors of an encounter after it's defeated
+
+To be done:
+
+1. After a successfull encounter:
+    1. The second doors get marked as first encounter bc the closed door's don't count as doors
+    2. Hud is not reset, stat bars get stacked.
+2. Reseting: add stage resetting, hud, enemy
+3. Change tile numbers to names (for easier handling)
+4. Introduce Key Handler?
+5. Introduce testing?

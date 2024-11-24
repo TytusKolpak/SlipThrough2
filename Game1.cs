@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using SlipThrough2.Managers;
 using static SlipThrough2.Constants;
 

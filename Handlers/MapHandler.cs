@@ -10,13 +10,13 @@ namespace SlipThrough2.Handlers
         private readonly List<Texture2D> textures;
 
         // Of rooms in a map (and of tiles in a room)
-        public int[,][,] currentPattern;
+        public static int[,][,] currentPattern;
 
         // Where player can move, what to enter and so on
-        public int[,] currentFunctionalPattern;
+        public static int[,] currentFunctionalPattern;
 
         // For easy tracking
-        public MAP_NAME mapName;
+        public static MAP_NAME mapName;
 
         public MapHandler(List<Texture2D> mapTextures)
         {

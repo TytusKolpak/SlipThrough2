@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static SlipThrough2.Constants;
@@ -8,7 +9,7 @@ namespace SlipThrough2.Entities
     {
         // For texture handling
         public Texture2D texture;
-        public Vector2 position;
+        public Vector2 position; // field
 
         // For movement logic
         private int idleIterations;
@@ -42,7 +43,7 @@ namespace SlipThrough2.Entities
 
         public void HandleCooldown()
         {
-            int multiplier = this is Enemy ? 4 : 1;
+            int multiplier = this is Enemy ? 8 : 1;
 
             idleIterations++;
             if (idleIterations > ITERATION_TIME * multiplier)
