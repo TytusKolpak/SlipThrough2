@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using SlipThrough2.Data;
-using static SlipThrough2.Constants;
 
 namespace SlipThrough2.Views
 {
@@ -8,9 +7,9 @@ namespace SlipThrough2.Views
     {
         private static Settings settingsData;
 
-        public Options(VIEW_NAME viewName)
+        public Options(string viewName)
         {
-            settingsData = ConstantsModel._constants.Settings;
+            settingsData = DataStructure._constants.Settings;
 
             view = viewName;
         }

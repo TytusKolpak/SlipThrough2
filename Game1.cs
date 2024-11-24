@@ -15,8 +15,8 @@ namespace SlipThrough2
         public Game1()
         {
             // Json data related precomputations at the very beginning
-            ConstantsModel.LoadJsonData();
-            Settings settingsData = ConstantsModel._constants.Settings;
+            DataStructure.LoadJsonData();
+            Settings settingsData = DataStructure._constants.Settings;
 
             _graphics = new GraphicsDeviceManager(this)
             {
@@ -38,7 +38,7 @@ namespace SlipThrough2
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            Tiles data = ConstantsModel._constants.Tiles;
+            Tiles data = DataStructure._constants.Tiles;
 
             Texture2D playerTexture = Content.Load<Texture2D>(data.PlayerPath);
 

@@ -1,25 +1,9 @@
 ﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework.Input;
 
 namespace SlipThrough2
 {
     public static class Constants
     {
-        public static readonly Keys[] TRACKED_KEYS = { Keys.Escape, Keys.Enter, Keys.R };
-
-        public enum MAP_NAME
-        {
-            Main,
-            EasyEncounter
-        };
-
-        public enum VIEW_NAME
-        {
-            StartScreen,
-            MainGame,
-            Options
-        }
-
         public static readonly int[][] ENEMY_SPAWN_PATTERN =
         {
             new int[] { 0 }, //, 1, 2, 3 }, // for easier testing

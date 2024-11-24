@@ -1,7 +1,7 @@
 using System.Collections.Generic;
+using SlipThrough2.Data;
 using SlipThrough2.Entities;
 using SlipThrough2.Managers;
-using static SlipThrough2.Constants;
 
 namespace SlipThrough2.Handlers
 {
@@ -21,10 +21,10 @@ namespace SlipThrough2.Handlers
                 {
                     iteration = 0;
                     MapManager.OpenEncounterDoors(
-                        MapManager.allMaps[MAP_NAME.EasyEncounter],
+                        MapManager.allMaps[DataStructure._constants.Maps.MapName[2]],
                         stage
                     );
-                    MapManager.SetMap(MAP_NAME.EasyEncounter);
+                    MapManager.SetMap(DataStructure._constants.Maps.MapName[2]);
                     stage++;
                 }
             }

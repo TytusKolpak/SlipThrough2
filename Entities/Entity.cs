@@ -46,7 +46,7 @@ namespace SlipThrough2.Entities
             int multiplier = this is Enemy ? 8 : 1;
 
             idleIterations++;
-            if (idleIterations > ConstantsModel._constants.Settings.IterationTime * multiplier)
+            if (idleIterations > DataStructure._constants.Settings.IterationTime * multiplier)
             {
                 idleIterations = 0;
                 entityIsCooledDown = true;

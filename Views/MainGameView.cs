@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using SlipThrough2.Entities;
 using SlipThrough2.Handlers;
 using SlipThrough2.Managers;
-using static SlipThrough2.Constants;
 
 namespace SlipThrough2.Views
 {
@@ -16,7 +15,7 @@ namespace SlipThrough2.Views
         public bool playerInEncounter;
 
         public MainGame(
-            VIEW_NAME viewName,
+            string viewName,
             (
                 Texture2D PlayerTexture,
                 List<Texture2D> EnemyTextures,
@@ -41,7 +40,7 @@ namespace SlipThrough2.Views
             EnemyManager.Update();
             Player.Update();
 
-            playerInEncounter = MapHandler.mapName != MAP_NAME.Main;
+            playerInEncounter = MapHandler.mapName != Data.DataStructure._constants.Maps.MapName[0];
 
             if (playerInEncounter)
             {

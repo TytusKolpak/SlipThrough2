@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SlipThrough2.Data;
-using static SlipThrough2.Constants;
 
 namespace SlipThrough2.Handlers
 {
@@ -19,11 +18,11 @@ namespace SlipThrough2.Handlers
         public static int[,] currentFunctionalPattern;
 
         // For easy tracking
-        public static MAP_NAME mapName;
+        public static string mapName;
 
         public MapHandler(List<Texture2D> mapTextures)
         {
-            settingsData = ConstantsModel._constants.Settings;
+            settingsData = DataStructure._constants.Settings;
             textures = mapTextures;
         }
 

@@ -12,22 +12,24 @@ namespace SlipThrough2.Managers
     public class MapManager
     {
         // Stores all available maps in a dictionary
-        public static readonly Dictionary<MAP_NAME, int[,][,]> allMaps = new();
-        public static readonly Dictionary<MAP_NAME, int[,]> allFunctionalMaps = new();
+        public static readonly Dictionary<string, int[,][,]> allMaps = new();
+        public static readonly Dictionary<string, int[,]> allFunctionalMaps = new();
         public static int doorNumber;
         public MapHandler MapHandler;
         private static List<FloorTile> floorData;
         private static Settings settingsData;
+        private static string[] mapsData;
 
         // Constructor to initialize maps
         public MapManager(List<Texture2D> mapTextures)
         {
-            floorData = ConstantsModel._constants.Tiles.Floor;
-            settingsData = ConstantsModel._constants.Settings;
+            floorData = DataStructure._constants.Tiles.Floor;
+            settingsData = DataStructure._constants.Settings;
+            mapsData = DataStructure._constants.Maps.MapName;
 
             LoadMaps();
             MapHandler = new MapHandler(mapTextures);
-            SetMap(MAP_NAME.Main);
+            SetMap(mapsData[0]);
         }
 
         public void Update(Player Player)
@@ -47,16 +49,14 @@ namespace SlipThrough2.Managers
         private void LoadMaps()
         {
             // Assign the MAP_ROOM_PATTERN to a name: Main in dictionary of all maps
-            allMaps[MAP_NAME.Main] = MAP_ROOM_PATTERN;
-            InsertDoorsIntoMap(allMaps[MAP_NAME.Main], new(1, 0), new(2, 0));
-            InsertDoorsIntoMap(allMaps[MAP_NAME.Main], new(2, 0), new(4, 0));
-            allFunctionalMaps[MAP_NAME.Main] = GenerateFunctionalMapPattern(MAP_NAME.Main);
+            allMaps[mapsData[0]] = MAP_ROOM_PATTERN;
+            InsertDoorsIntoMap(allMaps[mapsData[0]], new(1, 0), new(2, 0));
+            InsertDoorsIntoMap(allMaps[mapsData[0]], new(2, 0), new(4, 0));
+            allFunctionalMaps[mapsData[0]] = GenerateFunctionalMapPattern(mapsData[0]);
 
             // The same for the second map (EasyEncounter)
-            allMaps[MAP_NAME.EasyEncounter] = MAP_ROOM_PATTERN_FIRST_ENCOUNTER;
-            allFunctionalMaps[MAP_NAME.EasyEncounter] = GenerateFunctionalMapPattern(
-                MAP_NAME.EasyEncounter
-            );
+            allMaps[mapsData[1]] = MAP_ROOM_PATTERN_FIRST_ENCOUNTER;
+            allFunctionalMaps[mapsData[1]] = GenerateFunctionalMapPattern(mapsData[1]);
         }
 
         private static void InsertDoorsIntoMap(int[,][,] map, Point room, Point tile)
@@ -109,7 +109,7 @@ namespace SlipThrough2.Managers
             shorthandForRoomRight[leftCorner.Y, leftCorner.X + 1] = 18;
         }
 
-        public static void SetMap(MAP_NAME mapName)
+        public static void SetMap(string mapName)
         {
             MapHandler.mapName = mapName;
             MapHandler.currentPattern = allMaps[mapName];
@@ -136,10 +136,10 @@ namespace SlipThrough2.Managers
                 CombatHandler.ResetCombatParameters();
 
                 // Modify map
-                InsertEncounterDoors(allMaps[MAP_NAME.EasyEncounter]);
+                InsertEncounterDoors(allMaps[mapsData[1]]);
 
                 // Set modified map (and regenerate functional pattern)
-                SetMap(MAP_NAME.EasyEncounter);
+                SetMap(mapsData[1]);
 
                 Player.position = new(
                     Player.position.X,
@@ -159,7 +159,7 @@ namespace SlipThrough2.Managers
                 CloseMainMapDoors(doorPosition);
 
                 // Set modified map (and regenerate functional pattern)
-                SetMap(MAP_NAME.Main);
+                SetMap(mapsData[0]);
 
                 // Set player position to 1 tile under the door in which they were
                 Player.position = doorPosition + new Vector2(0, settingsData.CellSize);
@@ -171,7 +171,7 @@ namespace SlipThrough2.Managers
             int xIndex = -1,
                 yIndex = -1;
             bool found = false;
-            int[,] functionalPattern = allFunctionalMaps[MAP_NAME.Main];
+            int[,] functionalPattern = allFunctionalMaps[mapsData[0]];
 
             for (int i = 0; i < functionalPattern.GetLength(0); i++) // Rows
             {
@@ -206,16 +206,16 @@ namespace SlipThrough2.Managers
                     (int)doorPosition.Y % settingsData.IterationTime
                 );
 
-            int roomSize = allMaps[MAP_NAME.Main][1, 0].Length;
-            int mapSize = allMaps[MAP_NAME.Main].Length;
+            int roomSize = allMaps[mapsData[0]][1, 0].Length;
+            int mapSize = allMaps[mapsData[0]].Length;
             Console.WriteLine($"{roomPosition}, {positionInRoom}, {roomSize}, {mapSize}");
-            allMaps[MAP_NAME.Main][roomPosition.Y, roomPosition.X][
+            allMaps[mapsData[0]][roomPosition.Y, roomPosition.X][
                 positionInRoom.Y,
                 positionInRoom.X
             ] = 38;
         }
 
-        public static int[,] GenerateFunctionalMapPattern(MAP_NAME mapName)
+        public static int[,] GenerateFunctionalMapPattern(string mapName)
         {
             int[,][,] pattern = allMaps[mapName];
             // Mapping tile map to a functional map
@@ -243,7 +243,7 @@ namespace SlipThrough2.Managers
                                     functionalPattern[
                                         y * settingsData.IterationTime + yt,
                                         x * settingsData.IterationTime + xt
-                                    ] = mapName == MAP_NAME.Main ? 2 + doorCounter : -1;
+                                    ] = mapName == mapsData[0] ? 2 + doorCounter : -1;
                                     doorCounter++;
                                 }
                                 else

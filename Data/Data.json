@@ -69,6 +69,25 @@
         "WindowWidth": 1152,
         "WindowHeight": 576,
         "MapWidth": 36,
-        "MapHeight": 18
+        "MapHeight": 18,
+        "TrackedKeys": [
+            { "Name": "Esc", "Value": 27 },
+            { "Name": "Enter", "Value": 13 },
+            { "Name": "R", "Value": 82 }
+        ]
+    },
+    "Maps": {
+        "MapName": ["Main", "EasyEncounter"]
+    },
+    "Views": {
+        "StartScreen": {
+            "Name": "Start screen"
+        },
+        "MainGame": {
+            "Name": "Main game"
+        },
+        "Options": {
+            "Name": "Options screen"
+        }
     }
 }

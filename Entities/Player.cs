@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SlipThrough2.Data;
 using SlipThrough2.Handlers;
-using static SlipThrough2.Constants;
 
 namespace SlipThrough2.Entities
 {
@@ -15,7 +14,7 @@ namespace SlipThrough2.Entities
 
         public Player(Texture2D playerTexture)
         {
-            settingsData = ConstantsModel._constants.Settings;
+            settingsData = DataStructure._constants.Settings;
             texture = playerTexture;
             // Starting position is cell: (1,1) for example
             position = new Vector2(settingsData.CellSize * 1, settingsData.CellSize * 1);

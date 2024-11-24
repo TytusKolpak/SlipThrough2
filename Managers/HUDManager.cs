@@ -22,9 +22,9 @@ namespace SlipThrough2.Managers
 
         public HUDManager(List<Texture2D> HUDTexture, SpriteFont font, Player player)
         {
-            data = ConstantsModel._constants.Tiles.Potion;
+            data = DataStructure._constants.Tiles.Potion;
 
-            settingsData = ConstantsModel._constants.Settings;
+            settingsData = DataStructure._constants.Settings;
 
             textures = HUDTexture;
             Font = font;

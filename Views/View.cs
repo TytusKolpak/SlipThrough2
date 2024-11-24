@@ -1,12 +1,11 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using static SlipThrough2.Constants;
 
 namespace SlipThrough2.Views
 {
     public abstract class View
     {
-        public VIEW_NAME view;
+        public string view;
         public static SpriteFont font;
         public static SpriteBatch spriteBatch;
 

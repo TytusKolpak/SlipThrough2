@@ -4,15 +4,17 @@ using System.Text.Json;
 
 namespace SlipThrough2.Data
 {
-    public class ConstantsModel
+    public class DataStructure
     {
-        public static ConstantsModel _constants;
+        public static DataStructure _constants;
         public Tiles Tiles { get; set; }
         public Settings Settings { get; set; }
+        public Maps Maps { get; set; }
+        public ViewsStructures Views { get; set; }
 
         public static void LoadJsonData()
         {
-            _constants = JsonSerializer.Deserialize<ConstantsModel>(
+            _constants = JsonSerializer.Deserialize<DataStructure>(
                 File.ReadAllText("Data/Data.json")
             );
         }
@@ -55,5 +57,29 @@ namespace SlipThrough2.Data
         // WindowHeight = RowCount * RoomSize * CellSize;
         // MapWidth = ColumnCount * RoomSize;
         // MapHeight = RowCount * RoomSize;
+        public List<TrackedKey> TrackedKeys { get; set; }
+    }
+
+    public class TrackedKey
+    {
+        public string Name { get; set; }
+        public int Value { get; set; }
+    }
+
+    public class Maps
+    {
+        public string[] MapName { get; set; }
+    }
+
+    public class ViewsStructures
+    {
+        public ViewStructure StartScreen { get; set; }
+        public ViewStructure MainGame { get; set; }
+        public ViewStructure Options { get; set; }
+    }
+
+    public class ViewStructure
+    {
+        public string Name { get; set; }
     }
 }

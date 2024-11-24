@@ -11,7 +11,7 @@ namespace SlipThrough2.Entities
 
         public Enemy(Texture2D enemyTexture, int doorNumber)
         {
-            settingsData = ConstantsModel._constants.Settings;
+            settingsData = DataStructure._constants.Settings;
 
             texture = enemyTexture;
             position = new Vector2(settingsData.WindowWidth / 2, settingsData.WindowHeight / 2); // Starting position, for example

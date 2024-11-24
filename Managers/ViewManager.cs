@@ -1,16 +1,15 @@
-using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SlipThrough2.Data;
 using SlipThrough2.Views;
-using static SlipThrough2.Constants;
 
 namespace SlipThrough2.Managers
 {
     public class ViewManager
     {
-        private static VIEW_NAME currentView;
-        private static readonly Dictionary<VIEW_NAME, View> views = new();
+        private static string currentView;
+        private static readonly Dictionary<string, View> views = new();
         private static readonly Dictionary<Keys, bool> keyStates = new();
 
         private static (
@@ -21,6 +20,8 @@ namespace SlipThrough2.Managers
             SpriteFont Font,
             SpriteBatch spriteBatch
         ) gameAssetsBackup;
+
+        private static ViewsStructures viewsData;
 
         public ViewManager(
             (
@@ -33,13 +34,15 @@ namespace SlipThrough2.Managers
             ) gameAssets
         )
         {
-            views[VIEW_NAME.StartScreen] = new Start(VIEW_NAME.StartScreen);
-            views[VIEW_NAME.MainGame] = new MainGame(VIEW_NAME.MainGame, gameAssets);
-            views[VIEW_NAME.Options] = new Options(VIEW_NAME.Options);
+            viewsData = DataStructure._constants.Views;
+
+            views[viewsData.StartScreen.Name] = new Start(viewsData.StartScreen.Name);
+            views[viewsData.MainGame.Name] = new MainGame(viewsData.MainGame.Name, gameAssets);
+            views[viewsData.Options.Name] = new Options(viewsData.Options.Name);
 
             View.font = gameAssets.Font;
             View.spriteBatch = gameAssets.spriteBatch;
-            currentView = VIEW_NAME.StartScreen;
+            currentView = viewsData.StartScreen.Name;
             gameAssetsBackup = gameAssets;
         }
 
@@ -56,49 +59,51 @@ namespace SlipThrough2.Managers
             views[currentView].Draw();
         }
 
-        public static void SwitchView(VIEW_NAME newName)
+        public static void SwitchView(string newName)
         {
             currentView = newName;
         }
 
         private static void HandleKeyPresses(Game1 game1)
         {
-            foreach (var key in TRACKED_KEYS)
+            List<TrackedKey> trackedKeys = DataStructure._constants.Settings.TrackedKeys;
+            foreach (var trackedKey in trackedKeys)
             {
+                Keys key = (Keys)trackedKey.Value;
                 // Check if the key is pressed and was not previously pressed
                 if (Keyboard.GetState().IsKeyDown(key) && !keyStates[key])
                 {
-                    keyStates[key] = true; // Mark the key as being pressed
+                    keyStates[key] = true; // Mark the value as being pressed
 
                     // Use switch statement for key-specific actions
                     switch (key)
                     {
                         case Keys.Escape:
                             // Options / Quit
-                            if (currentView != VIEW_NAME.Options)
-                                SwitchView(VIEW_NAME.Options);
+                            if (currentView != viewsData.Options.Name)
+                                SwitchView(viewsData.Options.Name);
                             else
                                 game1.Exit();
                             break;
 
                         case Keys.Enter:
                             // Start / Return
-                            SwitchView(VIEW_NAME.MainGame);
+                            SwitchView(viewsData.MainGame.Name);
                             break;
 
                         case Keys.R:
                             // Reset (only if in Options)
-                            if (currentView == VIEW_NAME.Options)
+                            if (currentView == viewsData.Options.Name)
                             {
                                 // Remove the most significant removable element of this view - remove all enemies
-                                views[VIEW_NAME.MainGame].Remove();
+                                views[viewsData.MainGame.Name].Remove();
 
                                 // Reconstruct entities and maps
-                                views[VIEW_NAME.MainGame] = new MainGame(
-                                    VIEW_NAME.MainGame,
+                                views[viewsData.MainGame.Name] = new MainGame(
+                                    viewsData.MainGame.Name,
                                     gameAssetsBackup
                                 );
-                                SwitchView(VIEW_NAME.MainGame);
+                                SwitchView(viewsData.MainGame.Name);
                             }
                             break;
                     }
