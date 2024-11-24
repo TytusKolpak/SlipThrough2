@@ -1,13 +1,16 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using SlipThrough2.Data;
 using static SlipThrough2.Constants;
 
 namespace SlipThrough2.Views
 {
     public class Start : View
     {
+        private static Settings settingsData;
+
         public Start(VIEW_NAME viewName)
         {
+            settingsData = ConstantsModel._constants.Settings;
             view = viewName;
         }
 
@@ -17,27 +20,40 @@ namespace SlipThrough2.Views
         {
             // Bottom right corner says the name of the screen (view)
             string textToDisplay = view.ToString();
-            DisplayText(textToDisplay, new Vector2(WINDOW_WIDTH, WINDOW_HEIGHT), 2);
+            DisplayText(
+                textToDisplay,
+                new Vector2(settingsData.WindowWidth, settingsData.WindowHeight),
+                2
+            );
 
             // Display large game name
             textToDisplay = "Slip Through 2";
             DisplayText(
                 textToDisplay,
-                new Vector2(WINDOW_WIDTH * 0.5f, WINDOW_HEIGHT * 0.3f + FONT_SIZE),
+                new Vector2(
+                    settingsData.WindowWidth * 0.5f,
+                    settingsData.WindowHeight * 0.3f + settingsData.FontSize
+                ),
                 1
             );
 
             textToDisplay = "Press Enter key to start";
             DisplayText(
                 textToDisplay,
-                new Vector2(WINDOW_WIDTH * 0.5f, WINDOW_HEIGHT * 0.3f + FONT_SIZE * 5),
+                new Vector2(
+                    settingsData.WindowWidth * 0.5f,
+                    settingsData.WindowHeight * 0.3f + settingsData.FontSize * 5
+                ),
                 1
             );
 
             textToDisplay = "Press Esc to go to Options";
             DisplayText(
                 textToDisplay,
-                new Vector2(WINDOW_WIDTH * 0.5f, WINDOW_HEIGHT * 0.3f + FONT_SIZE * 7),
+                new Vector2(
+                    settingsData.WindowWidth * 0.5f,
+                    settingsData.WindowHeight * 0.3f + settingsData.FontSize * 7
+                ),
                 1
             );
         }

@@ -124,21 +124,26 @@ For version 2.X.X:
         1. Beneath the sprite?
 3. Give enemy unique movement pattern?
 
-## 8. Refactoring
+## 8. Refactoring (more like filling in the gaps of logic xd)
 
-Done:
+Done (or fixed):
 
 1. HUDHandler can be a Handler rather than an entity.
-2. After the fight is over the doors in an encounter open with an animation
+2. After the fight is over the doors in an encounter open with an animation.
 3. Have player be able to go back through the door after killing all enemies in a room.
-4. Close doors of an encounter after it's defeated
+4. Close doors of an encounter after it's defeated.
+5. After a successfull encounter:
+    1. The second doors get marked as first encounter bc the closed door's don't count as doors.
+    2. Hud is not reset, stat bars get stacked.
+6. After the second encounter:
+    1. The doors don't open,
+    2. HUD doesn't display door number.
+7. Reseting: add stage resetting, hud, enemy.
 
 To be done:
 
-1. After a successfull encounter:
-    1. The second doors get marked as first encounter bc the closed door's don't count as doors
-    2. Hud is not reset, stat bars get stacked.
-2. Reseting: add stage resetting, hud, enemy
-3. Change tile numbers to names (for easier handling)
-4. Introduce Key Handler?
-5. Introduce testing?
+1. HUD string for door name
+
+2. Change tile numbers to names (for easier handling).
+3. Introduce Key Handler?
+4. Introduce testing?

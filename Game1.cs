@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SlipThrough2.Data;
 using SlipThrough2.Managers;
-using static SlipThrough2.Constants;
 
 namespace SlipThrough2
 {
@@ -14,10 +14,14 @@ namespace SlipThrough2
 
         public Game1()
         {
+            // Json data related precomputations at the very beginning
+            ConstantsModel.LoadJsonData();
+            Settings settingsData = ConstantsModel._constants.Settings;
+
             _graphics = new GraphicsDeviceManager(this)
             {
-                PreferredBackBufferWidth = WINDOW_WIDTH,
-                PreferredBackBufferHeight = WINDOW_HEIGHT
+                PreferredBackBufferWidth = settingsData.WindowWidth,
+                PreferredBackBufferHeight = settingsData.WindowHeight
             };
             _graphics.ApplyChanges();
 
@@ -34,19 +38,22 @@ namespace SlipThrough2
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            Texture2D playerTexture = Content.Load<Texture2D>(PLAYER_TILE_PATH);
+            Tiles data = ConstantsModel._constants.Tiles;
+
+            Texture2D playerTexture = Content.Load<Texture2D>(data.PlayerPath);
 
             List<Texture2D> HUDTextures = new();
-            foreach (var potion in POTIONS)
-                HUDTextures.Add(Content.Load<Texture2D>(potion.Value.TilePath));
+
+            foreach (var potionTile in data.Potion)
+                HUDTextures.Add(Content.Load<Texture2D>(potionTile.Path));
 
             List<Texture2D> enemyTextures = new();
-            foreach (string tilePath in ENEMY_TILE_PATHS)
-                enemyTextures.Add(Content.Load<Texture2D>(tilePath));
+            foreach (var enemyTile in data.Enemy)
+                enemyTextures.Add(Content.Load<Texture2D>(enemyTile.Path));
 
             List<Texture2D> mapTextures = new();
-            foreach (string tilePath in TILE_PATHS)
-                mapTextures.Add(Content.Load<Texture2D>(tilePath));
+            foreach (var floorTile in data.Floor)
+                mapTextures.Add(Content.Load<Texture2D>(floorTile.Path));
 
             SpriteFont font = Content.Load<SpriteFont>("Font1");
 

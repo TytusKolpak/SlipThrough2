@@ -7,7 +7,7 @@ namespace SlipThrough2.Handlers
 {
     public class CombatHandler
     {
-        private static bool combatIsOver = false;
+        private static bool combatIsOver;
         private static int iteration,
             stage;
 
@@ -20,8 +20,11 @@ namespace SlipThrough2.Handlers
                 if (iteration == 30 && stage < 3)
                 {
                     iteration = 0;
-                    MapManager.OpenEncounterDoors(MapManager.allMaps[MAP_NAME.Encounter1], stage);
-                    MapManager.SetMap(MAP_NAME.Encounter1);
+                    MapManager.OpenEncounterDoors(
+                        MapManager.allMaps[MAP_NAME.EasyEncounter],
+                        stage
+                    );
+                    MapManager.SetMap(MAP_NAME.EasyEncounter);
                     stage++;
                 }
             }
@@ -46,6 +49,13 @@ namespace SlipThrough2.Handlers
                 stage = 0;
                 combatIsOver = true;
             }
+        }
+
+        public static void ResetCombatParameters()
+        {
+            combatIsOver = false;
+            iteration = 0;
+            stage = 0;
         }
     }
 }

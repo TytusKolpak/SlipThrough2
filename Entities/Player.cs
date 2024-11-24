@@ -1,8 +1,7 @@
-﻿using System;
-using System.Linq;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SlipThrough2.Data;
 using SlipThrough2.Handlers;
 using static SlipThrough2.Constants;
 
@@ -12,12 +11,14 @@ namespace SlipThrough2.Entities
     public class Player : Entity
     {
         public bool[] availableMoves = { true, true, true, true };
+        private static Settings settingsData;
 
         public Player(Texture2D playerTexture)
         {
+            settingsData = ConstantsModel._constants.Settings;
             texture = playerTexture;
             // Starting position is cell: (1,1) for example
-            position = new Vector2(CELL_SIZE * 1, CELL_SIZE * 1);
+            position = new Vector2(settingsData.CellSize * 1, settingsData.CellSize * 1);
 
             // -1 just means "for the player"
             AssignStats(-1);
@@ -31,8 +32,8 @@ namespace SlipThrough2.Entities
             // The >= 1  check is for 1 representing a free space and
             // 2,3,4,... for doors (each door has it's unique number)
             // Player cell position in grid
-            int PCX = (int)position.X / CELL_SIZE;
-            int PCY = (int)position.Y / CELL_SIZE;
+            int PCX = (int)position.X / settingsData.CellSize;
+            int PCY = (int)position.Y / settingsData.CellSize;
 
             availableMoves = new bool[4]
             {
@@ -41,8 +42,10 @@ namespace SlipThrough2.Entities
                         MapHandler.currentFunctionalPattern[PCY - 1, PCX] >= 1
                         || MapHandler.currentFunctionalPattern[PCY - 1, PCX] == -1
                     ),
-                (PCX < MAP_WIDTH - 1) && MapHandler.currentFunctionalPattern[PCY, PCX + 1] == 1,
-                (PCY < MAP_HEIGHT - 1) && MapHandler.currentFunctionalPattern[PCY + 1, PCX] == 1,
+                (PCX < settingsData.MapWidth - 1)
+                    && MapHandler.currentFunctionalPattern[PCY, PCX + 1] == 1,
+                (PCY < settingsData.MapHeight - 1)
+                    && MapHandler.currentFunctionalPattern[PCY + 1, PCX] == 1,
                 (PCX > 0) && MapHandler.currentFunctionalPattern[PCY, PCX - 1] == 1
             };
 
@@ -55,10 +58,10 @@ namespace SlipThrough2.Entities
             // Define movement directions and their corresponding keys and move validation
             var movements = new (Keys key, int moveIndex, Vector2 direction)[]
             {
-                (Keys.W, 0, new Vector2(0, -CELL_SIZE)), // Up
-                (Keys.D, 1, new Vector2(CELL_SIZE, 0)), // Right
-                (Keys.S, 2, new Vector2(0, CELL_SIZE)), // Down
-                (Keys.A, 3, new Vector2(-CELL_SIZE, 0)) // Left
+                (Keys.W, 0, new Vector2(0, -settingsData.CellSize)), // Up
+                (Keys.D, 1, new Vector2(settingsData.CellSize, 0)), // Right
+                (Keys.S, 2, new Vector2(0, settingsData.CellSize)), // Down
+                (Keys.A, 3, new Vector2(-settingsData.CellSize, 0)) // Left
             };
 
             KeyboardState state = Keyboard.GetState();
@@ -78,7 +81,12 @@ namespace SlipThrough2.Entities
         {
             spriteBatch.Draw(
                 texture,
-                new Rectangle((int)position.X, (int)position.Y, CELL_SIZE, CELL_SIZE),
+                new Rectangle(
+                    (int)position.X,
+                    (int)position.Y,
+                    settingsData.CellSize,
+                    settingsData.CellSize
+                ),
                 Color.White
             );
         }
@@ -88,7 +96,7 @@ namespace SlipThrough2.Entities
             entityIsCooledDown = false;
             position += direction;
 
-            // Console.WriteLine($"Pos: ({position.X / CELL_SIZE},{position.Y / CELL_SIZE}).");
+            // Console.WriteLine($"Pos: ({position.X / settingsData.CellSize},{position.Y / settingsData.CellSize}).");
             // char[] canGo = availableMoves.Select(move => move ? 'y' : 'n').ToArray();
             // Console.WriteLine($"  {canGo[0]}");
             // Console.WriteLine($"{canGo[3]} P {canGo[1]}");

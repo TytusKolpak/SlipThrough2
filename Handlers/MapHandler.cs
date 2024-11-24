@@ -1,12 +1,15 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SlipThrough2.Data;
 using static SlipThrough2.Constants;
 
 namespace SlipThrough2.Handlers
 {
     public class MapHandler
     {
+        private static Settings settingsData;
+
         private readonly List<Texture2D> textures;
 
         // Of rooms in a map (and of tiles in a room)
@@ -20,6 +23,7 @@ namespace SlipThrough2.Handlers
 
         public MapHandler(List<Texture2D> mapTextures)
         {
+            settingsData = ConstantsModel._constants.Settings;
             textures = mapTextures;
         }
 
@@ -31,23 +35,25 @@ namespace SlipThrough2.Handlers
             // Draw each horizontal line of the room, then
             // Draw each room in a horizontal line of the map, then
             // Draw each horizontal line of the grid in the map
-            for (int column = 0; column < COLUMN_COUNT; column++)
+            for (int column = 0; column < settingsData.ColumnCount; column++)
             {
-                for (int row = 0; row < ROW_COUNT; row++)
+                for (int row = 0; row < settingsData.RowCount; row++)
                 {
-                    for (int y = 0; y < ROOM_SIZE; y++)
+                    for (int y = 0; y < settingsData.RoomSize; y++)
                     {
-                        for (int x = 0; x < ROOM_SIZE; x++)
+                        for (int x = 0; x < settingsData.RoomSize; x++)
                         {
                             int tileId = currentPattern[row, column][y, x];
                             Texture2D tileTexture = textures[tileId];
                             spriteBatch.Draw(
                                 tileTexture,
                                 new Rectangle(
-                                    x * CELL_SIZE + column * ROOM_SIZE * CELL_SIZE,
-                                    y * CELL_SIZE + row * ROOM_SIZE * CELL_SIZE,
-                                    CELL_SIZE,
-                                    CELL_SIZE
+                                    x * settingsData.CellSize
+                                        + column * settingsData.RoomSize * settingsData.CellSize,
+                                    y * settingsData.CellSize
+                                        + row * settingsData.RoomSize * settingsData.CellSize,
+                                    settingsData.CellSize,
+                                    settingsData.CellSize
                                 ),
                                 Color.White
                             );

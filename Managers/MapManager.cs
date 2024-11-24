@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SlipThrough2.Data;
 using SlipThrough2.Entities;
 using SlipThrough2.Handlers;
 using static SlipThrough2.Constants;
@@ -15,12 +15,16 @@ namespace SlipThrough2.Managers
         public static readonly Dictionary<MAP_NAME, int[,][,]> allMaps = new();
         public static readonly Dictionary<MAP_NAME, int[,]> allFunctionalMaps = new();
         public static int doorNumber;
-
         public MapHandler MapHandler;
+        private static List<FloorTile> floorData;
+        private static Settings settingsData;
 
         // Constructor to initialize maps
         public MapManager(List<Texture2D> mapTextures)
         {
+            floorData = ConstantsModel._constants.Tiles.Floor;
+            settingsData = ConstantsModel._constants.Settings;
+
             LoadMaps();
             MapHandler = new MapHandler(mapTextures);
             SetMap(MAP_NAME.Main);
@@ -29,8 +33,8 @@ namespace SlipThrough2.Managers
         public void Update(Player Player)
         {
             // Player cell position in grid
-            int PCX = (int)Player.position.X / CELL_SIZE;
-            int PCY = (int)Player.position.Y / CELL_SIZE;
+            int PCX = (int)Player.position.X / settingsData.CellSize;
+            int PCY = (int)Player.position.Y / settingsData.CellSize;
             CheckIfEnteringDoor(PCY, PCX, Player);
         }
 
@@ -48,10 +52,10 @@ namespace SlipThrough2.Managers
             InsertDoorsIntoMap(allMaps[MAP_NAME.Main], new(2, 0), new(4, 0));
             allFunctionalMaps[MAP_NAME.Main] = GenerateFunctionalMapPattern(MAP_NAME.Main);
 
-            // The same for the second map (Encounter1)
-            allMaps[MAP_NAME.Encounter1] = MAP_ROOM_PATTERN_FIRST_ENCOUNTER;
-            allFunctionalMaps[MAP_NAME.Encounter1] = GenerateFunctionalMapPattern(
-                MAP_NAME.Encounter1
+            // The same for the second map (EasyEncounter)
+            allMaps[MAP_NAME.EasyEncounter] = MAP_ROOM_PATTERN_FIRST_ENCOUNTER;
+            allFunctionalMaps[MAP_NAME.EasyEncounter] = GenerateFunctionalMapPattern(
+                MAP_NAME.EasyEncounter
             );
         }
 
@@ -126,19 +130,20 @@ namespace SlipThrough2.Managers
                 // the room numbers start from 1 by lowering tile value by 1
                 doorNumber = tileValue - 1;
 
-                // Create enemies and HUD
+                // Create enemies, HUD and reset combat parameters
                 EnemyManager.SpawnEnemies(doorNumber);
                 HUDManager.BuildTexturesForBars();
+                CombatHandler.ResetCombatParameters();
 
                 // Modify map
-                InsertEncounterDoors(allMaps[MAP_NAME.Encounter1]);
+                InsertEncounterDoors(allMaps[MAP_NAME.EasyEncounter]);
 
                 // Set modified map (and regenerate functional pattern)
-                SetMap(MAP_NAME.Encounter1);
+                SetMap(MAP_NAME.EasyEncounter);
 
                 Player.position = new(
                     Player.position.X,
-                    WINDOW_HEIGHT - Player.position.Y - CELL_SIZE * 2
+                    settingsData.WindowHeight - Player.position.Y - settingsData.CellSize * 2
                 );
             }
             else if (tileValue == -1)
@@ -157,7 +162,7 @@ namespace SlipThrough2.Managers
                 SetMap(MAP_NAME.Main);
 
                 // Set player position to 1 tile under the door in which they were
-                Player.position = doorPosition + new Vector2(0, CELL_SIZE);
+                Player.position = doorPosition + new Vector2(0, settingsData.CellSize);
             }
         }
 
@@ -184,17 +189,22 @@ namespace SlipThrough2.Managers
                     break; // Exit outer loop if found
             }
             // This is used to set position so we need to translate it to position from index pair
-            return new Vector2(xIndex, yIndex) * CELL_SIZE;
+            return new Vector2(xIndex, yIndex) * settingsData.CellSize;
         }
 
         private static void CloseMainMapDoors(Vector2 doorPosition)
         {
-            doorPosition /= CELL_SIZE;
-            Console.WriteLine($"{doorPosition}");
+            doorPosition /= settingsData.CellSize;
             Point roomPosition =
-                new((int)doorPosition.X / ROOM_SIZE, (int)doorPosition.Y / ROOM_SIZE);
+                new(
+                    (int)doorPosition.X / settingsData.IterationTime,
+                    (int)doorPosition.Y / settingsData.IterationTime
+                );
             Point positionInRoom =
-                new((int)doorPosition.X % ROOM_SIZE, (int)doorPosition.Y % ROOM_SIZE);
+                new(
+                    (int)doorPosition.X % settingsData.IterationTime,
+                    (int)doorPosition.Y % settingsData.IterationTime
+                );
 
             int roomSize = allMaps[MAP_NAME.Main][1, 0].Length;
             int mapSize = allMaps[MAP_NAME.Main].Length;
@@ -209,36 +219,52 @@ namespace SlipThrough2.Managers
         {
             int[,][,] pattern = allMaps[mapName];
             // Mapping tile map to a functional map
-            int[,] functionalPattern = new int[MAP_HEIGHT, MAP_WIDTH];
-            int doorCounter = 0;
+            int[,] functionalPattern = new int[settingsData.MapHeight, settingsData.MapWidth];
+            int doorCounter = 0,
+                tileValue;
 
             // For every room in the map
-            for (int y = 0; y < ROW_COUNT; y++)
+            for (int y = 0; y < settingsData.RowCount; y++)
             {
-                for (int x = 0; x < COLUMN_COUNT; x++)
+                for (int x = 0; x < settingsData.ColumnCount; x++)
                 {
                     // For every tile in the room
-                    for (int yt = 0; yt < ROOM_SIZE; yt++)
+                    for (int yt = 0; yt < settingsData.IterationTime; yt++)
                     {
-                        for (int xt = 0; xt < ROOM_SIZE; xt++)
+                        for (int xt = 0; xt < settingsData.IterationTime; xt++)
                         {
-                            if (STEPPABLE_TILES.Contains(pattern[y, x][yt, xt]))
+                            tileValue = pattern[y, x][yt, xt];
+
+                            if (floorData[tileValue].IsSteppable)
                             {
-                                // It's 1 (as in true) if the tile can be stood on
-                                functionalPattern[y * ROOM_SIZE + yt, x * ROOM_SIZE + xt] = 1;
-                            }
-                            else if (DOOR_TILES.Contains(pattern[y, x][yt, xt]))
-                            {
-                                // 2 and above means the tile is a door
-                                // If current map is an encounter put -1 for returning to main map
-                                functionalPattern[y * ROOM_SIZE + yt, x * ROOM_SIZE + xt] =
-                                    mapName == MAP_NAME.Main ? 2 + doorCounter : -1;
-                                doorCounter++;
+                                if (floorData[tileValue].IsDoor)
+                                {
+                                    // If current map is an encounter put -1 for returning to main map
+                                    functionalPattern[
+                                        y * settingsData.IterationTime + yt,
+                                        x * settingsData.IterationTime + xt
+                                    ] = mapName == MAP_NAME.Main ? 2 + doorCounter : -1;
+                                    doorCounter++;
+                                }
+                                else
+                                {
+                                    // Is a standard non functional steppable tile
+                                    functionalPattern[
+                                        y * settingsData.IterationTime + yt,
+                                        x * settingsData.IterationTime + xt
+                                    ] = 1;
+                                }
                             }
                             else
                             {
+                                if (floorData[tileValue].IsDoor) // But closed
+                                    doorCounter++;
+
                                 // 0 means the tile can't be stepped on
-                                functionalPattern[y * ROOM_SIZE + yt, x * ROOM_SIZE + xt] = 0;
+                                functionalPattern[
+                                    y * settingsData.IterationTime + yt,
+                                    x * settingsData.IterationTime + xt
+                                ] = 0;
                             }
                         }
                     }

@@ -1,6 +1,6 @@
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SlipThrough2.Data;
 using static SlipThrough2.Constants;
 
 namespace SlipThrough2.Entities
@@ -46,7 +46,7 @@ namespace SlipThrough2.Entities
             int multiplier = this is Enemy ? 8 : 1;
 
             idleIterations++;
-            if (idleIterations > ITERATION_TIME * multiplier)
+            if (idleIterations > ConstantsModel._constants.Settings.IterationTime * multiplier)
             {
                 idleIterations = 0;
                 entityIsCooledDown = true;

@@ -70,6 +70,7 @@ namespace SlipThrough2.Views
             HUDManager.manaBarTilePattern = null;
             HUDManager.healthBarTextures = new();
             HUDManager.manaBarTextures = new();
+            CombatHandler.ResetCombatParameters();
         }
     }
 }
