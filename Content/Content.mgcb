@@ -13,6 +13,9 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Data.json
+/copy:Data.json
+
 #begin Font1.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

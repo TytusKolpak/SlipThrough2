@@ -245,8 +245,8 @@
     },
     "Encounters": {
         "EnemySet": [
-            ["Bat", "Spider", "Brown Rat", "Gray Rat"],
-            ["Cyclops", "Crab"],
+            ["Bat", "Spider", "Crab"],
+            ["Cyclops", "Brown Rat", "Gray Rat"],
             ["Dark Wizard", "Ghost"]
         ]
     }

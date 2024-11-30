@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
@@ -17,8 +18,12 @@ namespace SlipThrough2.Data
 
         public static void LoadJsonData()
         {
+            string sourceFilePath = "Content/Data.json";
+            if (!File.Exists(sourceFilePath))
+                throw new FileNotFoundException($"The file '{sourceFilePath}' was not found.");
+
             _constants = JsonSerializer.Deserialize<DataStructure>(
-                File.ReadAllText("Data/Data.json")
+                File.ReadAllText(sourceFilePath)
             );
         }
     }
