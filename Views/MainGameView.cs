@@ -40,7 +40,7 @@ namespace SlipThrough2.Views
             EnemyManager.Update();
             Player.Update();
 
-            playerInEncounter = MapHandler.mapName != Data.DataStructure._constants.Maps.MapName[0];
+            playerInEncounter = MapHandler.mapName != Data.DataStructure._constants.Maps.Main.Name;
 
             if (playerInEncounter)
             {
@@ -69,6 +69,7 @@ namespace SlipThrough2.Views
             HUDManager.manaBarTilePattern = null;
             HUDManager.healthBarTextures = new();
             HUDManager.manaBarTextures = new();
+            HUDManager.iteration = 0;
             CombatHandler.ResetCombatParameters();
         }
     }

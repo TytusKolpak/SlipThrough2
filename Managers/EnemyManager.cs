@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework.Graphics;
+using SlipThrough2.Data;
 using SlipThrough2.Entities;
-using static SlipThrough2.Constants;
 
 namespace SlipThrough2.Managers
 {
@@ -41,20 +43,27 @@ namespace SlipThrough2.Managers
         {
             Enemies = new List<Enemy>();
 
+            string[][] EnemySet = DataStructure._constants.Encounters.EnemySet;
+            Tile[] AllEnemies = DataStructure._constants.Tiles.Enemy;
+
             // Cover spawning only for these patterns which are declared
-            if (ENEMY_SPAWN_PATTERN.Length < doorNumber)
+            if (EnemySet.Length < doorNumber)
                 return;
 
             // First door has number 1, but array starts at 0
             doorNumber--;
 
-            int[] enemiesInRoom = ENEMY_SPAWN_PATTERN[doorNumber];
+            string[] enemiesInRoom = EnemySet[doorNumber];
             int numberOfEnemies = enemiesInRoom.Length;
             Texture2D[] enemyTextures = new Texture2D[numberOfEnemies];
 
             // Select only those for the current room
             for (int i = 0; i < numberOfEnemies; i++)
-                enemyTextures[i] = textures[enemiesInRoom[i]];
+            {
+                string currentEnemy = enemiesInRoom[i];
+                int textureIndex = Array.FindIndex(AllEnemies, enemy => enemy.Name == currentEnemy);
+                enemyTextures[i] = textures[textureIndex];
+            }
 
             // Create them and add them to the list
             foreach (var texture in enemyTextures)

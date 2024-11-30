@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SlipThrough2.Data;
 using SlipThrough2.Entities;
-using static SlipThrough2.Constants;
 
 namespace SlipThrough2.Managers
 {
@@ -16,7 +15,7 @@ namespace SlipThrough2.Managers
         private readonly SpriteFont Font;
         public static int[] healthBarTilePattern,
             manaBarTilePattern;
-        private int iteration; // For "time"keeping
+        public static int iteration; // For "time"keeping
         private static List<Tile> data;
         private static Settings settingsData;
 

@@ -12,3 +12,4 @@ This project is a successor game to my previous [Slip Through](https://github.co
 1. [Features and planning](Documentation/Documentation.md)
 2. [Project structure](Documentation/Structure.md)
 3. [Versioning](Documentation/Versioning.md)
+4. [Naming the tiles](Documentation/TileNaming.md)

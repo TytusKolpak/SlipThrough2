@@ -1,7 +1,7 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SlipThrough2.Data;
-using static SlipThrough2.Constants;
 
 namespace SlipThrough2.Entities
 {
@@ -25,20 +25,21 @@ namespace SlipThrough2.Entities
         // For player it's -1 so that I do not need to make another method as overloaded method
         public void AssignStats(int doorNumber)
         {
-            string entity = doorNumber switch
+            EntityStructures entityData = DataStructure._constants.Entities;
+            EntityStructure entity = doorNumber switch
             {
-                -1 => "Player",
-                0 => "EasyEnemy",
-                1 => "MediumEnemy",
-                2 => "HardEnemy",
+                -1 => entityData.Player,
+                0 => entityData.EasyEnemy,
+                1 => entityData.MediumEnemy,
+                2 => entityData.HardEnemy,
                 _ => throw new System.NotImplementedException()
             };
 
-            maxHealth = STATS[entity]["maxHealth"];
-            health = STATS[entity]["health"];
-            maxMana = STATS[entity]["maxMana"];
-            mana = STATS[entity]["mana"];
-            attack = STATS[entity]["attack"];
+            maxHealth = entity.MaxHealth;
+            health = entity.Health;
+            maxMana = entity.MaxMana;
+            mana = entity.Mana;
+            attack = entity.Attack;
         }
 
         public void HandleCooldown()

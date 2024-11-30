@@ -20,12 +20,9 @@ namespace SlipThrough2.Handlers
                 if (iteration == 30 && stage < 3)
                 {
                     iteration = 0;
-                    MapManager.OpenEncounterDoors(
-                        MapManager.allMaps[DataStructure._constants.Maps.MapName[2]],
-                        stage
-                    );
-                    MapManager.SetMap(DataStructure._constants.Maps.MapName[2]);
                     stage++;
+                    MapManager.OpenEncounterDoors(stage);
+                    MapManager.SetMap(DataStructure._constants.Maps.EasyEncounter.Name);
                 }
             }
 

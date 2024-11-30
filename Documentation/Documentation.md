@@ -139,11 +139,22 @@ Done (or fixed):
     1. The doors don't open,
     2. HUD doesn't display door number.
 7. Reseting: add stage resetting, hud, enemy.
+8. Move Constants.cs to Data.json
+    1. Map schema change implementation back in codes
+    2. Map tiles can be named in a shortened pattern
+        1. T for terrain, W for wall, D for door, C for chest
+        2. Each can have 9 main "orientions" top, top right, right, right down and so on clockwise - this can be put into number 1-8 and middle as 0
+        3. For each consecutive Letter if there is another variant it can be added as v1, v2,v 3 and so on (like v1 for dirt/ground, v2 for sand and so on)
+            1. Doors or chests can have s for state rather than o for orientation
+    3. This would end up letting each tile be identified by a name like:
+        1. To1v1 - type:terrain, orientation:top, variant:dirt
+        2. Wo6v2 - wall, left down, sand
+9. Put Data.json to Contents folder
+10. Change tile numbers to names (for easier handling).
+11. HUD string for door name not appearing for second encounter
 
 To be done:
 
-1. HUD string for door name
-
-2. Change tile numbers to names (for easier handling).
-3. Introduce Key Handler?
-4. Introduce testing?
+4. Introduce
+    1. Key Handler?
+    2. Testing?

@@ -1,35 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SlipThrough2.Data;
 using SlipThrough2.Entities;
 using SlipThrough2.Handlers;
-using static SlipThrough2.Constants;
 
 namespace SlipThrough2.Managers
 {
     public class MapManager
     {
-        // Stores all available maps in a dictionary
-        public static readonly Dictionary<string, int[,][,]> allMaps = new();
-        public static readonly Dictionary<string, int[,]> allFunctionalMaps = new();
+        public static readonly Dictionary<string, string[][]> allMapRoomPatterns = new(); // For how it is build
+        public static readonly Dictionary<string, string[,]> allMapTileLayouts = new(); // For how it looks
+        public static readonly Dictionary<string, int[,]> allFunctionalMaps = new(); // For how it works
         public static int doorNumber;
         public MapHandler MapHandler;
         private static List<FloorTile> floorData;
         private static Settings settingsData;
-        private static string[] mapsData;
+        private static Maps mapsData;
 
         // Constructor to initialize maps
         public MapManager(List<Texture2D> mapTextures)
         {
             floorData = DataStructure._constants.Tiles.Floor;
             settingsData = DataStructure._constants.Settings;
-            mapsData = DataStructure._constants.Maps.MapName;
+            mapsData = DataStructure._constants.Maps;
 
             LoadMaps();
             MapHandler = new MapHandler(mapTextures);
-            SetMap(mapsData[0]);
+            SetMap(mapsData.Main.Name);
         }
 
         public void Update(Player Player)
@@ -48,78 +48,101 @@ namespace SlipThrough2.Managers
         // Load maps into the dictionary
         private void LoadMaps()
         {
-            // Assign the MAP_ROOM_PATTERN to a name: Main in dictionary of all maps
-            allMaps[mapsData[0]] = MAP_ROOM_PATTERN;
-            InsertDoorsIntoMap(allMaps[mapsData[0]], new(1, 0), new(2, 0));
-            InsertDoorsIntoMap(allMaps[mapsData[0]], new(2, 0), new(4, 0));
-            allFunctionalMaps[mapsData[0]] = GenerateFunctionalMapPattern(mapsData[0]);
+            // Use data from Data.json as template to create local variables
+            string name = mapsData.Main.Name;
+            allMapRoomPatterns[name] = mapsData.Main.RoomPattern;
+
+            allMapTileLayouts[name] = TranslateMapPatternToLayout(name);
+            InsertDoorsIntoMap(name, new(1, 0), new(2, 0));
+            InsertDoorsIntoMap(name, new(2, 0), new(4, 0));
+
+            allFunctionalMaps[name] = GenerateFunctionalMapPattern(name);
 
             // The same for the second map (EasyEncounter)
-            allMaps[mapsData[1]] = MAP_ROOM_PATTERN_FIRST_ENCOUNTER;
-            allFunctionalMaps[mapsData[1]] = GenerateFunctionalMapPattern(mapsData[1]);
+            name = mapsData.EasyEncounter.Name;
+            allMapRoomPatterns[name] = mapsData.EasyEncounter.RoomPattern;
+            allMapTileLayouts[name] = TranslateMapPatternToLayout(name);
+            allFunctionalMaps[name] = GenerateFunctionalMapPattern(name);
         }
 
-        private static void InsertDoorsIntoMap(int[,][,] map, Point room, Point tile)
+        private static string[,] TranslateMapPatternToLayout(string name)
         {
-            // Clone the room's array to create a separate instance
-            // With .Clone() we need to "recast" the now-object into correct type
-            map[room.Y, room.X] = (int[,])map[room.Y, room.X].Clone();
+            Map map = getObjectsPropertyValue(mapsData, name); // This is now whole EasyEncounter object or MainMap object, found by its name
+            int patternHeight = settingsData.RowCount;
+            int patternWidth = settingsData.ColumnCount;
+            int roomHeight = settingsData.RoomSize;
+            int roomWidth = settingsData.RoomSize;
 
-            int[,] shorthandForRoom = map[room.Y, room.X];
-            shorthandForRoom[tile.Y, tile.X - 1] = 17;
-            shorthandForRoom[tile.Y, tile.X] = 16;
-            shorthandForRoom[tile.Y, tile.X + 1] = 18;
+            string[,] layout = new string[patternHeight * roomHeight, patternWidth * roomWidth];
+            string[][] pattern = map.RoomPattern;
+
+            for (int row = 0; row < patternHeight; row++)
+            {
+                for (int column = 0; column < patternWidth; column++)
+                {
+                    string roomName = pattern[row][column]; // As in "OLD" (Open left down which holds string[][])
+                    string[][] room = getObjectsPropertyValue(map.Rooms, roomName); // This is its contents
+                    for (int y = 0; y < roomHeight; y++)
+                    {
+                        for (int x = 0; x < roomWidth; x++)
+                        {
+                            layout[row * roomHeight + y, column * roomWidth + x] = room[y][x]; // This is now "Wo8v1"
+                        }
+                    }
+                }
+            }
+            // ShowLayout(layout);
+            return layout;
         }
 
-        private static void InsertEncounterDoors(int[,][,] map)
+        private static void InsertDoorsIntoMap(string name, Point room, Point tile)
         {
-            Point room = new(2, 0),
-                rightCorner = new(5, 0),
-                leftCorner = new(0, 0);
-
-            map[room.Y, room.X] = (int[,])map[room.Y, room.X].Clone();
-            map[room.Y, room.X + 1] = (int[,])map[room.Y, room.X + 1].Clone();
-
-            int[,] shorthandForRoomLeft = map[room.Y, room.X],
-                shorthandForRoomRight = map[room.Y, room.X + 1];
-
-            shorthandForRoomLeft[rightCorner.Y, rightCorner.X - 1] = 17;
-            shorthandForRoomLeft[rightCorner.Y, rightCorner.X] = 30;
-
-            shorthandForRoomRight[leftCorner.Y, leftCorner.X] = 31;
-            shorthandForRoomRight[leftCorner.Y, leftCorner.X + 1] = 18;
+            string[,] layout = allMapTileLayouts[name];
+            int x = room.X * settingsData.RoomSize + tile.X;
+            int y = room.Y * settingsData.RoomSize + tile.Y;
+            layout[y, x - 1] = "Wo7v3";
+            layout[y, x] = "Ds1v1";
+            layout[y, x + 1] = "Wo3v3";
         }
 
-        public static void OpenEncounterDoors(int[,][,] map, int openingStage)
+        private static void InsertEncounterDoors()
         {
-            Point room = new(2, 0),
-                rightCorner = new(5, 0),
-                leftCorner = new(0, 0);
+            int x = settingsData.MapWidth / 2;
+            int y = 0;
 
-            map[room.Y, room.X] = (int[,])map[room.Y, room.X].Clone();
-            map[room.Y, room.X + 1] = (int[,])map[room.Y, room.X + 1].Clone();
+            allMapTileLayouts[mapsData.EasyEncounter.Name][y, x - 2] = "Wo7v3";
+            allMapTileLayouts[mapsData.EasyEncounter.Name][y, x - 1] = "Do7s0v1";
+            allMapTileLayouts[mapsData.EasyEncounter.Name][y, x] = "Do3s0v1";
+            allMapTileLayouts[mapsData.EasyEncounter.Name][y, x + 1] = "Wo3v3";
 
-            int[,] shorthandForRoomLeft = map[room.Y, room.X],
-                shorthandForRoomRight = map[room.Y, room.X + 1];
+            Console.WriteLine("Inserted encounter doors");
+        }
 
-            shorthandForRoomLeft[rightCorner.Y, rightCorner.X - 1] = 17;
-            shorthandForRoomLeft[rightCorner.Y, rightCorner.X] = 32 + openingStage * 2;
+        public static void OpenEncounterDoors(int openingStage)
+        {
+            Console.WriteLine($"Opening encounter doors, stage: {openingStage}");
+            int x = settingsData.MapWidth / 2;
+            int y = 0;
 
-            shorthandForRoomRight[leftCorner.Y, leftCorner.X] = 33 + openingStage * 2;
-            shorthandForRoomRight[leftCorner.Y, leftCorner.X + 1] = 18;
+            allMapTileLayouts[mapsData.EasyEncounter.Name][y, x - 2] = "Wo7v3";
+            allMapTileLayouts[mapsData.EasyEncounter.Name][y, x - 1] = "Do7s" + openingStage + "v1";
+            allMapTileLayouts[mapsData.EasyEncounter.Name][y, x] = "Do3s" + openingStage + "v1";
+            allMapTileLayouts[mapsData.EasyEncounter.Name][y, x + 1] = "Wo3v3";
         }
 
         public static void SetMap(string mapName)
         {
             MapHandler.mapName = mapName;
-            MapHandler.currentPattern = allMaps[mapName];
+            MapHandler.currentTileLayout = allMapTileLayouts[mapName];
 
             // Regenerate functional pattern based on the new tiles
             MapHandler.currentFunctionalPattern = GenerateFunctionalMapPattern(mapName);
             allFunctionalMaps[mapName] = MapHandler.currentFunctionalPattern;
+
+            Console.WriteLine($"Set {mapName} as current map.");
         }
 
-        private void CheckIfEnteringDoor(int PCY, int PCX, Player Player)
+        private static void CheckIfEnteringDoor(int PCY, int PCX, Player Player)
         {
             int tileValue = MapHandler.currentFunctionalPattern[PCY, PCX];
 
@@ -132,14 +155,15 @@ namespace SlipThrough2.Managers
 
                 // Create enemies, HUD and reset combat parameters
                 EnemyManager.SpawnEnemies(doorNumber);
+                HUDManager.iteration = 0; // Reseting this value for "time"keeping
                 HUDManager.BuildTexturesForBars();
                 CombatHandler.ResetCombatParameters();
 
                 // Modify map
-                InsertEncounterDoors(allMaps[mapsData[1]]);
+                InsertEncounterDoors();
 
                 // Set modified map (and regenerate functional pattern)
-                SetMap(mapsData[1]);
+                SetMap(mapsData.EasyEncounter.Name);
 
                 Player.position = new(
                     Player.position.X,
@@ -159,7 +183,7 @@ namespace SlipThrough2.Managers
                 CloseMainMapDoors(doorPosition);
 
                 // Set modified map (and regenerate functional pattern)
-                SetMap(mapsData[0]);
+                SetMap(mapsData.Main.Name);
 
                 // Set player position to 1 tile under the door in which they were
                 Player.position = doorPosition + new Vector2(0, settingsData.CellSize);
@@ -171,7 +195,7 @@ namespace SlipThrough2.Managers
             int xIndex = -1,
                 yIndex = -1;
             bool found = false;
-            int[,] functionalPattern = allFunctionalMaps[mapsData[0]];
+            int[,] functionalPattern = allFunctionalMaps[mapsData.Main.Name];
 
             for (int i = 0; i < functionalPattern.GetLength(0); i++) // Rows
             {
@@ -195,81 +219,50 @@ namespace SlipThrough2.Managers
         private static void CloseMainMapDoors(Vector2 doorPosition)
         {
             doorPosition /= settingsData.CellSize;
-            Point roomPosition =
-                new(
-                    (int)doorPosition.X / settingsData.IterationTime,
-                    (int)doorPosition.Y / settingsData.IterationTime
-                );
-            Point positionInRoom =
-                new(
-                    (int)doorPosition.X % settingsData.IterationTime,
-                    (int)doorPosition.Y % settingsData.IterationTime
-                );
+            string[,] layout = allMapTileLayouts[mapsData.Main.Name];
 
-            int roomSize = allMaps[mapsData[0]][1, 0].Length;
-            int mapSize = allMaps[mapsData[0]].Length;
-            Console.WriteLine($"{roomPosition}, {positionInRoom}, {roomSize}, {mapSize}");
-            allMaps[mapsData[0]][roomPosition.Y, roomPosition.X][
-                positionInRoom.Y,
-                positionInRoom.X
-            ] = 38;
+            layout[(int)doorPosition.Y, (int)doorPosition.X] = "Ds0v1";
         }
 
         public static int[,] GenerateFunctionalMapPattern(string mapName)
         {
-            int[,][,] pattern = allMaps[mapName];
-            // Mapping tile map to a functional map
+            string[,] layout = allMapTileLayouts[mapName];
             int[,] functionalPattern = new int[settingsData.MapHeight, settingsData.MapWidth];
-            int doorCounter = 0,
-                tileValue;
+            int doorCounter = 0;
 
-            // For every room in the map
-            for (int y = 0; y < settingsData.RowCount; y++)
+            for (int y = 0; y < settingsData.MapHeight; y++)
             {
-                for (int x = 0; x < settingsData.ColumnCount; x++)
+                for (int x = 0; x < settingsData.MapWidth; x++)
                 {
-                    // For every tile in the room
-                    for (int yt = 0; yt < settingsData.IterationTime; yt++)
+                    string tileCode = layout[y, x];
+
+                    FloorTile tile = floorData.Find(tile => tile.Name == tileCode);
+                    if (tile.IsSteppable)
                     {
-                        for (int xt = 0; xt < settingsData.IterationTime; xt++)
+                        if (tile.IsDoor)
                         {
-                            tileValue = pattern[y, x][yt, xt];
-
-                            if (floorData[tileValue].IsSteppable)
-                            {
-                                if (floorData[tileValue].IsDoor)
-                                {
-                                    // If current map is an encounter put -1 for returning to main map
-                                    functionalPattern[
-                                        y * settingsData.IterationTime + yt,
-                                        x * settingsData.IterationTime + xt
-                                    ] = mapName == mapsData[0] ? 2 + doorCounter : -1;
-                                    doorCounter++;
-                                }
-                                else
-                                {
-                                    // Is a standard non functional steppable tile
-                                    functionalPattern[
-                                        y * settingsData.IterationTime + yt,
-                                        x * settingsData.IterationTime + xt
-                                    ] = 1;
-                                }
-                            }
-                            else
-                            {
-                                if (floorData[tileValue].IsDoor) // But closed
-                                    doorCounter++;
-
-                                // 0 means the tile can't be stepped on
-                                functionalPattern[
-                                    y * settingsData.IterationTime + yt,
-                                    x * settingsData.IterationTime + xt
-                                ] = 0;
-                            }
+                            // If current map is an encounter put -1 for returning to main map
+                            functionalPattern[y, x] =
+                                mapName == mapsData.Main.Name ? 2 + doorCounter : -1;
+                            doorCounter++;
                         }
+                        else
+                        {
+                            // Is a standard non functional steppable tile
+                            functionalPattern[y, x] = 1;
+                        }
+                    }
+                    else
+                    {
+                        if (tile.IsDoor) // But closed
+                            doorCounter++;
+
+                        // 0 means the tile can't be stepped on
+                        functionalPattern[y, x] = 0;
                     }
                 }
             }
+            Console.WriteLine($"Generated functional map pattern for {mapName}.");
             return functionalPattern;
         }
 
@@ -285,6 +278,43 @@ namespace SlipThrough2.Managers
                 Console.WriteLine(); // Move to the next row
             }
             Console.WriteLine("End");
+        }
+
+        public static void ShowLayout(string[,] layout)
+        {
+            Console.WriteLine("Layout:");
+            for (int i = 0; i < layout.GetLength(0); i++) // Rows
+            {
+                for (int j = 0; j < layout.GetLength(1); j++) // Columns
+                {
+                    Console.Write($"{layout[i, j], 7}"); // Format spacing
+                }
+                Console.WriteLine(); // Move to the next row
+            }
+            Console.WriteLine("End");
+        }
+
+        public static dynamic getObjectsPropertyValue(dynamic objectX, string propertyName)
+        {
+            if (objectX == null)
+                throw new ArgumentNullException(nameof(objectX), "Error: object is null.");
+
+            if (propertyName == null)
+                throw new ArgumentNullException(
+                    nameof(propertyName),
+                    "Error: property name is null."
+                );
+
+            var propertyInfo = objectX.GetType().GetProperty(propertyName);
+
+            if (propertyInfo == null)
+                throw new ArgumentException(
+                    $"Error: no such property '{propertyName}' on object {objectX}."
+                );
+
+            var value = propertyInfo.GetValue(objectX, null);
+
+            return value;
         }
     }
 }

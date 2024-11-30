@@ -8,45 +8,45 @@
             { "Name": "Blue potion", "Path": "Tiles/tile_0116" }
         ],
         "Floor": [
-            { "Name": "ground", "Path": "Tiles/tile_0000", "IsSteppable": true, "IsDoor": false },
-            { "Name": "ground v2", "Path": "Tiles/tile_0012", "IsSteppable": true, "IsDoor": false },
-            { "Name": "ground v3", "Path": "Tiles/tile_0024", "IsSteppable": true, "IsDoor": false },
-            { "Name": "right upper corner", "Path": "Tiles/tile_0005", "IsSteppable": false, "IsDoor": false },
-            { "Name": "right bottom corner", "Path": "Tiles/tile_0017", "IsSteppable": false, "IsDoor": false },
-            { "Name": "left bottom corner", "Path": "Tiles/tile_0016", "IsSteppable": false, "IsDoor": false },
-            { "Name": "left upper corner", "Path": "Tiles/tile_0004", "IsSteppable": false, "IsDoor": false },
-            { "Name": "top left wall", "Path": "Tiles/tile_0015", "IsSteppable": false, "IsDoor": false },
-            { "Name": "top right wall", "Path": "Tiles/tile_0013", "IsSteppable": false, "IsDoor": false },
-            { "Name": "top bottom wall", "Path": "Tiles/tile_0002", "IsSteppable": false, "IsDoor": false },
-            { "Name": "top upper wall", "Path": "Tiles/tile_0026", "IsSteppable": false, "IsDoor": false },
-            { "Name": "top bottom left wall edge", "Path": "Tiles/tile_0025", "IsSteppable": false, "IsDoor": false },
-            { "Name": "top bottom right wall edge", "Path": "Tiles/tile_0027", "IsSteppable": false, "IsDoor": false },
-            { "Name": "top upper left wall edge", "Path": "Tiles/tile_0001", "IsSteppable": false, "IsDoor": false },
-            { "Name": "top upper right wall edge", "Path": "Tiles/tile_0003", "IsSteppable": false, "IsDoor": false },
-            { "Name": "chest", "Path": "Tiles/tile_0089", "IsSteppable": false, "IsDoor": false },
-            { "Name": "open doors", "Path": "Tiles/tile_0021", "IsSteppable": true, "IsDoor": true },
-            { "Name": "front left wall edge", "Path": "Tiles/tile_0057", "IsSteppable": false, "IsDoor": false },
-            { "Name": "front left wall edge", "Path": "Tiles/tile_0059", "IsSteppable": false, "IsDoor": false },
-            { "Name": "sand", "Path": "Tiles/tile_0048", "IsSteppable": true, "IsDoor": false },
-            { "Name": "sand with rocks", "Path": "Tiles/tile_0049", "IsSteppable": true, "IsDoor": false },
-            { "Name": "sand with shade on top", "Path": "Tiles/tile_0050", "IsSteppable": true, "IsDoor": false },
-            { "Name": "sand with rocks and shade on top", "Path": "Tiles/tile_0051", "IsSteppable": true, "IsDoor": false },
-            { "Name": "sand with shade on top and right side", "Path": "Tiles/tile_0052", "IsSteppable": true, "IsDoor": false },
-            { "Name": "sand with shade to the left (custom)", "Path": "Tiles/tile_1050", "IsSteppable": true, "IsDoor": false },
-            { "Name": "sand with shade to the right (custom)", "Path": "Tiles/tile_2050", "IsSteppable": true, "IsDoor": false },
-            { "Name": "sand with shade down (custom)", "Path": "Tiles/tile_3050", "IsSteppable": true, "IsDoor": false },
-            { "Name": "sand with shade left up (custom)", "Path": "Tiles/tile_1052", "IsSteppable": true, "IsDoor": false },
-            { "Name": "sand with shade right down (custom)", "Path": "Tiles/tile_2052", "IsSteppable": true, "IsDoor": false },
-            { "Name": "sand with shade left down (custom)", "Path": "Tiles/tile_3052", "IsSteppable": true, "IsDoor": false },
-            { "Name": "two-part doors closed left", "Path": "Tiles/tile_0046", "IsSteppable": false, "IsDoor": false },
-            { "Name": "two-part doors closed right", "Path": "Tiles/tile_0047", "IsSteppable": false, "IsDoor": false },
-            { "Name": "two-part doors open left stage 1", "Path": "Tiles/tile_0034", "IsSteppable": false, "IsDoor": false },
-            { "Name": "two-part doors open right stage 1", "Path": "Tiles/tile_0035", "IsSteppable": false, "IsDoor": false },
-            { "Name": "two-part doors open left stage 2", "Path": "Tiles/tile_0022", "IsSteppable": false, "IsDoor": false },
-            { "Name": "two-part doors open right stage 2", "Path": "Tiles/tile_0023", "IsSteppable": false, "IsDoor": false },
-            { "Name": "two-part doors open left stage 3", "Path": "Tiles/tile_0010", "IsSteppable": true, "IsDoor": true },
-            { "Name": "two-part doors open right stage 3", "Path": "Tiles/tile_0011", "IsSteppable": true, "IsDoor": true },
-            { "Name": "single closed doors", "Path": "Tiles/tile_0045", "IsSteppable": false, "IsDoor": true }
+            { "Name": "Cs0v1", "Path": "Tiles/tile_0089", "IsSteppable": false, "IsDoor": false },
+            { "Name": "Do3s0v1", "Path": "Tiles/tile_0047", "IsSteppable": false, "IsDoor": false },
+            { "Name": "Do3s1v1", "Path": "Tiles/tile_0035", "IsSteppable": false, "IsDoor": false },
+            { "Name": "Do3s2v1", "Path": "Tiles/tile_0023", "IsSteppable": false, "IsDoor": false },
+            { "Name": "Do3s3v1", "Path": "Tiles/tile_0011", "IsSteppable": true, "IsDoor": true },
+            { "Name": "Do7s0v1", "Path": "Tiles/tile_0046", "IsSteppable": false, "IsDoor": false },
+            { "Name": "Do7s1v1", "Path": "Tiles/tile_0034", "IsSteppable": false, "IsDoor": false },
+            { "Name": "Do7s2v1", "Path": "Tiles/tile_0022", "IsSteppable": false, "IsDoor": false },
+            { "Name": "Do7s3v1", "Path": "Tiles/tile_0010", "IsSteppable": true, "IsDoor": true },
+            { "Name": "Ds0v1", "Path": "Tiles/tile_0045", "IsSteppable": false, "IsDoor": true },
+            { "Name": "Ds1v1", "Path": "Tiles/tile_0021", "IsSteppable": true, "IsDoor": true },
+            { "Name": "To0v1", "Path": "Tiles/tile_0000", "IsSteppable": true, "IsDoor": false },
+            { "Name": "To0v2", "Path": "Tiles/tile_0012", "IsSteppable": true, "IsDoor": false },
+            { "Name": "To0v3", "Path": "Tiles/tile_0024", "IsSteppable": true, "IsDoor": false },
+            { "Name": "To0v4", "Path": "Tiles/tile_0048", "IsSteppable": true, "IsDoor": false },
+            { "Name": "To0v5", "Path": "Tiles/tile_0049", "IsSteppable": true, "IsDoor": false },
+            { "Name": "To1v4", "Path": "Tiles/tile_0050", "IsSteppable": true, "IsDoor": false },
+            { "Name": "To1v5", "Path": "Tiles/tile_0051", "IsSteppable": true, "IsDoor": false },
+            { "Name": "To2v4", "Path": "Tiles/tile_0052", "IsSteppable": true, "IsDoor": false },
+            { "Name": "To3v4", "Path": "Tiles/tile_2050", "IsSteppable": true, "IsDoor": false },
+            { "Name": "To4v4", "Path": "Tiles/tile_2052", "IsSteppable": true, "IsDoor": false },
+            { "Name": "To5v4", "Path": "Tiles/tile_3050", "IsSteppable": true, "IsDoor": false },
+            { "Name": "To6v4", "Path": "Tiles/tile_3052", "IsSteppable": true, "IsDoor": false },
+            { "Name": "To7v4", "Path": "Tiles/tile_1050", "IsSteppable": true, "IsDoor": false },
+            { "Name": "To8v4", "Path": "Tiles/tile_1052", "IsSteppable": true, "IsDoor": false },
+            { "Name": "Wo1v1", "Path": "Tiles/tile_0026", "IsSteppable": false, "IsDoor": false },
+            { "Name": "Wo2v1", "Path": "Tiles/tile_0005", "IsSteppable": false, "IsDoor": false },
+            { "Name": "Wo2v2", "Path": "Tiles/tile_0003", "IsSteppable": false, "IsDoor": false },
+            { "Name": "Wo3v1", "Path": "Tiles/tile_0013", "IsSteppable": false, "IsDoor": false },
+            { "Name": "Wo3v3", "Path": "Tiles/tile_0059", "IsSteppable": false, "IsDoor": false },
+            { "Name": "Wo4v1", "Path": "Tiles/tile_0017", "IsSteppable": false, "IsDoor": false },
+            { "Name": "Wo4v2", "Path": "Tiles/tile_0027", "IsSteppable": false, "IsDoor": false },
+            { "Name": "Wo5v1", "Path": "Tiles/tile_0002", "IsSteppable": false, "IsDoor": false },
+            { "Name": "Wo6v1", "Path": "Tiles/tile_0016", "IsSteppable": false, "IsDoor": false },
+            { "Name": "Wo6v2", "Path": "Tiles/tile_0025", "IsSteppable": false, "IsDoor": false },
+            { "Name": "Wo7v1", "Path": "Tiles/tile_0015", "IsSteppable": false, "IsDoor": false },
+            { "Name": "Wo7v3", "Path": "Tiles/tile_0057", "IsSteppable": false, "IsDoor": false },
+            { "Name": "Wo8v1", "Path": "Tiles/tile_0004", "IsSteppable": false, "IsDoor": false },
+            { "Name": "Wo8v2", "Path": "Tiles/tile_0001", "IsSteppable": false, "IsDoor": false }
         ],
         "Enemy": [
             { "Name": "Bat", "Path": "Tiles/tile_0120" },
@@ -77,7 +77,154 @@
         ]
     },
     "Maps": {
-        "MapName": ["Main", "EasyEncounter"]
+        "Main": {
+            "Name": "Main",
+            "Rooms": {
+                "OLD": [
+                    ["Wo8v1", "Wo1v1", "Wo1v1", "Wo1v1", "Wo1v1", "Wo2v1"],
+                    ["Wo4v2", "To0v1", "To0v2", "To0v1", "To0v3", "Wo3v1"],
+                    ["To0v1", "To0v1", "To0v1", "To0v1", "To0v1", "Wo3v1"],
+                    ["Wo2v2", "To0v1", "To0v2", "To0v2", "To0v1", "Wo3v1"],
+                    ["Wo7v1", "Cs0v1", "To0v1", "To0v1", "To0v1", "Wo3v1"],
+                    ["Wo6v1", "Wo5v1", "Wo2v2", "To0v1", "Wo8v2", "Wo4v1"]
+                ],
+                "OR": [
+                    ["Wo8v1", "Wo1v1", "Wo7v3", "Ds1v1", "Wo3v3", "Wo2v1"],
+                    ["Wo7v1", "To0v1", "To0v2", "To0v1", "To0v1", "Wo6v2"],
+                    ["Wo7v1", "To0v1", "To0v1", "To0v1", "To0v1", "To0v1"],
+                    ["Wo7v1", "To0v1", "To0v1", "To0v2", "To0v1", "Wo8v2"],
+                    ["Wo7v1", "To0v1", "To0v1", "To0v3", "Cs0v1", "Wo3v1"],
+                    ["Wo6v1", "Wo5v1", "Wo5v1", "Wo5v1", "Wo5v1", "Wo4v1"]
+                ],
+                "OLU": [
+                    ["Wo8v1", "Wo1v1", "Wo4v2", "To0v1", "Wo6v2", "Wo2v1"],
+                    ["Wo4v2", "To0v1", "To0v1", "To0v1", "To0v1", "Wo3v1"],
+                    ["To0v1", "To0v1", "To0v1", "To0v1", "To0v3", "Wo3v1"],
+                    ["Wo2v2", "To0v1", "To0v2", "To0v2", "To0v1", "Wo3v1"],
+                    ["Wo7v1", "To0v1", "To0v1", "To0v1", "To0v1", "Wo3v1"],
+                    ["Wo6v1", "Wo5v1", "Wo5v1", "Wo5v1", "Wo5v1", "Wo4v1"]
+                ],
+                "ORU": [
+                    ["Wo8v1", "Wo1v1", "Wo4v2", "To0v1", "Wo6v2", "Wo2v1"],
+                    ["Wo7v1", "To0v1", "To0v1", "To0v1", "To0v1", "Wo6v2"],
+                    ["Wo7v1", "Cs0v1", "To0v1", "To0v1", "To0v1", "To0v1"],
+                    ["Wo7v1", "To0v1", "To0v2", "To0v1", "To0v1", "Wo8v2"],
+                    ["Wo7v1", "To0v1", "To0v1", "To0v1", "To0v1", "Wo3v1"],
+                    ["Wo6v1", "Wo5v1", "Wo5v1", "Wo5v1", "Wo5v1", "Wo4v1"]
+                ],
+                "OL": [
+                    ["Wo8v1", "Wo1v1", "Wo1v1", "Wo1v1", "Wo1v1", "Wo2v1"],
+                    ["Wo4v2", "To0v3", "To0v2", "To0v1", "To0v1", "Wo3v1"],
+                    ["To0v1", "To0v1", "To0v1", "To0v1", "To0v1", "Wo3v1"],
+                    ["Wo2v2", "To0v1", "To0v1", "To0v1", "To0v1", "Wo3v1"],
+                    ["Wo7v1", "To0v1", "To0v1", "To0v1", "To0v1", "Wo3v1"],
+                    ["Wo6v1", "Wo5v1", "Wo5v1", "Wo5v1", "Wo5v1", "Wo4v1"]
+                ],
+                "ORD": [
+                    ["Wo8v1", "Wo1v1", "Wo1v1", "Wo1v1", "Wo1v1", "Wo2v1"],
+                    ["Wo7v1", "To0v1", "To0v2", "To0v1", "To0v1", "Wo6v2"],
+                    ["Wo7v1", "To0v2", "To0v1", "To0v1", "To0v1", "To0v1"],
+                    ["Wo7v1", "To0v1", "To0v1", "To0v1", "To0v1", "Wo8v2"],
+                    ["Wo7v1", "To0v1", "To0v1", "To0v1", "To0v1", "Wo3v1"],
+                    ["Wo6v1", "Wo5v1", "Wo2v2", "To0v1", "Wo8v2", "Wo4v1"]
+                ],
+                "ORL": [
+                    ["Wo8v1", "Wo1v1", "Wo1v1", "Wo1v1", "Wo1v1", "Wo2v1"],
+                    ["Wo4v2", "To0v1", "To0v2", "To0v1", "To0v1", "Wo6v2"],
+                    ["To0v1", "To0v1", "To0v1", "To0v1", "To0v1", "To0v1"],
+                    ["Wo2v2", "To0v1", "To0v3", "To0v1", "To0v1", "Wo8v2"],
+                    ["Wo7v1", "To0v2", "To0v1", "To0v1", "To0v1", "Wo3v1"],
+                    ["Wo6v1", "Wo5v1", "Wo5v1", "Wo5v1", "Wo5v1", "Wo4v1"]
+                ]
+            },
+            "RoomPattern": [
+                ["OR", "ORL", "ORL", "ORL", "ORL", "OLD"],
+                ["ORD", "ORL", "ORL", "ORL", "ORL", "OLU"],
+                ["ORU", "ORL", "ORL", "ORL", "ORL", "OL"]
+            ]
+        },
+        "EasyEncounter": {
+            "Name": "EasyEncounter",
+            "Rooms": {
+                "LUE": [
+                    ["To8v4", "To1v4", "To1v4", "To1v4", "To1v4", "To1v4"],
+                    ["To7v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
+                    ["To7v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
+                    ["To7v4", "To0v4", "To0v5", "To0v4", "To0v4", "To0v4"],
+                    ["To7v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
+                    ["To7v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"]
+                ],
+                "RUE": [
+                    ["To1v4", "To1v4", "To1v4", "To1v4", "To1v5", "To2v4"],
+                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To3v4"],
+                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To3v4"],
+                    ["To0v4", "To0v4", "To0v5", "To0v4", "To0v4", "To3v4"],
+                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To3v4"],
+                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To3v4"]
+                ],
+                "UE": [
+                    ["To1v4", "To1v4", "To1v4", "To1v4", "To1v4", "To1v4"],
+                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
+                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
+                    ["To0v4", "To0v4", "To0v5", "To0v4", "To0v4", "To0v4"],
+                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
+                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"]
+                ],
+                "C": [
+                    ["To0v5", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
+                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
+                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
+                    ["To0v4", "To0v4", "To0v5", "To0v4", "To0v4", "To0v4"],
+                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
+                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"]
+                ],
+                "LE": [
+                    ["To7v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
+                    ["To7v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
+                    ["To7v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
+                    ["To7v4", "To0v4", "To0v5", "To0v4", "To0v4", "To0v4"],
+                    ["To7v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
+                    ["To7v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"]
+                ],
+                "RE": [
+                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To3v4"],
+                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To3v4"],
+                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To3v4"],
+                    ["To0v4", "To0v5", "To0v4", "To0v4", "To0v4", "To3v4"],
+                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To3v4"],
+                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To3v4"]
+                ],
+                "DE": [
+                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
+                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
+                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
+                    ["To0v4", "To0v5", "To0v4", "To0v4", "To0v4", "To0v4"],
+                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
+                    ["To5v4", "To5v4", "To5v4", "To5v4", "To5v4", "To5v4"]
+                ],
+                "LDE": [
+                    ["To7v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
+                    ["To7v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
+                    ["To7v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
+                    ["To7v4", "To0v5", "To0v4", "To0v4", "To0v4", "To0v4"],
+                    ["To7v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
+                    ["To6v4", "To5v4", "To5v4", "To5v4", "To5v4", "To5v4"]
+                ],
+                "RDE": [
+                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To3v4"],
+                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To3v4"],
+                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To3v4"],
+                    ["To0v4", "To0v5", "To0v4", "To0v4", "To0v4", "To3v4"],
+                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To3v4"],
+                    ["To5v4", "To5v4", "To5v4", "To5v4", "To5v4", "To4v4"]
+                ]
+            },
+            "RoomPattern": [
+                ["LUE", "UE", "UE", "UE", "UE", "RUE"],
+                ["LE", "C", "C", "C", "C", "RE"],
+                ["LDE", "DE", "DE", "DE", "DE", "RDE"]
+            ]
+        }
     },
     "Views": {
         "StartScreen": {
@@ -89,5 +236,18 @@
         "Options": {
             "Name": "Options screen"
         }
+    },
+    "Entities": {
+        "Player": { "MaxHealth": 5, "Health": 4, "MaxMana": 3, "Mana": 1, "Attack": 1 },
+        "EasyEnemy": { "MaxHealth": 2, "Health": 2, "MaxMana": 1, "Mana": 1, "Attack": 1 },
+        "MediumEnemy": { "MaxHealth": 5, "Health": 5, "MaxMana": 2, "Mana": 2, "Attack": 2 },
+        "HardEnemy": { "MaxHealth": 15, "Health": 15, "MaxMana": 5, "Mana": 5, "Attack": 3 }
+    },
+    "Encounters": {
+        "EnemySet": [
+            ["Bat", "Spider", "Brown Rat", "Gray Rat"],
+            ["Cyclops", "Crab"],
+            ["Dark Wizard", "Ghost"]
+        ]
     }
 }
