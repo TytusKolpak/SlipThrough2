@@ -1,13 +1,10 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace SlipThrough2.Managers
 {
     public class GameManager
     {
-        private readonly ViewManager ViewManager;
-
         public GameManager(
             (
                 Texture2D PlayerTexture,
@@ -19,12 +16,13 @@ namespace SlipThrough2.Managers
             ) gameAssets
         )
         {
-            ViewManager = new ViewManager(gameAssets);
+            new ViewManager(gameAssets);
         }
 
         public void Update(Game1 game1)
         {
-            ViewManager.Update(game1);
+            ViewManager.Update();
+            KeyManager.Update(game1);
         }
 
         public void Draw(SpriteBatch spriteBatch)

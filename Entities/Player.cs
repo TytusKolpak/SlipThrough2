@@ -1,15 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using SlipThrough2.Data;
 using SlipThrough2.Handlers;
+using SlipThrough2.Managers;
 
 namespace SlipThrough2.Entities
 {
     // Player is a player and a playerManager at the same time
     public class Player : Entity
     {
-        public bool[] availableMoves = { true, true, true, true };
+        public static bool[] availableMoves = { true, true, true, true };
         private static Settings settingsData;
 
         public Player(Texture2D playerTexture)
@@ -54,26 +54,7 @@ namespace SlipThrough2.Entities
                 return;
             }
 
-            // Define movement directions and their corresponding keys and move validation
-            var movements = new (Keys key, int moveIndex, Vector2 direction)[]
-            {
-                (Keys.W, 0, new Vector2(0, -settingsData.CellSize)), // Up
-                (Keys.D, 1, new Vector2(settingsData.CellSize, 0)), // Right
-                (Keys.S, 2, new Vector2(0, settingsData.CellSize)), // Down
-                (Keys.A, 3, new Vector2(-settingsData.CellSize, 0)) // Left
-            };
-
-            KeyboardState state = Keyboard.GetState();
-
-            foreach (var (key, moveIndex, direction) in movements)
-            {
-                if (state.IsKeyDown(key) && availableMoves[moveIndex])
-                {
-                    ApplyMovement(direction);
-                    return;
-                    // Prevents diagonal movement
-                }
-            }
+            KeyManager.HandlePlayerMovement(this);
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -90,16 +71,10 @@ namespace SlipThrough2.Entities
             );
         }
 
-        private void ApplyMovement(Vector2 direction)
+        public void ApplyMovement(Vector2 direction)
         {
             entityIsCooledDown = false;
             position += direction;
-
-            // Console.WriteLine($"Pos: ({position.X / settingsData.CellSize},{position.Y / settingsData.CellSize}).");
-            // char[] canGo = availableMoves.Select(move => move ? 'y' : 'n').ToArray();
-            // Console.WriteLine($"  {canGo[0]}");
-            // Console.WriteLine($"{canGo[3]} P {canGo[1]}");
-            // Console.WriteLine($"  {canGo[2]}");
         }
     }
 }

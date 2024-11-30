@@ -152,9 +152,8 @@ Done (or fixed):
 9. Put Data.json to Contents folder
 10. Change tile numbers to names (for easier handling).
 11. HUD string for door name not appearing for second encounter
+12. Key Handler
 
 To be done:
 
-4. Introduce
-    1. Key Handler?
-    2. Testing?
+1. Introduce Testing?
