@@ -1,18 +1,13 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SlipThrough2.Data;
 
 namespace SlipThrough2.Entities
 {
     public class Enemy : Entity
     {
-        private static Settings settingsData;
-
         public Enemy(Texture2D enemyTexture, int doorNumber)
         {
-            settingsData = DataStructure._constants.Settings;
-
             texture = enemyTexture;
             position = new Vector2(settingsData.WindowWidth / 2, settingsData.WindowHeight / 2); // Starting position, for example
             AssignStats(doorNumber);
@@ -20,21 +15,21 @@ namespace SlipThrough2.Entities
 
         public void Update()
         {
+            // Handle movement
+            position += direction * speed / cellSize / modifier;
+
             if (!entityIsCooledDown)
             {
                 HandleCooldown();
                 return;
             }
 
-            entityIsCooledDown = false;
-
+            // Handle setting direction
             Random rnd = new();
-            Vector2 delta =
-                new(
-                    settingsData.CellSize * (rnd.Next(3) - 1),
-                    settingsData.CellSize * (rnd.Next(3) - 1)
-                );
-            position += delta;
+            direction = new(
+                settingsData.CellSize * (rnd.Next(3) - 1),
+                settingsData.CellSize * (rnd.Next(3) - 1)
+            );
         }
 
         public void Draw(SpriteBatch spriteBatch)

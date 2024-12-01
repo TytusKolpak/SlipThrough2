@@ -64,7 +64,7 @@
         "ColumnCount": 6,
         "RowCount": 3,
         "RoomSize": 6,
-        "IterationTime": 6,
+        "TimeModifierConstant": 2,
         "FontSize": 24,
         "WindowWidth": 1152,
         "WindowHeight": 576,
@@ -238,10 +238,10 @@
         }
     },
     "Entities": {
-        "Player": { "MaxHealth": 5, "Health": 4, "MaxMana": 3, "Mana": 1, "Attack": 1 },
-        "EasyEnemy": { "MaxHealth": 2, "Health": 2, "MaxMana": 1, "Mana": 1, "Attack": 1 },
-        "MediumEnemy": { "MaxHealth": 5, "Health": 5, "MaxMana": 2, "Mana": 2, "Attack": 2 },
-        "HardEnemy": { "MaxHealth": 15, "Health": 15, "MaxMana": 5, "Mana": 5, "Attack": 3 }
+        "Player": { "MaxHealth": 5, "Health": 4, "MaxMana": 3, "Mana": 1, "Attack": 1, "Speed": 8 },
+        "EasyEnemy": { "MaxHealth": 2, "Health": 2, "MaxMana": 1, "Mana": 1, "Attack": 1, "Speed": 1 },
+        "MediumEnemy": { "MaxHealth": 5, "Health": 5, "MaxMana": 2, "Mana": 2, "Attack": 2, "Speed": 1 },
+        "HardEnemy": { "MaxHealth": 15, "Health": 15, "MaxMana": 5, "Mana": 5, "Attack": 3, "Speed": 1 }
     },
     "Encounters": {
         "EnemySet": [

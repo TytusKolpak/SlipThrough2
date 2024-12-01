@@ -13,11 +13,9 @@ namespace SlipThrough2.Entities
     public class Player : Entity
     {
         public static bool[] availableMoves;
-        private static Settings settingsData;
 
         public Player(Texture2D playerTexture)
         {
-            settingsData = DataStructure._constants.Settings;
             texture = playerTexture;
             // Starting position is cell: (1,1) for example
             position = new Vector2(settingsData.CellSize * 1, settingsData.CellSize * 1);
@@ -57,13 +55,24 @@ namespace SlipThrough2.Entities
                 IsValid(PCY, PCX - 1), // Left
             };
 
+            /* I think we would need to affect iteration time in some way
+            than with such calculations for setting speed of movement
+            bc it should determine in what amount of time an entity will shift 32 units (1 cell),
+            and not how much units it will shift in set amount of iterations (of time).
+            This would keep total shift uniform, but time would be modifyable
+            Also this approach accumulates rounding errors. It is generally insignificant
+            between cells, but at the end of a movement this value needs to be round so either
+            constatnt correcting is to be applied or let it be ignored and round it at the end*/
+
+            position += direction * speed / cellSize / modifier;
+
             if (!entityIsCooledDown)
             {
                 HandleCooldown();
                 return;
             }
 
-            KeyManager.HandlePlayerMovement(this);
+            KeyManager.SetPlayerDirection(this);
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -78,12 +87,6 @@ namespace SlipThrough2.Entities
                 ),
                 Color.White
             );
-        }
-
-        public void ApplyMovement(Vector2 direction)
-        {
-            entityIsCooledDown = false;
-            position += direction;
         }
     }
 }

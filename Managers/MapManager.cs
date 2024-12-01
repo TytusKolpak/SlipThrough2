@@ -120,7 +120,7 @@ namespace SlipThrough2.Managers
 
         public static void OpenEncounterDoors(int openingStage)
         {
-            Console.WriteLine($"Opening encounter doors, stage: {openingStage}");
+            Console.WriteLine($"Opening encounter doors, stage: {openingStage}/3.");
             int x = settingsData.MapWidth / 2;
             int y = 0;
 

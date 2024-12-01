@@ -68,7 +68,7 @@ namespace SlipThrough2.Managers
             }
         }
 
-        public static void HandlePlayerMovement(Player player)
+        public static void SetPlayerDirection(Player player)
         {
             int cellSize = DataStructure._constants.Settings.CellSize;
             // foreach (var move in Player.availableMoves)
@@ -115,7 +115,8 @@ namespace SlipThrough2.Managers
 
                 if (allKeysPressed && Player.availableMoves[moveIndex])
                 {
-                    player.ApplyMovement(direction);
+                    player.direction = direction;
+                    player.entityIsCooledDown = false;
                     return;
                 }
             }

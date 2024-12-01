@@ -54,7 +54,7 @@ namespace SlipThrough2.Data
         public int ColumnCount { get; set; }
         public int RowCount { get; set; }
         public int RoomSize { get; set; }
-        public int IterationTime { get; set; }
+        public int TimeModifierConstant { get; set; }
         public int FontSize { get; set; }
         public int WindowWidth { get; set; }
         public int WindowHeight { get; set; }
@@ -138,6 +138,7 @@ namespace SlipThrough2.Data
         public int MaxMana { get; set; }
         public int Mana { get; set; }
         public int Attack { get; set; }
+        public int Speed { get; set; }
     }
 
     public class Encounters

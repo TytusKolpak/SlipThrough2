@@ -45,3 +45,7 @@ packages/
 
 # Me specific
 .ignorable/
+
+# Unignore anything from here
+!Builds/*.dll
+!Builds/*.exe

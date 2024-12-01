@@ -7,7 +7,7 @@
   "targets": {
     ".NETCoreApp,Version=v6.0": {},
     ".NETCoreApp,Version=v6.0/win-x64": {
-      "SlipThrough2/2.1.0": {
+      "SlipThrough2/2.1.3": {
         "dependencies": {
           "MonoGame.Content.Builder.Task": "3.8.1.303",
           "MonoGame.Framework.DesktopGL": "3.8.1.303",
@@ -874,7 +874,7 @@
     }
   },
   "libraries": {
-    "SlipThrough2/2.1.0": {
+    "SlipThrough2/2.1.3": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
