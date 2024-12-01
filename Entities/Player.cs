@@ -1,4 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SlipThrough2.Data;
 using SlipThrough2.Handlers;
@@ -9,7 +12,7 @@ namespace SlipThrough2.Entities
     // Player is a player and a playerManager at the same time
     public class Player : Entity
     {
-        public static bool[] availableMoves = { true, true, true, true };
+        public static bool[] availableMoves;
         private static Settings settingsData;
 
         public Player(Texture2D playerTexture)
@@ -25,27 +28,33 @@ namespace SlipThrough2.Entities
 
         public void Update()
         {
-            // Top, right, down, left
-            // (PCY > 0) is there for the reason that when the player is at index 0
-            // (upper most cell) then we can't check cell at X=-1 since it doesn't exist
-            // The >= 1  check is for 1 representing a free space and
-            // 2,3,4,... for doors (each door has it's unique number)
-            // Player cell position in grid
             int PCX = (int)position.X / settingsData.CellSize;
             int PCY = (int)position.Y / settingsData.CellSize;
 
-            availableMoves = new bool[4]
+            int[,] pattern = MapHandler.currentFunctionalPattern;
+
+            bool IsValid(int y, int x)
             {
-                (PCY > 0)
-                    && (
-                        MapHandler.currentFunctionalPattern[PCY - 1, PCX] >= 1
-                        || MapHandler.currentFunctionalPattern[PCY - 1, PCX] == -1
-                    ),
-                (PCX < settingsData.MapWidth - 1)
-                    && MapHandler.currentFunctionalPattern[PCY, PCX + 1] == 1,
-                (PCY < settingsData.MapHeight - 1)
-                    && MapHandler.currentFunctionalPattern[PCY + 1, PCX] == 1,
-                (PCX > 0) && MapHandler.currentFunctionalPattern[PCY, PCX - 1] == 1
+                // Player is within bounds (don't check outside the map)
+                if (y < 0 || y >= settingsData.MapHeight || x < 0 || x >= settingsData.MapWidth)
+                    return false;
+
+                // Player wants to eneter a terrain cell (1) or door cell (-1, 1 and above)
+                // Walls are 0
+                return pattern[y, x] != 0;
+            }
+
+            // Define movement validity checks (order is important)
+            availableMoves = new bool[]
+            {
+                IsValid(PCY - 1, PCX + 1), // Right Up
+                IsValid(PCY + 1, PCX + 1), // Right Down
+                IsValid(PCY + 1, PCX - 1), // Left Down
+                IsValid(PCY - 1, PCX - 1), // Left Up
+                IsValid(PCY - 1, PCX), // Up
+                IsValid(PCY, PCX + 1), // Right
+                IsValid(PCY + 1, PCX), // Down
+                IsValid(PCY, PCX - 1), // Left
             };
 
             if (!entityIsCooledDown)
