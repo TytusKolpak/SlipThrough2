@@ -23,13 +23,13 @@ namespace SlipThrough2.Entities
                 HandleCooldown();
                 return;
             }
-
             // Handle setting direction
             Random rnd = new();
             direction = new(
                 settingsData.CellSize * (rnd.Next(3) - 1),
                 settingsData.CellSize * (rnd.Next(3) - 1)
             );
+            entityIsCooledDown = false;
         }
 
         public void Draw(SpriteBatch spriteBatch)

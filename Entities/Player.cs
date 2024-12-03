@@ -1,9 +1,5 @@
-﻿using System;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SlipThrough2.Data;
 using SlipThrough2.Handlers;
 using SlipThrough2.Managers;
 
