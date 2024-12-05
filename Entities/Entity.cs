@@ -18,7 +18,8 @@ namespace SlipThrough2.Entities
             direction;
 
         // For movement logic
-        public int idleIterations;
+        public int idleIterations,
+            timeForShift;
         public bool entityIsCooledDown;
 
         // Combat stats
@@ -48,16 +49,15 @@ namespace SlipThrough2.Entities
             mana = entity.Mana;
             attack = entity.Attack;
             speed = entity.Speed;
+
+            /* We need to keep shift constant and operate on time for which the velocity is applied
+            Shift = Velocity * Time => Time = Shift / Velocity*/
+            timeForShift = modifier * cellSize / speed;
         }
 
         public void HandleCooldown()
         {
             idleIterations++;
-
-            /* We need to keep shift constant and operate on time for which the velocity is applied
-            Shift = Velocity * Time => Time = Shift / Velocity*/
-            int timeForShift = modifier * cellSize / speed;
-
             if (idleIterations == timeForShift)
             {
                 /* This rounding is kinda funky but for now it's enough.

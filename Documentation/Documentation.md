@@ -24,10 +24,7 @@ Done:
 4. Cover smooth transition between tiles
     1. Keep the decision making every X iterations, but do move in every iteration (this will make transitions smooth but at the same allow for stopping on tiles as is now, not between them)
     2. For enemies
-
-For version 2.X.X
-
-1. Cover walking animation (eg. left right bobbing)
+5. Cover walking animation
 
 For version 3.X.X
 

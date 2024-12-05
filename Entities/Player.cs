@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SlipThrough2.Handlers;
 using SlipThrough2.Managers;
@@ -73,11 +74,13 @@ namespace SlipThrough2.Entities
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            int heightInStep = timeForShift / 2 - Math.Abs(idleIterations - timeForShift / 2);
+
             spriteBatch.Draw(
                 texture,
                 new Rectangle(
                     (int)position.X,
-                    (int)position.Y,
+                    (int)position.Y - heightInStep,
                     settingsData.CellSize,
                     settingsData.CellSize
                 ),
