@@ -19,7 +19,8 @@ namespace SlipThrough2.Entities
 
         // For movement logic
         public int idleIterations,
-            timeForShift;
+            timeForShift,
+            adjustedTimeForShift;
         public bool entityIsCooledDown;
 
         // Combat stats
@@ -57,8 +58,14 @@ namespace SlipThrough2.Entities
 
         public void HandleCooldown()
         {
+            bool movementIsDiagonal = direction.X != 0 && direction.Y != 0;
+            adjustedTimeForShift = movementIsDiagonal
+                ? (int)(timeForShift * Math.Sqrt(2))
+                : timeForShift;
+
             idleIterations++;
-            if (idleIterations == timeForShift)
+
+            if (idleIterations == adjustedTimeForShift)
             {
                 /* This rounding is kinda funky but for now it's enough.
                 It ensures that the entity is finishing its movement at the position
@@ -71,6 +78,15 @@ namespace SlipThrough2.Entities
                 idleIterations = 0;
                 entityIsCooledDown = true;
             }
+        }
+
+        public void PerformMovement()
+        {
+            // And adjust shift for diagonal movement so that the speed stays roughly the same regardless of direction
+            bool movementIsDiagonal = direction.X != 0 && direction.Y != 0;
+            float diagonalFactor = movementIsDiagonal ? (float)(1 / Math.Sqrt(2)) : 1f;
+            Vector2 shift = direction * speed / cellSize / modifier * diagonalFactor;
+            position += shift;
         }
     }
 }

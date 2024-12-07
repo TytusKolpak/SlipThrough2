@@ -44,6 +44,16 @@ For version 2.X.X
 
 1. Build better main map xd.
     1. I think it's fine to give up the 3x6 grid for sake of something more organic/natural.
+        1. Few rooms maybe.
+        2. Each with doors.
+        3. Rooms:
+            1. Reusable.
+            2. Spawned at random location within X cells from each other minimum.
+            3. Positions chosen at random.
+            4. Few types of rooms.
+                1. Each type of room spawns a few enemies of a given type (each with their set difficulity).
+                2. Random number of enemies from a given scope eg. from 5 to 10.
+                3. Each room has one immobile enemy sprite at its roof.
 
 ## 3. Interacting with the map
 

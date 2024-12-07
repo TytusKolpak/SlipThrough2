@@ -52,16 +52,7 @@ namespace SlipThrough2.Entities
                 IsValid(PCY, PCX - 1), // Left
             };
 
-            /* I think we would need to affect iteration time in some way
-            than with such calculations for setting speed of movement
-            bc it should determine in what amount of time an entity will shift 32 units (1 cell),
-            and not how much units it will shift in set amount of iterations (of time).
-            This would keep total shift uniform, but time would be modifyable
-            Also this approach accumulates rounding errors. It is generally insignificant
-            between cells, but at the end of a movement this value needs to be round so either
-            constatnt correcting is to be applied or let it be ignored and round it at the end*/
-
-            position += direction * speed / cellSize / modifier;
+            PerformMovement();
 
             if (!entityIsCooledDown)
             {

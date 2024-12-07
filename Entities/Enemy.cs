@@ -15,14 +15,14 @@ namespace SlipThrough2.Entities
 
         public void Update()
         {
-            // Handle movement
-            position += direction * speed / cellSize / modifier;
+            PerformMovement();
 
             if (!entityIsCooledDown)
             {
                 HandleCooldown();
                 return;
             }
+
             // Handle setting direction
             Random rnd = new();
             direction = new(
