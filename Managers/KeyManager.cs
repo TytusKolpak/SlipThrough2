@@ -23,6 +23,7 @@ namespace SlipThrough2.Managers
             foreach (var trackedKey in trackedKeys)
             {
                 Keys key = (Keys)trackedKey.Value;
+
                 // Check if the key is pressed and was not previously pressed
                 if (Keyboard.GetState().IsKeyDown(key) && !keyStates[key])
                 {
@@ -58,6 +59,10 @@ namespace SlipThrough2.Managers
                                 );
                                 ViewManager.SwitchView(mainView);
                             }
+                            break;
+
+                        case Keys.S:
+                            // System.Console.WriteLine("Switching the map");
                             break;
                     }
                 }

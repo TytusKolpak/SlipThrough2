@@ -54,6 +54,7 @@ For version 2.X.X
                 1. Each type of room spawns a few enemies of a given type (each with their set difficulity).
                 2. Random number of enemies from a given scope eg. from 5 to 10.
                 3. Each room has one immobile enemy sprite at its roof.
+    2. Not to lose the old one make an option in option view to switch between the old map and the new one
 
 ## 3. Interacting with the map
 

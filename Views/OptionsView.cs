@@ -1,60 +1,32 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using SlipThrough2.Data;
 
 namespace SlipThrough2.Views
 {
     public class Options : View
     {
-        private static Settings settingsData;
+        private static readonly Settings data = DataStructure._constants.Settings;
 
-        public Options(string viewName)
-        {
-            settingsData = DataStructure._constants.Settings;
-
-            view = viewName;
-        }
+        public Options(string viewName) => view = viewName;
 
         public override void Update() { }
 
         public override void Draw()
         {
             // Bottom right corner says the name of the screen (view)
-            string textToDisplay = view.ToString();
-            DisplayText(
-                textToDisplay,
-                new Vector2(settingsData.WindowWidth, settingsData.WindowHeight),
-                2
-            );
+            DisplayText(view, new Vector2(data.WindowWidth, data.WindowHeight), "right");
 
-            textToDisplay = "Press Esc again to Quit";
-            DisplayText(
-                textToDisplay,
-                new Vector2(
-                    settingsData.WindowWidth * 0.5f,
-                    settingsData.WindowHeight * 0.3f + settingsData.FontSize * 3
-                ),
-                1
-            );
+            string[] textToDisplay =
+            {
+                "- Press Esc again to Quit",
+                "- Press Enter key to Resume",
+                "- Press R key to Restart",
+                "- Press S key to Switch between",
+                "old and new main map"
+            };
 
-            textToDisplay = "Press Enter key to Resume";
-            DisplayText(
-                textToDisplay,
-                new Vector2(
-                    settingsData.WindowWidth * 0.5f,
-                    settingsData.WindowHeight * 0.3f + settingsData.FontSize * 5
-                ),
-                1
-            );
-
-            textToDisplay = "Press R key to Restart";
-            DisplayText(
-                textToDisplay,
-                new Vector2(
-                    settingsData.WindowWidth * 0.5f,
-                    settingsData.WindowHeight * 0.3f + settingsData.FontSize * 7
-                ),
-                1
-            );
+            DisplayLinesOfText(textToDisplay);
         }
 
         public override void Remove() { }
