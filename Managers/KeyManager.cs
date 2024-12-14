@@ -18,6 +18,7 @@ namespace SlipThrough2.Managers
         {
             List<TrackedKey> trackedKeys = DataStructure._constants.Settings.TrackedKeys;
             string optionsView = ViewManager.viewsData.Options.Name;
+            string startView = ViewManager.viewsData.StartScreen.Name;
             string mainView = ViewManager.viewsData.MainGame.Name;
 
             foreach (var trackedKey in trackedKeys)
@@ -33,16 +34,23 @@ namespace SlipThrough2.Managers
                     switch (key)
                     {
                         case Keys.Escape:
-                            // Options / Quit
+                            // Options off/on
                             if (ViewManager.currentView != optionsView)
                                 ViewManager.SwitchView(optionsView);
                             else
+                                ViewManager.SwitchView(mainView);
+                            break;
+
+                        case Keys.Q:
+                            // Quit
+                            if (ViewManager.currentView == optionsView)
                                 game1.Exit();
                             break;
 
                         case Keys.Enter:
-                            // Start / Return
-                            ViewManager.SwitchView(mainView);
+                            // Begin the game
+                            if (ViewManager.currentView == startView)
+                                ViewManager.SwitchView(mainView);
                             break;
 
                         case Keys.R:
@@ -50,30 +58,18 @@ namespace SlipThrough2.Managers
                             if (ViewManager.currentView != optionsView)
                                 return;
 
-                            // Remove the most significant removable element of this view - remove all enemies
-                            ViewManager.views[mainView].Remove();
-
-                            // Reconstruct entities and maps
-                            ViewManager.views[mainView] = new MainGame(
-                                mainView,
-                                ViewManager.gameAssetsBackup
-                            );
-                            ViewManager.SwitchView(mainView);
+                            ViewManager.ResetViews(mainView);
                             break;
 
                         case Keys.S:
-                            if (ViewManager.currentView != optionsView)
-                                return;
-
-                            MapManager.newMappingApplied = !MapManager.newMappingApplied;
-                            Console.WriteLine(
-                                "Switching the map, new map?:" + MapManager.newMappingApplied
-                            );
-
-                            if (MapManager.newMappingApplied)
-                                MapManager.GenerateNewTypeMap();
-                            else
-                                MapManager.SetMap(DataStructure._constants.Maps.Main.Name);
+                            // Switch main map type
+                            if (ViewManager.currentView == startView)
+                                MapManager.ChangeMainMapType();
+                            else if (ViewManager.currentView == optionsView)
+                            {
+                                MapManager.ChangeMainMapType();
+                                ViewManager.ResetViews(mainView);
+                            }
 
                             break;
                     }

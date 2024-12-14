@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using SlipThrough2.Data;
+using SlipThrough2.Managers;
 
 namespace SlipThrough2.Views
 {
@@ -17,13 +18,16 @@ namespace SlipThrough2.Views
             // Bottom right corner says the name of the screen (view)
             DisplayText(view, new Vector2(data.WindowWidth, data.WindowHeight), "right");
 
+            string mapType = MapManager.newMappingApplied ? "new" : "old";
+            string mapTypetext = $"Currently its: {mapType}";
             string[] textToDisplay =
             {
-                "- Press Esc again to Quit",
-                "- Press Enter key to Resume",
+                "- Press Q to Quit",
+                "- Press Esc key to Resume",
                 "- Press R key to Restart",
-                "- Press S key to Switch between",
-                "old and new main map"
+                "- Press S key to Switch between old and new",
+                "main map (game will reset).",
+                mapTypetext
             };
 
             DisplayLinesOfText(textToDisplay);

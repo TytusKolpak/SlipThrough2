@@ -46,7 +46,8 @@
             { "Name": "Wo6v2", "Path": "Tiles/tile_0025", "IsSteppable": false, "IsDoor": false },
             { "Name": "Wo8v2", "Path": "Tiles/tile_0001", "IsSteppable": false, "IsDoor": false },
             { "Name": "Wo3v3", "Path": "Tiles/tile_0059", "IsSteppable": false, "IsDoor": false },
-            { "Name": "Wo7v3", "Path": "Tiles/tile_0057", "IsSteppable": false, "IsDoor": false }
+            { "Name": "Wo7v3", "Path": "Tiles/tile_0057", "IsSteppable": false, "IsDoor": false },
+            { "Name": "Wo5v3", "Path": "Tiles/tile_0040", "IsSteppable": false, "IsDoor": false }
         ],
         "Enemy": [
             { "Name": "Bat", "Path": "Tiles/tile_0120" },
@@ -68,11 +69,12 @@
         "FontSize": 24,
         "WindowWidth": 1152,
         "WindowHeight": 576,
-        "MapWidth": 36,
+        "MapWidth": 36, 
         "MapHeight": 18,
         "TrackedKeys": [
-            { "Name": "Esc", "Value": 27 },
             { "Name": "Enter", "Value": 13 },
+            { "Name": "Esc", "Value": 27 },
+            { "Name": "Q", "Value": 81 },
             { "Name": "R", "Value": 82 },
             { "Name": "S", "Value": 83 }
         ]
@@ -229,10 +231,10 @@
         "NewMain": {
             "Name": "NewMain",
             "EncounterBuilding": [
-                ["Wo8v1", "Wo1v1", "Wo2v1"],
-                ["Wo7v1", "To0v1", "Wo3v1"],
-                ["Wo6v1", "Wo5v1", "Wo4v1"],
-                ["Wo7v3", "Ds1v1", "Wo3v3"]
+                ["Wo8v1", "Wo1v1","Wo1v1","Wo1v1", "Wo2v1"],
+                ["Wo7v1", "To0v1","To0v1","To0v1", "Wo3v1"],
+                ["Wo6v1", "Wo5v1","Wo5v1","Wo5v1", "Wo4v1"],
+                ["Wo7v3", "Wo5v3","Ds1v1","Wo5v3", "Wo3v3"]
             ]
         }
     },

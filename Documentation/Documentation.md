@@ -51,6 +51,7 @@ Done:
 
 For version 2.X.X
 
+1. Start with choice of the map - new/old and then keep it
 1. Few types of rooms.
     1. Each type of room spawns a few enemies of a given type (each with their set difficulity).
     2. Random number of enemies from a given scope eg. from 5 to 10.

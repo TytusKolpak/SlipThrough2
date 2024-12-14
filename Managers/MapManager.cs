@@ -15,7 +15,7 @@ namespace SlipThrough2.Managers
         public static readonly Dictionary<string, string[,]> allMapTileLayouts = new(); // For how it looks
         public static readonly Dictionary<string, int[,]> allFunctionalMaps = new(); // For how it works
         public static int doorNumber;
-        public static bool newMappingApplied;
+        public static bool newMappingApplied = true;
         public MapHandler MapHandler;
         private static List<FloorTile> floorData;
         private static Settings settingsData;
@@ -34,7 +34,12 @@ namespace SlipThrough2.Managers
 
             LoadMaps();
             MapHandler = new MapHandler(mapTextures);
-            SetMap(mapsData.Main.Name);
+
+            if (newMappingApplied)
+                GenerateNewTypeMap();
+
+            string mapToSet = newMappingApplied ? mapsData.NewMain.Name : mapsData.Main.Name;
+            SetMap(mapToSet);
         }
 
         public void Update(Player Player)
@@ -61,13 +66,10 @@ namespace SlipThrough2.Managers
             InsertDoorsIntoMap(name, new(1, 0), new(2, 0));
             InsertDoorsIntoMap(name, new(2, 0), new(4, 0));
 
-            allFunctionalMaps[name] = GenerateFunctionalMapPattern(name);
-
             // The same for the second map (EasyEncounter)
             name = mapsData.EasyEncounter.Name;
             allMapRoomPatterns[name] = mapsData.EasyEncounter.RoomPattern;
             allMapTileLayouts[name] = TranslateMapPatternToLayout(name);
-            allFunctionalMaps[name] = GenerateFunctionalMapPattern(name);
         }
 
         private static string[,] TranslateMapPatternToLayout(string name)
@@ -183,7 +185,7 @@ namespace SlipThrough2.Managers
 
                 // Door nr 1 has a tile with value 2, door 2 with value 3 and so on
                 doorNumber++;
-                
+
                 string currentMainMap = newMappingApplied
                     ? mapsData.NewMain.Name
                     : mapsData.Main.Name;
@@ -357,6 +359,7 @@ namespace SlipThrough2.Managers
 
         public static void GenerateNewTypeMap()
         {
+            // In short this map is generated in  much different, random way so it needs it's own function
             Console.WriteLine("Generating new type map");
             List<Vector2> encounterPositions = ChooseEncounterPositions();
 
@@ -392,8 +395,8 @@ namespace SlipThrough2.Managers
                     for (int x = 0; x < encounterBuildingLayout[0].Length; x++)
                     {
                         // 3 and 1 are here so the position is of the building doors,
-                        // not its top left corner
-                        door = new((int)position.X + x - 1, (int)position.Y + y - 3);
+                        // not its top left corner. Just the specificity of the room.
+                        door = new((int)position.X + x - 2, (int)position.Y + y - 3);
                         if (
                             door.Y >= 0
                             && door.Y < settingsData.MapHeight
@@ -407,6 +410,7 @@ namespace SlipThrough2.Managers
                 }
             }
 
+            // Assign this layout to the name of the map
             allMapTileLayouts[name] = newMainLayout;
 
             // Set that map as current
@@ -422,6 +426,8 @@ namespace SlipThrough2.Managers
 
             for (int i = 0; i < numberOfEncounters; i++)
             {
+                // 1 is so that the building will not have its doors outside
+                // and - 2 is so that there is extra cell for player to fit in from the bottom 
                 float x = (float)Math.Round(rnd.NextSingle() * (settingsData.MapWidth - 1));
                 float y = (float)Math.Round(rnd.NextSingle() * (settingsData.MapHeight - 2));
                 Vector2 tempNewPosition = new(x, y);
@@ -448,6 +454,16 @@ namespace SlipThrough2.Managers
             }
 
             return encounterDoorPositions;
+        }
+
+        public static void ChangeMainMapType()
+        {
+            newMappingApplied = !newMappingApplied;
+
+            if (newMappingApplied)
+                GenerateNewTypeMap();
+            else
+                SetMap(mapsData.Main.Name);
         }
     }
 }

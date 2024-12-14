@@ -48,5 +48,15 @@ namespace SlipThrough2.Managers
         public static void Draw() => views[currentView].Draw();
 
         public static void SwitchView(string newName) => currentView = newName;
+
+        public static void ResetViews(string mainView)
+        {
+            // Remove the most significant removable element of this view - remove all enemies
+            views[mainView].Remove();
+
+            // Reconstruct entities and maps
+            views[mainView] = new MainGame(mainView, gameAssetsBackup);
+            SwitchView(mainView);
+        }
     }
 }
