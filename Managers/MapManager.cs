@@ -15,10 +15,15 @@ namespace SlipThrough2.Managers
         public static readonly Dictionary<string, string[,]> allMapTileLayouts = new(); // For how it looks
         public static readonly Dictionary<string, int[,]> allFunctionalMaps = new(); // For how it works
         public static int doorNumber;
+        public static bool newMappingApplied;
         public MapHandler MapHandler;
         private static List<FloorTile> floorData;
         private static Settings settingsData;
         private static Maps mapsData;
+
+        private static int stage,
+            iteration;
+        private static bool encounterDoorOpened;
 
         // Constructor to initialize maps
         public MapManager(List<Texture2D> mapTextures)
@@ -46,7 +51,7 @@ namespace SlipThrough2.Managers
         }
 
         // Load maps into the dictionary
-        private void LoadMaps()
+        private static void LoadMaps()
         {
             // Use data from Data.json as template to create local variables
             string name = mapsData.Main.Name;
@@ -67,7 +72,7 @@ namespace SlipThrough2.Managers
 
         private static string[,] TranslateMapPatternToLayout(string name)
         {
-            Map map = getObjectsPropertyValue(mapsData, name); // This is now whole EasyEncounter object or MainMap object, found by its name
+            Map map = GetObjectsPropertyValue(mapsData, name); // This is now whole EasyEncounter object or MainMap object, found by its name
             int patternHeight = settingsData.RowCount;
             int patternWidth = settingsData.ColumnCount;
             int roomHeight = settingsData.RoomSize;
@@ -81,7 +86,7 @@ namespace SlipThrough2.Managers
                 for (int column = 0; column < patternWidth; column++)
                 {
                     string roomName = pattern[row][column]; // As in "OLD" (Open left down which holds string[][])
-                    string[][] room = getObjectsPropertyValue(map.Rooms, roomName); // This is its contents
+                    string[][] room = GetObjectsPropertyValue(map.Rooms, roomName); // This is its contents
                     for (int y = 0; y < roomHeight; y++)
                     {
                         for (int x = 0; x < roomWidth; x++)
@@ -158,6 +163,7 @@ namespace SlipThrough2.Managers
                 HUDManager.iteration = 0; // Reseting this value for "time"keeping
                 HUDManager.BuildTexturesForBars();
                 CombatHandler.ResetCombatParameters();
+                encounterDoorOpened = false;
 
                 // Modify map
                 InsertEncounterDoors();
@@ -177,25 +183,34 @@ namespace SlipThrough2.Managers
 
                 // Door nr 1 has a tile with value 2, door 2 with value 3 and so on
                 doorNumber++;
-                Vector2 doorPosition = FindPositionOfDoors(doorNumber);
+                
+                string currentMainMap = newMappingApplied
+                    ? mapsData.NewMain.Name
+                    : mapsData.Main.Name;
+
+                Vector2 doorPosition = FindPositionOfDoors(currentMainMap, doorNumber);
 
                 // Modify the map (close the doors)
-                CloseMainMapDoors(doorPosition);
+                CloseMapDoors(currentMainMap, doorPosition);
 
                 // Set modified map (and regenerate functional pattern)
-                SetMap(mapsData.Main.Name);
+                SetMap(currentMainMap);
 
                 // Set player position to 1 tile under the door in which they were
                 Player.position = doorPosition + new Vector2(0, settingsData.CellSize);
+
+                // And make them move down
+                // (otherwise they would keep moving up despite being in the main map)
+                Player.direction = new(0, 1);
             }
         }
 
-        private static Vector2 FindPositionOfDoors(int doorNumber)
+        private static Vector2 FindPositionOfDoors(string name, int doorNumber)
         {
             int xIndex = -1,
                 yIndex = -1;
             bool found = false;
-            int[,] functionalPattern = allFunctionalMaps[mapsData.Main.Name];
+            int[,] functionalPattern = allFunctionalMaps[name];
 
             for (int i = 0; i < functionalPattern.GetLength(0); i++) // Rows
             {
@@ -216,10 +231,10 @@ namespace SlipThrough2.Managers
             return new Vector2(xIndex, yIndex) * settingsData.CellSize;
         }
 
-        private static void CloseMainMapDoors(Vector2 doorPosition)
+        private static void CloseMapDoors(string name, Vector2 doorPosition)
         {
             doorPosition /= settingsData.CellSize;
-            string[,] layout = allMapTileLayouts[mapsData.Main.Name];
+            string[,] layout = allMapTileLayouts[name];
 
             layout[(int)doorPosition.Y, (int)doorPosition.X] = "Ds0v1";
         }
@@ -243,7 +258,7 @@ namespace SlipThrough2.Managers
                         {
                             // If current map is an encounter put -1 for returning to main map
                             functionalPattern[y, x] =
-                                mapName == mapsData.Main.Name ? 2 + doorCounter : -1;
+                                mapName == mapsData.EasyEncounter.Name ? -1 : 2 + doorCounter;
                             doorCounter++;
                         }
                         else
@@ -263,6 +278,7 @@ namespace SlipThrough2.Managers
                 }
             }
             Console.WriteLine($"Generated functional map pattern for {mapName}.");
+            // ShowFunctionalPattern(functionalPattern);
             return functionalPattern;
         }
 
@@ -294,7 +310,7 @@ namespace SlipThrough2.Managers
             Console.WriteLine("End");
         }
 
-        public static dynamic getObjectsPropertyValue(dynamic objectX, string propertyName)
+        public static dynamic GetObjectsPropertyValue(dynamic objectX, string propertyName)
         {
             if (objectX == null)
                 throw new ArgumentNullException(nameof(objectX), "Error: object is null.");
@@ -315,6 +331,123 @@ namespace SlipThrough2.Managers
             var value = propertyInfo.GetValue(objectX, null);
 
             return value;
+        }
+
+        public static void HandleOpeningDoors()
+        {
+            if (encounterDoorOpened)
+                return;
+
+            iteration++;
+            if (iteration == 15 && stage < 3)
+            {
+                iteration = 0;
+                stage++;
+                OpenEncounterDoors(stage);
+                SetMap(mapsData.EasyEncounter.Name);
+            }
+
+            if (stage == 3)
+            {
+                encounterDoorOpened = true;
+                stage = 0;
+                CombatHandler.ResetCombatParameters();
+            }
+        }
+
+        public static void GenerateNewTypeMap()
+        {
+            Console.WriteLine("Generating new type map");
+            List<Vector2> encounterPositions = ChooseEncounterPositions();
+
+            // Create random base layout for the newMain map - blank but primed with sand map (+ random rocks)
+            string name = mapsData.NewMain.Name,
+                sandTile = "To0v4",
+                sandWithRocksTile = "To0v5";
+
+            string[,] newMainLayout = new string[settingsData.MapHeight, settingsData.MapWidth];
+            Random rnd = new();
+            for (int y = 0; y < settingsData.MapHeight; y++)
+            {
+                for (int x = 0; x < settingsData.MapWidth; x++)
+                {
+                    if (rnd.NextSingle() < 0.75)
+                        newMainLayout[y, x] = sandTile; // 75% for normal tile
+                    else
+                        newMainLayout[y, x] = sandWithRocksTile; // 25% for rocks
+                }
+            }
+
+            // Build a encounter's building data structure for every encounter
+            string[][] encounterBuildingLayout = mapsData.NewMain.EncounterBuilding;
+            // + put the enemy on top later
+
+            // Put the buildings on the layout
+            foreach (Vector2 position in encounterPositions)
+            {
+                Console.WriteLine(position);
+                Vector2 door;
+                for (int y = 0; y < encounterBuildingLayout.Length; y++)
+                {
+                    for (int x = 0; x < encounterBuildingLayout[0].Length; x++)
+                    {
+                        // 3 and 1 are here so the position is of the building doors,
+                        // not its top left corner
+                        door = new((int)position.X + x - 1, (int)position.Y + y - 3);
+                        if (
+                            door.Y >= 0
+                            && door.Y < settingsData.MapHeight
+                            && door.X >= 0
+                            && door.X < settingsData.MapWidth
+                        )
+                        {
+                            newMainLayout[(int)door.Y, (int)door.X] = encounterBuildingLayout[y][x];
+                        }
+                    }
+                }
+            }
+
+            allMapTileLayouts[name] = newMainLayout;
+
+            // Set that map as current
+            SetMap(name);
+        }
+
+        private static List<Vector2> ChooseEncounterPositions()
+        {
+            int numberOfEncounters = DataStructure._constants.Encounters.EnemySet.Length,
+                minimumDistance = 5;
+            List<Vector2> encounterDoorPositions = new();
+            Random rnd = new();
+
+            for (int i = 0; i < numberOfEncounters; i++)
+            {
+                float x = (float)Math.Round(rnd.NextSingle() * (settingsData.MapWidth - 1));
+                float y = (float)Math.Round(rnd.NextSingle() * (settingsData.MapHeight - 2));
+                Vector2 tempNewPosition = new(x, y);
+                bool newPointIsValid = true;
+
+                // Check the new point against all the previous ones
+                foreach (Vector2 doorPosition in encounterDoorPositions)
+                {
+                    float distance = Vector2.Distance(doorPosition, tempNewPosition);
+
+                    // Check if the new point is too close of any of the previous ones
+                    if (distance < minimumDistance)
+                    {
+                        newPointIsValid = false;
+                        break;
+                    }
+                }
+
+                // If the new point is cool then use it, if not find new random one
+                if (newPointIsValid)
+                    encounterDoorPositions.Add(tempNewPosition);
+                else
+                    i--;
+            }
+
+            return encounterDoorPositions;
         }
     }
 }

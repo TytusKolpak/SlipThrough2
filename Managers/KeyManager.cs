@@ -47,22 +47,34 @@ namespace SlipThrough2.Managers
 
                         case Keys.R:
                             // Reset (only if in Options)
-                            if (ViewManager.currentView == optionsView)
-                            {
-                                // Remove the most significant removable element of this view - remove all enemies
-                                ViewManager.views[mainView].Remove();
+                            if (ViewManager.currentView != optionsView)
+                                return;
 
-                                // Reconstruct entities and maps
-                                ViewManager.views[mainView] = new MainGame(
-                                    mainView,
-                                    ViewManager.gameAssetsBackup
-                                );
-                                ViewManager.SwitchView(mainView);
-                            }
+                            // Remove the most significant removable element of this view - remove all enemies
+                            ViewManager.views[mainView].Remove();
+
+                            // Reconstruct entities and maps
+                            ViewManager.views[mainView] = new MainGame(
+                                mainView,
+                                ViewManager.gameAssetsBackup
+                            );
+                            ViewManager.SwitchView(mainView);
                             break;
 
                         case Keys.S:
-                            // System.Console.WriteLine("Switching the map");
+                            if (ViewManager.currentView != optionsView)
+                                return;
+
+                            MapManager.newMappingApplied = !MapManager.newMappingApplied;
+                            Console.WriteLine(
+                                "Switching the map, new map?:" + MapManager.newMappingApplied
+                            );
+
+                            if (MapManager.newMappingApplied)
+                                MapManager.GenerateNewTypeMap();
+                            else
+                                MapManager.SetMap(DataStructure._constants.Maps.Main.Name);
+
                             break;
                     }
                 }

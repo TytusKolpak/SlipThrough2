@@ -22,10 +22,8 @@
             { "Name": "To0v1", "Path": "Tiles/tile_0000", "IsSteppable": true, "IsDoor": false },
             { "Name": "To0v2", "Path": "Tiles/tile_0012", "IsSteppable": true, "IsDoor": false },
             { "Name": "To0v3", "Path": "Tiles/tile_0024", "IsSteppable": true, "IsDoor": false },
-            { "Name": "To0v4", "Path": "Tiles/tile_0048", "IsSteppable": true, "IsDoor": false },
-            { "Name": "To0v5", "Path": "Tiles/tile_0049", "IsSteppable": true, "IsDoor": false },
+            { "Name": "To0v4", "Path": "Tiles/tile_0048", "IsSteppable": true, "IsDoor": false, "_comment": "sand" },
             { "Name": "To1v4", "Path": "Tiles/tile_0050", "IsSteppable": true, "IsDoor": false },
-            { "Name": "To1v5", "Path": "Tiles/tile_0051", "IsSteppable": true, "IsDoor": false },
             { "Name": "To2v4", "Path": "Tiles/tile_0052", "IsSteppable": true, "IsDoor": false },
             { "Name": "To3v4", "Path": "Tiles/tile_2050", "IsSteppable": true, "IsDoor": false },
             { "Name": "To4v4", "Path": "Tiles/tile_2052", "IsSteppable": true, "IsDoor": false },
@@ -33,20 +31,22 @@
             { "Name": "To6v4", "Path": "Tiles/tile_3052", "IsSteppable": true, "IsDoor": false },
             { "Name": "To7v4", "Path": "Tiles/tile_1050", "IsSteppable": true, "IsDoor": false },
             { "Name": "To8v4", "Path": "Tiles/tile_1052", "IsSteppable": true, "IsDoor": false },
+            { "Name": "To0v5", "Path": "Tiles/tile_0049", "IsSteppable": true, "IsDoor": false, "_comment": "sand with rocks" },
+            { "Name": "To1v5", "Path": "Tiles/tile_0051", "IsSteppable": true, "IsDoor": false },
             { "Name": "Wo1v1", "Path": "Tiles/tile_0026", "IsSteppable": false, "IsDoor": false },
             { "Name": "Wo2v1", "Path": "Tiles/tile_0005", "IsSteppable": false, "IsDoor": false },
-            { "Name": "Wo2v2", "Path": "Tiles/tile_0003", "IsSteppable": false, "IsDoor": false },
             { "Name": "Wo3v1", "Path": "Tiles/tile_0013", "IsSteppable": false, "IsDoor": false },
-            { "Name": "Wo3v3", "Path": "Tiles/tile_0059", "IsSteppable": false, "IsDoor": false },
             { "Name": "Wo4v1", "Path": "Tiles/tile_0017", "IsSteppable": false, "IsDoor": false },
-            { "Name": "Wo4v2", "Path": "Tiles/tile_0027", "IsSteppable": false, "IsDoor": false },
             { "Name": "Wo5v1", "Path": "Tiles/tile_0002", "IsSteppable": false, "IsDoor": false },
             { "Name": "Wo6v1", "Path": "Tiles/tile_0016", "IsSteppable": false, "IsDoor": false },
-            { "Name": "Wo6v2", "Path": "Tiles/tile_0025", "IsSteppable": false, "IsDoor": false },
             { "Name": "Wo7v1", "Path": "Tiles/tile_0015", "IsSteppable": false, "IsDoor": false },
-            { "Name": "Wo7v3", "Path": "Tiles/tile_0057", "IsSteppable": false, "IsDoor": false },
             { "Name": "Wo8v1", "Path": "Tiles/tile_0004", "IsSteppable": false, "IsDoor": false },
-            { "Name": "Wo8v2", "Path": "Tiles/tile_0001", "IsSteppable": false, "IsDoor": false }
+            { "Name": "Wo2v2", "Path": "Tiles/tile_0003", "IsSteppable": false, "IsDoor": false },
+            { "Name": "Wo4v2", "Path": "Tiles/tile_0027", "IsSteppable": false, "IsDoor": false },
+            { "Name": "Wo6v2", "Path": "Tiles/tile_0025", "IsSteppable": false, "IsDoor": false },
+            { "Name": "Wo8v2", "Path": "Tiles/tile_0001", "IsSteppable": false, "IsDoor": false },
+            { "Name": "Wo3v3", "Path": "Tiles/tile_0059", "IsSteppable": false, "IsDoor": false },
+            { "Name": "Wo7v3", "Path": "Tiles/tile_0057", "IsSteppable": false, "IsDoor": false }
         ],
         "Enemy": [
             { "Name": "Bat", "Path": "Tiles/tile_0120" },
@@ -224,6 +224,15 @@
                 ["LUE", "UE", "UE", "UE", "UE", "RUE"],
                 ["LE", "C", "C", "C", "C", "RE"],
                 ["LDE", "DE", "DE", "DE", "DE", "RDE"]
+            ]
+        },
+        "NewMain": {
+            "Name": "NewMain",
+            "EncounterBuilding": [
+                ["Wo8v1", "Wo1v1", "Wo2v1"],
+                ["Wo7v1", "To0v1", "Wo3v1"],
+                ["Wo6v1", "Wo5v1", "Wo4v1"],
+                ["Wo7v3", "Ds1v1", "Wo3v3"]
             ]
         }
     },

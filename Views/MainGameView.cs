@@ -40,7 +40,7 @@ namespace SlipThrough2.Views
             EnemyManager.Update();
             Player.Update();
 
-            playerInEncounter = MapHandler.mapName != Data.DataStructure._constants.Maps.Main.Name;
+            playerInEncounter = MapHandler.mapName == Data.DataStructure._constants.Maps.EasyEncounter.Name;
 
             if (playerInEncounter)
             {

@@ -7,24 +7,13 @@ namespace SlipThrough2.Handlers
 {
     public class CombatHandler
     {
-        private static bool combatIsOver;
-        private static int iteration,
-            stage;
+        public static bool combatIsOver;
 
         public static void Update(Player player, List<Enemy> enemies)
         {
             // Next stage (of closing doors) every second
             if (combatIsOver)
-            {
-                iteration++;
-                if (iteration == 30 && stage < 3)
-                {
-                    iteration = 0;
-                    stage++;
-                    MapManager.OpenEncounterDoors(stage);
-                    MapManager.SetMap(DataStructure._constants.Maps.EasyEncounter.Name);
-                }
-            }
+                MapManager.HandleOpeningDoors();
 
             // This is funky, change approach
             if (!player.entityIsCooledDown)
@@ -40,19 +29,12 @@ namespace SlipThrough2.Handlers
                     enemies.RemoveAt(i);
             }
 
-            if (!combatIsOver && enemies.Count == 0)
-            {
-                iteration = 0;
-                stage = 0;
-                combatIsOver = true;
-            }
+            combatIsOver = !combatIsOver && enemies.Count == 0;
         }
 
         public static void ResetCombatParameters()
         {
             combatIsOver = false;
-            iteration = 0;
-            stage = 0;
         }
     }
 }

@@ -15,7 +15,7 @@ namespace SlipThrough2.Entities
         {
             texture = playerTexture;
             // Starting position is cell: (1,1) for example
-            position = new Vector2(settingsData.CellSize * 1, settingsData.CellSize * 1);
+            position = new Vector2(settingsData.CellSize * 10, settingsData.CellSize * 10);
 
             // -1 just means "for the player"
             AssignStats(-1);

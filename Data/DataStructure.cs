@@ -78,6 +78,7 @@ namespace SlipThrough2.Data
     {
         public Map Main { get; set; }
         public Map EasyEncounter { get; set; }
+        public Map NewMain { get; set; }
     }
 
     public class Map
@@ -85,6 +86,7 @@ namespace SlipThrough2.Data
         public string Name { get; set; }
         public Rooms Rooms { get; set; }
         public string[][] RoomPattern { get; set; } // Can't be string[,]
+        public string[][] EncounterBuilding {get;set;}
     }
 
     public class Rooms
