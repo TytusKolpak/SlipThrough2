@@ -47,7 +47,15 @@
             { "Name": "Wo8v2", "Path": "Tiles/tile_0001", "IsSteppable": false, "IsDoor": false },
             { "Name": "Wo3v3", "Path": "Tiles/tile_0059", "IsSteppable": false, "IsDoor": false },
             { "Name": "Wo7v3", "Path": "Tiles/tile_0057", "IsSteppable": false, "IsDoor": false },
-            { "Name": "Wo5v3", "Path": "Tiles/tile_0040", "IsSteppable": false, "IsDoor": false }
+            { "Name": "Wo5v3", "Path": "Tiles/tile_0040", "IsSteppable": false, "IsDoor": false },
+            { "Name": "Bat", "Path": "Tiles/tile_0120", "IsSteppable": false, "IsDoor": false },
+            { "Name": "Spider", "Path": "Tiles/tile_0122", "IsSteppable": false, "IsDoor": false },
+            { "Name": "Brown Rat", "Path": "Tiles/tile_0123", "IsSteppable": false, "IsDoor": false },
+            { "Name": "Gray Rat", "Path": "Tiles/tile_0124", "IsSteppable": false, "IsDoor": false },
+            { "Name": "Cyclops", "Path": "Tiles/tile_0109", "IsSteppable": false, "IsDoor": false },
+            { "Name": "Crab", "Path": "Tiles/tile_0110", "IsSteppable": false, "IsDoor": false },
+            { "Name": "Dark Wizard", "Path": "Tiles/tile_0111", "IsSteppable": false, "IsDoor": false },
+            { "Name": "Ghost", "Path": "Tiles/tile_0121", "IsSteppable": false, "IsDoor": false }
         ],
         "Enemy": [
             { "Name": "Bat", "Path": "Tiles/tile_0120" },
@@ -69,7 +77,7 @@
         "FontSize": 24,
         "WindowWidth": 1152,
         "WindowHeight": 576,
-        "MapWidth": 36, 
+        "MapWidth": 36,
         "MapHeight": 18,
         "TrackedKeys": [
             { "Name": "Enter", "Value": 13 },
@@ -231,10 +239,10 @@
         "NewMain": {
             "Name": "NewMain",
             "EncounterBuilding": [
-                ["Wo8v1", "Wo1v1","Wo1v1","Wo1v1", "Wo2v1"],
-                ["Wo7v1", "To0v1","To0v1","To0v1", "Wo3v1"],
-                ["Wo6v1", "Wo5v1","Wo5v1","Wo5v1", "Wo4v1"],
-                ["Wo7v3", "Wo5v3","Ds1v1","Wo5v3", "Wo3v3"]
+                ["Wo8v1", "Wo1v1", "Wo1v1", "Wo1v1", "Wo2v1"],
+                ["Wo7v1", "To0v1", "To0v1", "To0v1", "Wo3v1"],
+                ["Wo6v1", "Wo5v1", "Wo5v1", "Wo5v1", "Wo4v1"],
+                ["Wo7v3", "Wo5v3", "Ds1v1", "Wo5v3", "Wo3v3"]
             ]
         }
     },

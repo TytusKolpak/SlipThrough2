@@ -40,6 +40,7 @@ Done:
     2. The room's tile pattern is a 2D table of ints where each value is an index in table of passed tiles.
     3. There is one type of room for every unique shape (type being as example: with opening to the left and right).
 3. Build better main map xd.
+
     1. I think it's fine to give up the 3x6 grid for sake of something more organic/natural.
         1. Few rooms maybe.
         2. Each with doors.
@@ -47,15 +48,15 @@ Done:
             1. Reusable.
             2. Spawned at random location within X cells from each other minimum.
             3. Positions chosen at random.
-    1. Not to lose the old one make an option in option view to switch between the old map and the new one
+        4. Few types of rooms.
+            1. Each room has one immobile enemy sprite at its roof.
+            2. Each type of room spawns a few enemies of a given type (each with their set difficulity).
+    2. Not to lose the old one make an option in option view to switch between the old map and the new one
+4. Start with new map, then reset it if user wants to change it
 
-For version 2.X.X
+For version 3.X.X
 
-1. Start with choice of the map - new/old and then keep it
-1. Few types of rooms.
-    1. Each type of room spawns a few enemies of a given type (each with their set difficulity).
-    2. Random number of enemies from a given scope eg. from 5 to 10.
-    3. Each room has one immobile enemy sprite at its roof.
+1. Random number of enemies from a given scope eg. from 5 to 10.
 
 ## 3. Interacting with the map
 
@@ -171,7 +172,7 @@ Done (or fixed):
 
 To be done:
 
-1. Introduce Testing? 
-   1. This is getting more useful the furter we are
+1. Introduce Testing?
+    1. This is getting more useful the furter we are
 2. Show You Win! screen or just message after all encounters are complete
-   1. Maybe add option press C to Continue (with the same enemies but stronger)
+    1. Maybe add option press C to Continue (with the same enemies but stronger)

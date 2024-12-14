@@ -7,21 +7,14 @@ namespace SlipThrough2.Handlers
 {
     public class MapHandler
     {
-        private static Settings settingsData;
-        private static Maps mapsData;
-        private static List<FloorTile> tileData;
+        private static Settings settingsData = DataStructure._constants.Settings;
+        private static List<FloorTile> tileData = DataStructure._constants.Tiles.Floor;
         private readonly List<Texture2D> textures;
         public static string[,] currentTileLayout;
         public static int[,] currentFunctionalPattern;
         public static string mapName;
 
-        public MapHandler(List<Texture2D> mapTextures)
-        {
-            settingsData = DataStructure._constants.Settings;
-            mapsData = DataStructure._constants.Maps;
-            tileData = DataStructure._constants.Tiles.Floor;
-            textures = mapTextures;
-        }
+        public MapHandler(List<Texture2D> mapTextures) => textures = mapTextures;
 
         public void Draw(SpriteBatch spriteBatch)
         {

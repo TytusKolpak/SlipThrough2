@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SlipThrough2.Data;
@@ -11,27 +10,23 @@ namespace SlipThrough2.Managers
 {
     public class MapManager
     {
+        private static readonly List<FloorTile> floorData = DataStructure._constants.Tiles.Floor;
+        private static readonly string[][] enemyData = DataStructure._constants.Encounters.EnemySet;
+        private static readonly Settings settingsData = DataStructure._constants.Settings;
+        private static readonly Maps mapsData = DataStructure._constants.Maps;
+        private static int stage,
+            iteration;
+        private static bool encounterDoorOpened;
         public static readonly Dictionary<string, string[][]> allMapRoomPatterns = new(); // For how it is build
         public static readonly Dictionary<string, string[,]> allMapTileLayouts = new(); // For how it looks
         public static readonly Dictionary<string, int[,]> allFunctionalMaps = new(); // For how it works
         public static int doorNumber;
         public static bool newMappingApplied = true;
         public MapHandler MapHandler;
-        private static List<FloorTile> floorData;
-        private static Settings settingsData;
-        private static Maps mapsData;
-
-        private static int stage,
-            iteration;
-        private static bool encounterDoorOpened;
 
         // Constructor to initialize maps
         public MapManager(List<Texture2D> mapTextures)
         {
-            floorData = DataStructure._constants.Tiles.Floor;
-            settingsData = DataStructure._constants.Settings;
-            mapsData = DataStructure._constants.Maps;
-
             LoadMaps();
             MapHandler = new MapHandler(mapTextures);
 
@@ -361,13 +356,14 @@ namespace SlipThrough2.Managers
         {
             // In short this map is generated in  much different, random way so it needs it's own function
             Console.WriteLine("Generating new type map");
-            List<Vector2> encounterPositions = ChooseEncounterPositions();
 
-            // Create random base layout for the newMain map - blank but primed with sand map (+ random rocks)
+            // Select the position od encounter buildings at random
+            List<Vector2> encounterPositions = ChooseEncounterPositions();
             string name = mapsData.NewMain.Name,
                 sandTile = "To0v4",
                 sandWithRocksTile = "To0v5";
 
+            // Create random base layout for the newMain map - blank but primed with sand map (+ random rocks)
             string[,] newMainLayout = new string[settingsData.MapHeight, settingsData.MapWidth];
             Random rnd = new();
             for (int y = 0; y < settingsData.MapHeight; y++)
@@ -383,28 +379,37 @@ namespace SlipThrough2.Managers
 
             // Build a encounter's building data structure for every encounter
             string[][] encounterBuildingLayout = mapsData.NewMain.EncounterBuilding;
-            // + put the enemy on top later
 
             // Put the buildings on the layout
-            foreach (Vector2 position in encounterPositions)
+            for (int i = 0; i < encounterPositions.Count; i++)
             {
-                Console.WriteLine(position);
-                Vector2 door;
+                Vector2 offsetForDoorsInBuilding = new(-2, -3);
+                Vector2 doorPosition = encounterPositions[i] + offsetForDoorsInBuilding;
+                Console.WriteLine(doorPosition);
                 for (int y = 0; y < encounterBuildingLayout.Length; y++)
                 {
                     for (int x = 0; x < encounterBuildingLayout[0].Length; x++)
                     {
-                        // 3 and 1 are here so the position is of the building doors,
+                        // 3 and 2 are here so the position is of the building doors,
                         // not its top left corner. Just the specificity of the room.
-                        door = new((int)position.X + x - 2, (int)position.Y + y - 3);
+                        int adjustedX = (int)doorPosition.X + x;
+                        int adjustedY = (int)doorPosition.Y + y;
                         if (
-                            door.Y >= 0
-                            && door.Y < settingsData.MapHeight
-                            && door.X >= 0
-                            && door.X < settingsData.MapWidth
+                            adjustedY >= 0
+                            && adjustedY < settingsData.MapHeight
+                            && adjustedX >= 0
+                            && adjustedX < settingsData.MapWidth
                         )
                         {
-                            newMainLayout[(int)door.Y, (int)door.X] = encounterBuildingLayout[y][x];
+                            newMainLayout[adjustedY, adjustedX] = encounterBuildingLayout[y][x];
+
+                            // If this is the middle of the building then put an enemy there
+                            // Change constants to encounterBuildingLayout derivatives
+                            for (int j = 0; j < enemyData[i].Length; j++)
+                            {
+                                if (y == 1 & x == j + 1)
+                                    newMainLayout[adjustedY, adjustedX] = enemyData[i][j];
+                            }
                         }
                     }
                 }
@@ -427,7 +432,7 @@ namespace SlipThrough2.Managers
             for (int i = 0; i < numberOfEncounters; i++)
             {
                 // 1 is so that the building will not have its doors outside
-                // and - 2 is so that there is extra cell for player to fit in from the bottom 
+                // and - 2 is so that there is extra cell for player to fit in from the bottom
                 float x = (float)Math.Round(rnd.NextSingle() * (settingsData.MapWidth - 1));
                 float y = (float)Math.Round(rnd.NextSingle() * (settingsData.MapHeight - 2));
                 Vector2 tempNewPosition = new(x, y);
@@ -452,6 +457,13 @@ namespace SlipThrough2.Managers
                 else
                     i--;
             }
+
+            encounterDoorPositions.Sort(
+                (a, b) => // return 1 if a should come after b. -1 if order is correct
+                    a.Y != b.Y // If the 2 values of Y are different then (one is higher than the other)
+                        ? (a.Y > b.Y ? 1 : -1) // put the larger at the end of the list (sort ascending)
+                        : (a.X > b.X ? 1 : -1) // compare the values of X (they are in the same row)
+            );
 
             return encounterDoorPositions;
         }
