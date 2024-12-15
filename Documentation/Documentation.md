@@ -40,7 +40,6 @@ Done:
     2. The room's tile pattern is a 2D table of ints where each value is an index in table of passed tiles.
     3. There is one type of room for every unique shape (type being as example: with opening to the left and right).
 3. Build better main map xd.
-
     1. I think it's fine to give up the 3x6 grid for sake of something more organic/natural.
         1. Few rooms maybe.
         2. Each with doors.
@@ -56,7 +55,7 @@ Done:
 
 For version 3.X.X
 
-1. Random number of enemies from a given scope eg. from 5 to 10.
+1. Moving map - be able to get to the right side of current map and load next half of the map to the right thus making it look like there is still some land. Make the move smooth, not a jump.
 
 ## 3. Interacting with the map
 
@@ -73,10 +72,9 @@ Done:
 
 For version 2.X.X
 
-1. Sound effects.
-2. Music.
-3. Maybe some height differences - low ground, high ground, starircases.
-4. Actual rooms with semi transparent roofs.
+1. Music.
+2. Maybe some height differences - low ground, high ground, starircases.
+3. Actual rooms with semi transparent roofs.
 
 ## 4. Starting Screen
 
@@ -139,6 +137,8 @@ For version 2.X.X:
     2. Have their health displayed.
         1. Beneath the sprite?
 3. Give enemy unique movement pattern?
+   1. Enable emeies to damage the player as well.
+   2. Random number of enemies from a given scope eg. from 5 to 10.
 
 ## 8. Refactoring (more like filling in the gaps of logic xd)
 

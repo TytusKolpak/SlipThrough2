@@ -23,6 +23,12 @@
 /processorParam:TextureFormat=Compressed
 /build:Font1.spritefont
 
+#begin splat.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:splat.wav
+
 #begin Tiles/tile_0000.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1678,4 +1684,16 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Tiles/tile_3052.png
+
+#begin tx0_fire1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:tx0_fire1.wav
+
+#begin walkingOnSand.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:walkingOnSand.wav
 

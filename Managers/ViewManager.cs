@@ -20,7 +20,7 @@ namespace SlipThrough2.Managers
             SpriteBatch spriteBatch
         ) gameAssetsBackup;
 
-        public ViewManager(
+        public static void LoadData(
             (
                 Texture2D PlayerTexture,
                 List<Texture2D> EnemyTextures,

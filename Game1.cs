@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using SlipThrough2.Data;
 using SlipThrough2.Managers;
@@ -56,6 +57,13 @@ namespace SlipThrough2
                 mapTextures.Add(Content.Load<Texture2D>(floorTile.Path));
 
             SpriteFont font = Content.Load<SpriteFont>("Font1");
+            List<SoundEffect> soundEffect =
+                new()
+                {
+                    Content.Load<SoundEffect>("tx0_fire1"),
+                    Content.Load<SoundEffect>("walkingOnSand"),
+                    Content.Load<SoundEffect>("splat"),
+                };
 
             var gameAssets = (
                 PlayerTextureAsset: playerTexture,
@@ -66,7 +74,7 @@ namespace SlipThrough2
                 SpriteBatch: _spriteBatch
             );
 
-            gameManager = new GameManager(gameAssets);
+            gameManager = new GameManager(gameAssets, soundEffect);
         }
 
         protected override void Update(GameTime gameTime)

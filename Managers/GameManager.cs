@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace SlipThrough2.Managers
@@ -13,10 +14,11 @@ namespace SlipThrough2.Managers
                 List<Texture2D> HUDTextures,
                 SpriteFont Font,
                 SpriteBatch spriteBatch
-            ) gameAssets
+            ) gameAssets, List<SoundEffect> soundEffects
         )
         {
-            new ViewManager(gameAssets);
+            ViewManager.LoadData(gameAssets);
+            AudioManager.LoadSoundEffects(soundEffects);
         }
 
         public void Update(Game1 game1)

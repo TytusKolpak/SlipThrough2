@@ -25,8 +25,12 @@ namespace SlipThrough2.Handlers
                 if (player.position == enemy.position)
                     enemy.health -= player.attack;
 
+                // Enemy dies
                 if (enemy.health == 0)
+                {
                     enemies.RemoveAt(i);
+                    AudioManager.PlaySoundOnce("death");
+                }
             }
 
             combatIsOver = !combatIsOver && enemies.Count == 0;

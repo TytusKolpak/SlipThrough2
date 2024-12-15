@@ -54,6 +54,11 @@ namespace SlipThrough2.Entities
 
             PerformMovement();
 
+            // Play sound if there is in fact some movement
+            // (its always on but if the direction is 0,0 vector then there is no shift)
+            bool keepPlayingSound = direction != new Vector2(0, 0);
+            AudioManager.PlayLoopedWalkingSound(keepPlayingSound);
+
             if (!entityIsCooledDown)
             {
                 HandleCooldown();
