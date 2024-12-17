@@ -72,6 +72,12 @@ namespace SlipThrough2.Managers
                             }
 
                             break;
+
+                        case Keys.E:
+                            AudioManager.enableSoundEffects = !AudioManager.enableSoundEffects;
+                            if (AudioManager.enableSoundEffects)
+                                AudioManager.PlaySoundOnce("door");
+                            break;
                     }
                 }
 

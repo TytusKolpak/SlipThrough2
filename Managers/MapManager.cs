@@ -83,6 +83,12 @@ namespace SlipThrough2.Managers
                 // Modify map
                 InsertEncounterDoors();
 
+                // Put player always in the same place
+                Player.position = new(
+                    settingsData.MapWidth * settingsData.CellSize / 2,
+                    (settingsData.MapHeight - 3) * settingsData.CellSize
+                );
+
                 // Set modified map (and regenerate functional pattern)
                 SetMap(mapsData.EasyEncounter.Name);
             }
@@ -304,9 +310,6 @@ namespace SlipThrough2.Managers
 
             // Assign this layout to the name of the map
             allMapTileLayouts[name] = newMainLayout;
-
-            // Set that map as current
-            SetMap(name);
         }
 
         public static dynamic GetObjectsPropertyValue(dynamic objectX, string propertyName)

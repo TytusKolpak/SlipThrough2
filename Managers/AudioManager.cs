@@ -5,11 +5,12 @@ namespace SlipThrough2.Managers
 {
     public class AudioManager
     {
-        // use .wav files 
+        // use .wav files
         private static List<SoundEffect> soundEffects;
         private static SoundEffectInstance soundEffectInstance;
         private static bool soundWasPlaying;
         private static int bufferIterations;
+        public static bool enableSoundEffects = true;
 
         // Method to load sound effect data
         public static void LoadSoundEffects(List<SoundEffect> SoundEffects)
@@ -21,6 +22,9 @@ namespace SlipThrough2.Managers
         // Method to play the loaded sound effect
         public static void PlaySoundOnce(string name)
         {
+            if (!enableSoundEffects)
+                return;
+
             System.Console.WriteLine("Playing Sound");
 
             int index = name switch
@@ -37,6 +41,9 @@ namespace SlipThrough2.Managers
 
         public static void PlayLoopedWalkingSound(bool doPlay)
         {
+            if (!enableSoundEffects)
+                return;
+                
             soundEffectInstance.IsLooped = true;
 
             if (doPlay)

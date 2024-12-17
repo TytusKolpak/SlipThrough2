@@ -56,6 +56,7 @@ Done:
 For version 3.X.X
 
 1. Moving map - be able to get to the right side of current map and load next half of the map to the right thus making it look like there is still some land. Make the move smooth, not a jump.
+2. Smith/shop building with its contents after entering - whole new map layout :)
 
 ## 3. Interacting with the map
 
@@ -69,12 +70,9 @@ Done:
     1. Design health bar.
     2. Mana bar.
 5. Make minor maps "spawn" player at the oposite from where they entered the door - as if the minor map was in fact placed in the world but outside of the window.
-
-For version 2.X.X
-
-1. Music.
-2. Maybe some height differences - low ground, high ground, starircases.
-3. Actual rooms with semi transparent roofs.
+6. Sound Effects
+   1. Turning on/off
+7. Maybe some height differences - hide behind a building, cover its front side 
 
 ## 4. Starting Screen
 

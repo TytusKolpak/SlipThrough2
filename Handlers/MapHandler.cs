@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SlipThrough2.Data;
@@ -27,15 +28,25 @@ namespace SlipThrough2.Handlers
                     int index = tileData.FindIndex(tile => tile.Name == tileCode); // This is now 31
                     Texture2D tileTexture = textures[index]; // This is now an image
 
+                    string[] specialTilesToCoverPlayer = { "Wo8v1", "Wo2v1" };
+
+                    // If contains then 0.9 means at the top of all else other than the HUD, othervise 0 - underneath all else
+                    float actualLayerDepth = specialTilesToCoverPlayer.Contains(tileCode) ? 0.9f : 0;
+
                     spriteBatch.Draw(
-                        tileTexture,
-                        new Rectangle(
+                        texture: tileTexture,
+                        destinationRectangle: new Rectangle(
                             x: x * settingsData.CellSize,
                             y: y * settingsData.CellSize,
                             width: settingsData.CellSize,
                             height: settingsData.CellSize
                         ),
-                        Color.White
+                        sourceRectangle: null,
+                        color: Color.White,
+                        rotation: 0,
+                        origin: new Vector2(0, 0),
+                        effects: SpriteEffects.None,
+                        layerDepth: actualLayerDepth
                     );
                 }
             }

@@ -33,16 +33,21 @@ namespace SlipThrough2.Entities
         }
 
         public void Draw(SpriteBatch spriteBatch)
-        {
+        {   
             spriteBatch.Draw(
-                texture,
-                new Rectangle(
-                    (int)position.X,
-                    (int)position.Y,
-                    settingsData.CellSize,
-                    settingsData.CellSize
+                texture: texture,
+                destinationRectangle: new Rectangle(
+                    x: (int)position.X,
+                    y: (int)position.Y,
+                    width: settingsData.CellSize,
+                    height: settingsData.CellSize
                 ),
-                Color.White
+                sourceRectangle: null,
+                color: Color.White,
+                rotation: 0,
+                origin: new Vector2(0, 0),
+                effects: SpriteEffects.None,
+                layerDepth: 0.1f // Under everything but the ground which is layer 0 
             );
         }
     }

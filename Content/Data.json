@@ -82,6 +82,7 @@
         "TrackedKeys": [
             { "Name": "Enter", "Value": 13 },
             { "Name": "Esc", "Value": 27 },
+            { "Name": "E", "Value": 69 },
             { "Name": "Q", "Value": 81 },
             { "Name": "R", "Value": 82 },
             { "Name": "S", "Value": 83 }

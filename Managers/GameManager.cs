@@ -14,7 +14,8 @@ namespace SlipThrough2.Managers
                 List<Texture2D> HUDTextures,
                 SpriteFont Font,
                 SpriteBatch spriteBatch
-            ) gameAssets, List<SoundEffect> soundEffects
+            ) gameAssets,
+            List<SoundEffect> soundEffects
         )
         {
             ViewManager.LoadData(gameAssets);
@@ -29,7 +30,10 @@ namespace SlipThrough2.Managers
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+            spriteBatch.Begin(
+                samplerState: SamplerState.PointClamp,
+                sortMode: SpriteSortMode.FrontToBack // The default is "Deffered", it ignores layer depth
+            );
 
             ViewManager.Draw();
 

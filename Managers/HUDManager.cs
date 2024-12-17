@@ -123,15 +123,20 @@ namespace SlipThrough2.Managers
             for (int i = 0; i < textures.Count; i++)
             {
                 sb.Draw(
-                    textures[i],
-                    new Rectangle(
+                    texture: textures[i],
+                    destinationRectangle: new Rectangle(
                         // Bottle is 10 px wide, sprite has 16 px 10/16 = 0.625
                         (int)(position.X + i * settingsData.CellSize * 0.625f),
                         (int)position.Y,
-                        settingsData.CellSize,
-                        settingsData.CellSize
+                        width: settingsData.CellSize,
+                        height: settingsData.CellSize
                     ),
-                    Color.White
+                    sourceRectangle: null,
+                    color: Color.White,
+                    rotation: 0,
+                    origin: new Vector2(0, 0),
+                    effects: SpriteEffects.None,
+                    layerDepth: 1f // Above everything else
                 );
             }
         }

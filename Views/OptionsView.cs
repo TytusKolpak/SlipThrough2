@@ -20,14 +20,16 @@ namespace SlipThrough2.Views
 
             string mapType = MapManager.newMappingApplied ? "new" : "old";
             string mapTypetext = $"Currently its: {mapType}";
+            string audioText = AudioManager.enableSoundEffects ? "off" : "on";
             string[] textToDisplay =
             {
                 "- Press Q to Quit",
                 "- Press Esc key to Resume",
                 "- Press R key to Restart",
                 "- Press S key to Switch between old and new",
-                "main map (game will reset).",
-                mapTypetext
+                "main map (game will reset)",
+                mapTypetext,
+                $"- Press E to turn sound effects {audioText}",
             };
 
             DisplayLinesOfText(textToDisplay);
