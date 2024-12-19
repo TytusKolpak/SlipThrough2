@@ -13,11 +13,11 @@ namespace SlipThrough2.Views
             windowHeight = DataStructure._constants.Settings.WindowHeight,
             fontSize = DataStructure._constants.Settings.FontSize;
 
-        public abstract void Update();
+        public abstract void Update(GameTime gameTime);
 
         public abstract void Draw();
 
-        public static void DisplayText(string text, Vector2 position, string justify)
+        public static void DisplayText(string text, Vector2 position, string justify, Color color)
         {
             Vector2 origin = justify switch
             {
@@ -26,10 +26,10 @@ namespace SlipThrough2.Views
                 _ => font.MeasureString(text)
             };
 
-            spriteBatch.DrawString(font, text, position, Color.Black, 0, origin, 1.0f, SpriteEffects.None, 0.5f);
+            spriteBatch.DrawString(font, text, position, color, 0, origin, 1.0f, SpriteEffects.None, 0.5f);
         }
 
-        public static void DisplayLinesOfText(string[] textToDisplay){
+        public static void DisplayLinesOfText(string[] textToDisplay, Color color){
             
             float verticalCenter = windowHeight / 2;
             float offsetToTop = -fontSize * (textToDisplay.Length - 1);
@@ -39,7 +39,7 @@ namespace SlipThrough2.Views
                 float x = windowWidth * 0.5f;
                 float y = verticalCenter + offsetToTop + i * 2 * fontSize;
 
-                DisplayText(textToDisplay[i], new Vector2(x, y), "center");
+                DisplayText(textToDisplay[i], new Vector2(x, y), "center", color);
             }
         }
         public abstract void Remove();

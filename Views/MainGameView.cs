@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SlipThrough2.Entities;
 using SlipThrough2.Handlers;
@@ -22,6 +23,7 @@ namespace SlipThrough2.Views
                 List<Texture2D> MapTextures,
                 List<Texture2D> HUDTextures,
                 SpriteFont Font,
+                Texture2D Background,
                 SpriteBatch spriteBatch
             ) gameAssets
         )
@@ -34,13 +36,14 @@ namespace SlipThrough2.Views
             HUDManager = new HUDManager(gameAssets.HUDTextures, gameAssets.Font, Player);
         }
 
-        public override void Update()
+        public override void Update(GameTime gameTime)
         {
             MapManager.Update(Player);
             EnemyManager.Update();
             Player.Update();
 
-            playerInEncounter = MapHandler.mapName == Data.DataStructure._constants.Maps.EasyEncounter.Name;
+            playerInEncounter =
+                MapHandler.mapName == Data.DataStructure._constants.Maps.EasyEncounter.Name;
 
             if (playerInEncounter)
             {

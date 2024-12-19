@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using SlipThrough2.Data;
 
 namespace SlipThrough2.Views
@@ -6,15 +7,32 @@ namespace SlipThrough2.Views
     public class Start : View
     {
         private static Settings data = DataStructure._constants.Settings;
+        private StartViewBackground myBackground;
 
-        public Start(string viewName) => view = viewName;
+        public Start(string viewName, Texture2D Background)
+        {
+            view = viewName;
+            myBackground = new StartViewBackground(Background);
+        }
 
-        public override void Update() { }
+        public override void Update(GameTime gameTime)
+        {
+            // The time since Update was called last.
+            // Usually it's 0.01(6)s but it is not guaranteed to stay like that when load increases
+            // So to mimic normal behavior we will move the background more if more time passed
+            float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds; 
+            myBackground.Update(elapsed * StartViewBackground.scrollingSpeed);
+        }
 
         public override void Draw()
         {
             // Bottom right corner says the name of the screen (view)
-            DisplayText(view, new Vector2(data.WindowWidth, data.WindowHeight), "right");
+            DisplayText(
+                view,
+                new Vector2(data.WindowWidth, data.WindowHeight),
+                "right",
+                Color.White
+            );
 
             // Display large game name
             string[] textToDisplay =
@@ -25,7 +43,9 @@ namespace SlipThrough2.Views
                 "- Press Esc to go to Options"
             };
 
-            DisplayLinesOfText(textToDisplay);
+            DisplayLinesOfText(textToDisplay, Color.White);
+
+            myBackground.Draw(spriteBatch);
         }
 
         public override void Remove() { }

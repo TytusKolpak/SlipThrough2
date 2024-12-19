@@ -81,13 +81,16 @@ Done:
 1. Game name.
 2. Begin.
 3. Quit.
+4. Scrolling background
 
 For version 2.X.X:
 
-1. Some cool effects:
-    1. Maybe a simple image.
-    2. Maybe a gif or any action.
-    3. "Paralax effect"?.
+1. Scrolling background
+   1. Remove overlap
+   2. Make movement horizontal
+   3. Change image to something thematic
+2. Change font to something more visible than black on dark
+   1. Maybe the negative of the background, or an image rather than simple text?
 
 ## 5. Options
 

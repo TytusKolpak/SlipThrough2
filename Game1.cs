@@ -30,10 +30,7 @@ namespace SlipThrough2
             IsMouseVisible = true;
         }
 
-        protected override void Initialize()
-        {
-            base.Initialize();
-        }
+        protected override void Initialize() => base.Initialize();
 
         protected override void LoadContent()
         {
@@ -65,12 +62,15 @@ namespace SlipThrough2
                     Content.Load<SoundEffect>("splat"),
                 };
 
+            Texture2D background = Content.Load<Texture2D>("starfield");
+
             var gameAssets = (
                 PlayerTextureAsset: playerTexture,
                 EnemyTexturesAsset: enemyTextures,
                 MapTexturesAsset: mapTextures,
                 HUDTexturesAsset: HUDTextures,
                 FontAsset: font,
+                Background: background,
                 SpriteBatch: _spriteBatch
             );
 
@@ -79,7 +79,7 @@ namespace SlipThrough2
 
         protected override void Update(GameTime gameTime)
         {
-            gameManager.Update(this);
+            gameManager.Update(this, gameTime);
             base.Update(gameTime);
         }
 

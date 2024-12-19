@@ -1,5 +1,5 @@
+using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using SlipThrough2.Data;
 using SlipThrough2.Managers;
 
@@ -11,12 +11,15 @@ namespace SlipThrough2.Views
 
         public Options(string viewName) => view = viewName;
 
-        public override void Update() { }
-
         public override void Draw()
         {
             // Bottom right corner says the name of the screen (view)
-            DisplayText(view, new Vector2(data.WindowWidth, data.WindowHeight), "right");
+            DisplayText(
+                view,
+                new Vector2(data.WindowWidth, data.WindowHeight),
+                "right",
+                Color.Black
+            );
 
             string mapType = MapManager.newMappingApplied ? "new" : "old";
             string mapTypetext = $"Currently its: {mapType}";
@@ -32,9 +35,11 @@ namespace SlipThrough2.Views
                 $"- Press E to turn sound effects {audioText}",
             };
 
-            DisplayLinesOfText(textToDisplay);
+            DisplayLinesOfText(textToDisplay, Color.Black);
         }
 
         public override void Remove() { }
+
+        public override void Update(GameTime gameTime) { }
     }
 }

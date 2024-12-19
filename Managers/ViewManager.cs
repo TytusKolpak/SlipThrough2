@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SlipThrough2.Data;
 using SlipThrough2.Views;
@@ -17,6 +18,7 @@ namespace SlipThrough2.Managers
             List<Texture2D> MapTextures,
             List<Texture2D> HUDTextures,
             SpriteFont Font,
+            Texture2D Background,
             SpriteBatch spriteBatch
         ) gameAssetsBackup;
 
@@ -27,13 +29,17 @@ namespace SlipThrough2.Managers
                 List<Texture2D> MapTextures,
                 List<Texture2D> HUDTextures,
                 SpriteFont Font,
+                Texture2D Background,
                 SpriteBatch spriteBatch
             ) gameAssets
         )
         {
             viewsData = DataStructure._constants.Views;
 
-            views[viewsData.StartScreen.Name] = new Start(viewsData.StartScreen.Name);
+            views[viewsData.StartScreen.Name] = new Start(
+                viewsData.StartScreen.Name,
+                gameAssets.Background
+            );
             views[viewsData.MainGame.Name] = new MainGame(viewsData.MainGame.Name, gameAssets);
             views[viewsData.Options.Name] = new Options(viewsData.Options.Name);
 
@@ -43,9 +49,15 @@ namespace SlipThrough2.Managers
             gameAssetsBackup = gameAssets;
         }
 
-        public static void Update() => views[currentView].Update();
+        public static void Update(GameTime gameTime)
+        {
+            views[currentView].Update(gameTime);
+        }
 
-        public static void Draw() => views[currentView].Draw();
+        public static void Draw()
+        {
+            views[currentView].Draw();
+        }
 
         public static void SwitchView(string newName) => currentView = newName;
 

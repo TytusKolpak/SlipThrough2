@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -13,6 +14,7 @@ namespace SlipThrough2.Managers
                 List<Texture2D> MapTextures,
                 List<Texture2D> HUDTextures,
                 SpriteFont Font,
+                Texture2D Background,
                 SpriteBatch spriteBatch
             ) gameAssets,
             List<SoundEffect> soundEffects
@@ -22,9 +24,9 @@ namespace SlipThrough2.Managers
             AudioManager.LoadSoundEffects(soundEffects);
         }
 
-        public void Update(Game1 game1)
+        public void Update(Game1 game1, GameTime gameTime)
         {
-            ViewManager.Update();
+            ViewManager.Update(gameTime);
             KeyManager.Update(game1);
         }
 
@@ -32,7 +34,7 @@ namespace SlipThrough2.Managers
         {
             spriteBatch.Begin(
                 samplerState: SamplerState.PointClamp,
-                sortMode: SpriteSortMode.FrontToBack // The default is "Deffered", it ignores layer depth
+                sortMode: SpriteSortMode.FrontToBack // The default is "Deffered", it ignores provided layerDepth
             );
 
             ViewManager.Draw();
