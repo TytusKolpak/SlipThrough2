@@ -9,20 +9,20 @@ namespace SlipThrough2.Views
         // The texture to draw as a background.
         private Texture2D background;
         private static Settings data = DataStructure._constants.Settings;
-        public static float scrollingSpeed = 100;
+        public static float scrollingSpeed = 20;
         private Vector2 position;
         private float scale;
+        private bool backgroundTooNarrow;
 
         public StartViewBackground(Texture2D Background)
         {
             background = Background;
 
             // To fit the background to the window
-            float scaleY = (float)data.WindowHeight / background.Height;
-            float scaleX = (float)data.WindowWidth / background.Width;
-            
-            // Use the larger scale
-            scale = scaleX > scaleY ? scaleX : scaleY;
+            scale = (float)data.WindowHeight / background.Height;
+
+            // If stretched image is still to narrow then we will need 2 more to the right
+            backgroundTooNarrow = background.Width < data.WindowWidth;
         }
 
         public void Update(float deltaY)
@@ -45,14 +45,22 @@ namespace SlipThrough2.Views
                 width = (int)(background.Width * scale);
 
             // First beginning from 100% inside of the window and going up, outside of the window
-            batch.Draw(texture: background, new Rectangle(x, y, width, height), Color.White);
+            batch.Draw(background, new Rectangle(x, y, width, height), Color.White); // Main
 
             // Second beginning from below, outside of the window and going up, into the window
-            batch.Draw(
-                texture: background,
-                new Rectangle(x, y - height, width, height),
-                Color.White
-            );
+            batch.Draw(background, new Rectangle(x, y - height, width, height), Color.White); // Bottom
+
+            if (backgroundTooNarrow)
+            {
+                batch.Draw(background, new Rectangle(x + width, y, width, height), Color.White); // Right
+                batch.Draw( // Bottom right
+                    background,
+                    new Rectangle(x + width, y - height, width, height),
+                    Color.White
+                );
+            }
+
+            // Note: We can add different patterns to make the background movement nonlinear (like +sin())
         }
     }
 }

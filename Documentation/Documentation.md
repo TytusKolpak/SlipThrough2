@@ -71,8 +71,8 @@ Done:
     2. Mana bar.
 5. Make minor maps "spawn" player at the oposite from where they entered the door - as if the minor map was in fact placed in the world but outside of the window.
 6. Sound Effects
-   1. Turning on/off
-7. Maybe some height differences - hide behind a building, cover its front side 
+    1. Turning on/off
+7. Maybe some height differences - hide behind a building, cover its front side
 
 ## 4. Starting Screen
 
@@ -82,15 +82,14 @@ Done:
 2. Begin.
 3. Quit.
 4. Scrolling background
+    1. Text is white to contrast the dark background
 
-For version 2.X.X:
+For version 3.X.X:
 
-1. Scrolling background
-   1. Remove overlap
-   2. Make movement horizontal
-   3. Change image to something thematic
-2. Change font to something more visible than black on dark
-   1. Maybe the negative of the background, or an image rather than simple text?
+1. Background image
+    1. Change the to something thematic.
+    2. Make movement horizontal
+    3. Put in another moving image with transparent backgroud which moves faster in the same direction as the firs one to create a paralax effect
 
 ## 5. Options
 
@@ -98,11 +97,8 @@ Done:
 
 1. Reset.
 2. Quit.
-
-For version 2.X.X:
-
-1. Music off/on.
-2. Sound effects off/on.
+3. Sound effects off/on.
+4. Type of map old/new (default is new)
 
 ## 6. Levels
 
@@ -112,7 +108,12 @@ Done:
 2.  Cyclop and Crabs
 3.  Dark Wizard and Ghosts
 
-## 7. Commbat
+For version 3.X.X:
+
+1. Put in a number of enemies of the same type and a boss with larger texture and bigger stats
+    1. Boss be random one of the inside enemies, appearing after all others are defeated
+
+## 7. Combat
 
 Done:
 
@@ -128,18 +129,23 @@ Done:
 4. Have enemies have complex stats.
     1. Based on the room (difficulty level)
     2. Meaning more health than 1.
+5. Have player carry a weapon.
+    1. Leave it at the ground.
+    2. Enable player to pick it up and carry
 
 For version 2.X.X:
 
-1. Have player carry a weapon.
-    1. Use it without stepping onto an enemy
+1. Have player carry a weapon. 3. Have the sword hit box display to a side or up, down
+    1. Reset Weapon on reset
+    2. Turn off/on hitbox display
+    3. Use it without stepping onto an enemy
 2. Have enemies
     1. Be able to attack.
     2. Have their health displayed.
         1. Beneath the sprite?
 3. Give enemy unique movement pattern?
-   1. Enable emeies to damage the player as well.
-   2. Random number of enemies from a given scope eg. from 5 to 10.
+    1. Enable emeies to damage the player as well.
+    2. Random number of enemies from a given scope eg. from 5 to 10.
 
 ## 8. Refactoring (more like filling in the gaps of logic xd)
 
@@ -173,7 +179,8 @@ Done (or fixed):
 
 To be done:
 
-1. Introduce Testing?
-    1. This is getting more useful the furter we are
+1. Figure out and fix all that drawing + rotation + offset + scaling and unify it across all the drawables
 2. Show You Win! screen or just message after all encounters are complete
     1. Maybe add option press C to Continue (with the same enemies but stronger)
+3. Introduce Testing?
+    1. This is getting more useful the furter we are

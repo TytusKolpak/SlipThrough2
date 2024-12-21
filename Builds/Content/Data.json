@@ -7,6 +7,15 @@
             { "Name": "Red potion", "Path": "Tiles/tile_0115" },
             { "Name": "Blue potion", "Path": "Tiles/tile_0116" }
         ],
+        "Weapon": [
+            { "Name": "Wooden Shield", "Path": "Tiles/tile_0101" },
+            { "Name": "Metal Shield", "Path": "Tiles/tile_0102" },
+            { "Name": "Sword", "Path": "Tiles/tile_0103" },
+            { "Name": "Long Sword", "Path": "Tiles/tile_0104" },
+            { "Name": "Curved Sword", "Path": "Tiles/tile_0105" },
+            { "Name": "Wide Sword", "Path": "Tiles/tile_0106" },
+            { "Name": "Gold Sword", "Path": "Tiles/tile_0107" }
+        ],
         "Floor": [
             { "Name": "Cs0v1", "Path": "Tiles/tile_0089", "IsSteppable": false, "IsDoor": false },
             { "Name": "Do3s0v1", "Path": "Tiles/tile_0047", "IsSteppable": false, "IsDoor": false },

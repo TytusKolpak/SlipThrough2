@@ -54,6 +54,9 @@ namespace SlipThrough2.Entities
 
             PerformMovement();
 
+            // Might be here, might be in weapon manager
+            CheckForWeaponPickup();
+
             // Play sound if there is in fact some movement
             // (its always on but if the direction is 0,0 vector then there is no shift)
             bool keepPlayingSound = direction != new Vector2(0, 0);
@@ -70,13 +73,11 @@ namespace SlipThrough2.Entities
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            int heightInStep = timeForShift / 2 - Math.Abs(idleIterations - timeForShift / 2);
-
             spriteBatch.Draw(
                 texture: texture,
                 destinationRectangle: new Rectangle(
                     x: (int)position.X,
-                    y: (int)position.Y - heightInStep,
+                    y: (int)position.Y,
                     width: settingsData.CellSize,
                     height: settingsData.CellSize
                 ),
@@ -85,8 +86,24 @@ namespace SlipThrough2.Entities
                 rotation: 0,
                 origin: new Vector2(0, 0),
                 effects: SpriteEffects.None,
-                layerDepth: 0.5f 
+                layerDepth: 0.5f
             );
+        }
+
+        private void CheckForWeaponPickup()
+        {
+            if (
+                !WeaponManager.attachedToPlayer
+                && WeaponManager.rectangle.X == position.X
+                && WeaponManager.rectangle.Y == position.Y
+            )
+            {
+                Console.WriteLine($"Player picks up a weapon at: {WeaponManager.rectangle}");
+                // Attach its position to the player (+ offsets and rotation)
+                WeaponManager.attachedToPlayer = true;
+                WeaponManager.rotation = MathHelper.ToRadians(45);
+                WeaponManager.direction = "right";
+            }
         }
     }
 }

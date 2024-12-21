@@ -46,6 +46,7 @@ namespace SlipThrough2.Data
         public List<Tile> Potion { get; set; }
         public List<FloorTile> Floor { get; set; }
         public Tile[] Enemy { get; set; }
+        public List<Tile> Weapon { get; set; }
     }
 
     public class Settings

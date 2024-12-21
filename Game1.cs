@@ -53,7 +53,12 @@ namespace SlipThrough2
             foreach (var floorTile in data.Floor)
                 mapTextures.Add(Content.Load<Texture2D>(floorTile.Path));
 
+            List<Texture2D> weaponTextures = new();
+            foreach (var weaponTile in data.Weapon)
+                weaponTextures.Add(Content.Load<Texture2D>(weaponTile.Path));
+
             SpriteFont font = Content.Load<SpriteFont>("Font1");
+
             List<SoundEffect> soundEffect =
                 new()
                 {
@@ -69,6 +74,7 @@ namespace SlipThrough2
                 EnemyTexturesAsset: enemyTextures,
                 MapTexturesAsset: mapTextures,
                 HUDTexturesAsset: HUDTextures,
+                WeaponTextures: weaponTextures,
                 FontAsset: font,
                 Background: background,
                 SpriteBatch: _spriteBatch

@@ -47,7 +47,7 @@ namespace SlipThrough2.Entities
                 rotation: 0,
                 origin: new Vector2(0, 0),
                 effects: SpriteEffects.None,
-                layerDepth: 0.1f // Under everything but the ground which is layer 0 
+                layerDepth: 0.2f // Under everything but the ground which is layer 0 (and weapns on ground)
             );
         }
     }

@@ -40,8 +40,10 @@ namespace SlipThrough2.Managers
         public void Update(Player Player)
         {
             // Player cell position in grid
-            int PCX = (int)Player.position.X / settingsData.CellSize;
-            int PCY = (int)Player.position.Y / settingsData.CellSize;
+            // When the player is walking his PCY can be 7,96875 instead of 8,
+            // instead of rounding it to 7 by cast to in we need to round it to closest int
+            int PCX = (int)Math.Round(Player.position.X / settingsData.CellSize);
+            int PCY = (int)Math.Round(Player.position.Y / settingsData.CellSize);
             CheckIfEnteringDoor(PCY, PCX, Player);
         }
 

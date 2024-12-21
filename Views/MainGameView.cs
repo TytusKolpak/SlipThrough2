@@ -13,6 +13,7 @@ namespace SlipThrough2.Views
         private EnemyManager EnemyManager;
         private readonly Player Player;
         private HUDManager HUDManager;
+        private WeaponManager WeaponManager;
         public bool playerInEncounter;
 
         public MainGame(
@@ -22,6 +23,7 @@ namespace SlipThrough2.Views
                 List<Texture2D> EnemyTextures,
                 List<Texture2D> MapTextures,
                 List<Texture2D> HUDTextures,
+                List<Texture2D> WeaponTextures,
                 SpriteFont Font,
                 Texture2D Background,
                 SpriteBatch spriteBatch
@@ -33,6 +35,7 @@ namespace SlipThrough2.Views
             MapManager = new MapManager(gameAssets.MapTextures);
             EnemyManager = new EnemyManager(gameAssets.EnemyTextures);
             Player = new Player(gameAssets.PlayerTexture);
+            WeaponManager = new WeaponManager(gameAssets.WeaponTextures);
             HUDManager = new HUDManager(gameAssets.HUDTextures, gameAssets.Font, Player);
         }
 
@@ -41,6 +44,7 @@ namespace SlipThrough2.Views
             MapManager.Update(Player);
             EnemyManager.Update();
             Player.Update();
+            WeaponManager.Update();
 
             playerInEncounter =
                 MapHandler.mapName == Data.DataStructure._constants.Maps.EasyEncounter.Name;
@@ -57,6 +61,7 @@ namespace SlipThrough2.Views
             MapManager.Draw(spriteBatch);
             EnemyManager.Draw(spriteBatch);
             Player.Draw(spriteBatch);
+            WeaponManager.Draw(spriteBatch, Player.position, Player.direction);
 
             if (playerInEncounter)
                 HUDManager.Draw(spriteBatch);
@@ -65,6 +70,7 @@ namespace SlipThrough2.Views
         // Here we assume that Remove affects The enemies and their manager
         public override void Remove()
         {
+            // These fields are static so we need to remove them too 
             EnemyManager = null;
             EnemyManager.Enemies = null;
             HUDManager = null;

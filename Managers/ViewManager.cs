@@ -17,6 +17,7 @@ namespace SlipThrough2.Managers
             List<Texture2D> EnemyTextures,
             List<Texture2D> MapTextures,
             List<Texture2D> HUDTextures,
+            List<Texture2D> WeaponTextures,
             SpriteFont Font,
             Texture2D Background,
             SpriteBatch spriteBatch
@@ -28,6 +29,7 @@ namespace SlipThrough2.Managers
                 List<Texture2D> EnemyTextures,
                 List<Texture2D> MapTextures,
                 List<Texture2D> HUDTextures,
+                List<Texture2D> WeaponTextures,
                 SpriteFont Font,
                 Texture2D Background,
                 SpriteBatch spriteBatch

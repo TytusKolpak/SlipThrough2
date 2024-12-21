@@ -17,6 +17,10 @@ namespace SlipThrough2.Entities
         public Vector2 position,
             direction;
 
+        // Alternative for texture handlin
+        public Point location,
+            size;
+
         // For movement logic
         public int idleIterations,
             timeForShift,
@@ -87,6 +91,13 @@ namespace SlipThrough2.Entities
             float diagonalFactor = movementIsDiagonal ? (float)(1 / Math.Sqrt(2)) : 1f;
             Vector2 shift = direction * speed / cellSize / modifier * diagonalFactor;
             position += shift;
+
+            // Only for ther player if he is moving (idle iterations do stay at 0 when not moving) 
+            if (this is Player && idleIterations != 0 )
+            {
+                int heightInStepModifier = idleIterations < timeForShift / 2 ? 1 : -1; // 1,1,1,1,-1,-1,-1,-1 
+                position.Y -= heightInStepModifier; // - because Y axis is upside down
+            }
         }
     }
 }
