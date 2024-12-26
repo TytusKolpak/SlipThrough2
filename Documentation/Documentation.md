@@ -132,20 +132,20 @@ Done:
 5. Have player carry a weapon.
     1. Leave it at the ground.
     2. Enable player to pick it up and carry
+    3. Reset Weapon on reset
+    4. Have the sword hit box display to a side or up, down
+    5. Change hit box icon when an enemy would be hit
+    6. Use it without stepping onto an enemy
+6. Have enemies
+    1. Have their health displayed beneath the sprite.
+    2. Be able to attack.
+7. Control the direction of attack with ILKJ keys instead of player direction
+8. Display encounter difficulity instead of door number in the message
 
-For version 2.X.X:
+For version 3.X.X
 
-1. Have player carry a weapon. 3. Have the sword hit box display to a side or up, down
-    1. Reset Weapon on reset
-    2. Turn off/on hitbox display
-    3. Use it without stepping onto an enemy
-2. Have enemies
-    1. Be able to attack.
-    2. Have their health displayed.
-        1. Beneath the sprite?
-3. Give enemy unique movement pattern?
-    1. Enable emeies to damage the player as well.
-    2. Random number of enemies from a given scope eg. from 5 to 10.
+1. Give enemy unique movement pattern.
+1. Control the hitbox pattern per-weapon, put this data in Data.json
 
 ## 8. Refactoring (more like filling in the gaps of logic xd)
 
@@ -179,8 +179,13 @@ Done (or fixed):
 
 To be done:
 
-1. Figure out and fix all that drawing + rotation + offset + scaling and unify it across all the drawables
-2. Show You Win! screen or just message after all encounters are complete
+1. Show You Win! screen or just message after all encounters are complete
     1. Maybe add option press C to Continue (with the same enemies but stronger)
-3. Introduce Testing?
-    1. This is getting more useful the furter we are
+    2. Show You Lose if player dies
+2. Figure out and fix all that drawing + rotation + offset + scaling and unify it across all the drawables
+3. Disable player from spawning atop of a building
+4. Introduce Testing?
+5. Change door sound, get attack sound
+6. Change this document to something more usefull
+    1. Rename to "Features" or something
+    2. Change the parts to be done per topic to current topics (add weaponery, remove starting screen, options...)

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SlipThrough2.Data;
 using SlipThrough2.Entities;
@@ -17,15 +18,13 @@ namespace SlipThrough2.Managers
             textures = enemyTextures;
         }
 
-        public void Update()
+        public void Update(Player player)
         {
             if (Enemies == null)
                 return;
 
             foreach (Enemy enemy in Enemies)
-            {
-                enemy.Update();
-            }
+                enemy.Update(player);
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -34,9 +33,7 @@ namespace SlipThrough2.Managers
                 return;
 
             foreach (Enemy enemy in Enemies)
-            {
                 enemy.Draw(spriteBatch);
-            }
         }
 
         public static void SpawnEnemies(int doorNumber)
@@ -44,7 +41,7 @@ namespace SlipThrough2.Managers
             Enemies = new List<Enemy>();
 
             string[][] EnemySet = DataStructure._constants.Encounters.EnemySet;
-            Tile[] AllEnemies = DataStructure._constants.Tiles.Enemy;
+            List<Tile> AllEnemies = DataStructure._constants.Tiles.Enemy;
 
             // Cover spawning only for these patterns which are declared
             if (EnemySet.Length < doorNumber)
@@ -61,13 +58,17 @@ namespace SlipThrough2.Managers
             for (int i = 0; i < numberOfEnemies; i++)
             {
                 string currentEnemy = enemiesInRoom[i];
-                int textureIndex = Array.FindIndex(AllEnemies, enemy => enemy.Name == currentEnemy);
-                enemyTextures[i] = textures[textureIndex];
-            }
+                int textureIndex = AllEnemies.FindIndex(enemy => enemy.Name == currentEnemy);
 
-            // Create them and add them to the list
-            foreach (var texture in enemyTextures)
-                Enemies.Add(new Enemy(texture, doorNumber));
+                // Create them and add them to the list
+                Enemies.Add(
+                    new Enemy(
+                        enemyTexture: textures[textureIndex],
+                        doorNumber,
+                        entityName: currentEnemy
+                    )
+                );
+            }
         }
     }
 }

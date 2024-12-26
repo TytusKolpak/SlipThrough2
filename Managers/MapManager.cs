@@ -77,8 +77,6 @@ namespace SlipThrough2.Managers
 
                 // Create enemies, HUD and reset combat parameters
                 EnemyManager.SpawnEnemies(doorNumber);
-                HUDManager.iteration = 0; // Reseting this value for "time"keeping
-                HUDManager.BuildTexturesForBars();
                 CombatHandler.ResetCombatParameters();
                 encounterDoorOpened = false;
 
@@ -316,6 +314,7 @@ namespace SlipThrough2.Managers
 
         public static dynamic GetObjectsPropertyValue(dynamic objectX, string propertyName)
         {
+            // To use when You want to access a property using it's name in a string form (dynamically)
             if (objectX == null)
                 throw new ArgumentNullException(nameof(objectX), "Error: object is null.");
 

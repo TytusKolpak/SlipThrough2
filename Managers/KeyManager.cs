@@ -1,20 +1,23 @@
-using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using SlipThrough2.Data;
 using SlipThrough2.Entities;
-using SlipThrough2.Views;
+using SlipThrough2.Handlers;
 
 namespace SlipThrough2.Managers
 {
     public class KeyManager
     {
-        private static readonly Dictionary<Keys, bool> keyStates = new();
+        private static readonly Dictionary<Keys, bool> isPressed = new();
+        private static bool attackKeyPressedDown;
 
-        public static void Update(Game1 game1) => HandleKeyPresses(game1);
+        public static void Update(Game1 game1)
+        {
+            HandleGoverningKeys(game1);
+        }
 
-        private static void HandleKeyPresses(Game1 game1)
+        private static void HandleGoverningKeys(Game1 game1)
         {
             List<TrackedKey> trackedKeys = DataStructure._constants.Settings.TrackedKeys;
             string optionsView = ViewManager.viewsData.Options.Name;
@@ -26,9 +29,9 @@ namespace SlipThrough2.Managers
                 Keys key = (Keys)trackedKey.Value;
 
                 // Check if the key is pressed and was not previously pressed
-                if (Keyboard.GetState().IsKeyDown(key) && !keyStates[key])
+                if (Keyboard.GetState().IsKeyDown(key) && !isPressed[key])
                 {
-                    keyStates[key] = true; // Mark the value as being pressed
+                    isPressed[key] = true; // Mark the value as being pressed
 
                     // Use switch statement for key-specific actions
                     switch (key)
@@ -83,17 +86,13 @@ namespace SlipThrough2.Managers
 
                 // Check if the key is released and mark it as not pressed
                 if (Keyboard.GetState().IsKeyUp(key))
-                    keyStates[key] = false;
+                    isPressed[key] = false;
             }
         }
 
-        public static void SetPlayerDirection(Player player)
+        public static void HandlePlayerMovementKeys(Player player)
         {
             int cellSize = DataStructure._constants.Settings.CellSize;
-            // foreach (var move in Player.availableMoves)
-            //     Console.Write($"{move}, ");
-
-            // Console.WriteLine();
 
             // Movement directions with their corresponding keys and indices
             // Order is important because diagonal movement has to be checked first
@@ -109,11 +108,6 @@ namespace SlipThrough2.Managers
                 (new[] { Keys.D }, 5, new Vector2(cellSize, 0)), // Right
                 (new[] { Keys.S }, 6, new Vector2(0, cellSize)), // Down
                 (new[] { Keys.A }, 7, new Vector2(-cellSize, 0)), // Left
-                // Arrow Keys
-                (new[] { Keys.Up }, 4, new Vector2(0, -cellSize)), // Up
-                (new[] { Keys.Right }, 5, new Vector2(cellSize, 0)), // Right
-                (new[] { Keys.Down }, 6, new Vector2(0, cellSize)), // Down
-                (new[] { Keys.Left }, 7, new Vector2(-cellSize, 0)) // Left
             };
 
             KeyboardState state = Keyboard.GetState();
@@ -135,10 +129,45 @@ namespace SlipThrough2.Managers
                 if (allKeysPressed && Player.availableMoves[moveIndex])
                 {
                     player.direction = direction;
-                    player.entityIsCooledDown = false;
                     return;
                 }
             }
+        }
+
+        public static void HandlePlayerAttackKeys(Player player)
+        {
+            if (
+                MapHandler.mapName != DataStructure._constants.Maps.EasyEncounter.Name
+                || !WeaponManager.playerHoldsWeapon
+            )
+                return;
+
+            KeyboardState state = Keyboard.GetState();
+
+            // Set attacking direction
+            if (state.IsKeyDown(Keys.J))
+                player.attackDirection.X = -1;
+            else if (state.IsKeyDown(Keys.L))
+                player.attackDirection.X = 1;
+            else
+                player.attackDirection.X = 0;
+
+            if (state.IsKeyDown(Keys.I))
+                player.attackDirection.Y = -1;
+            else if (state.IsKeyDown(Keys.K))
+                player.attackDirection.Y = 1;
+            else
+                player.attackDirection.Y = 0;
+
+            // Check if attacking
+            if (state.IsKeyDown(Keys.Space) && !attackKeyPressedDown)
+            {
+                attackKeyPressedDown = true;
+                player.PerformAttack();
+            }
+
+            if (state.IsKeyUp(Keys.Space))
+                attackKeyPressedDown = false;
         }
     }
 }

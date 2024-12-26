@@ -36,15 +36,21 @@ namespace SlipThrough2.Views
             EnemyManager = new EnemyManager(gameAssets.EnemyTextures);
             Player = new Player(gameAssets.PlayerTexture);
             WeaponManager = new WeaponManager(gameAssets.WeaponTextures);
-            HUDManager = new HUDManager(gameAssets.HUDTextures, gameAssets.Font, Player);
+            HUDManager = new HUDManager(gameAssets.HUDTextures, gameAssets.Font);
         }
 
         public override void Update(GameTime gameTime)
         {
             MapManager.Update(Player);
-            EnemyManager.Update();
+            EnemyManager.Update(Player);
             Player.Update();
-            WeaponManager.Update();
+
+            WeaponManager.Update(
+                Player.position,
+                Player.direction,
+                Player.attackDirection,
+                EnemyManager.Enemies
+            );
 
             playerInEncounter =
                 MapHandler.mapName == Data.DataStructure._constants.Maps.EasyEncounter.Name;
@@ -52,7 +58,7 @@ namespace SlipThrough2.Views
             if (playerInEncounter)
             {
                 HUDManager.Update();
-                CombatHandler.Update(Player, EnemyManager.Enemies);
+                CombatHandler.Update(EnemyManager.Enemies);
             }
         }
 
@@ -61,25 +67,34 @@ namespace SlipThrough2.Views
             MapManager.Draw(spriteBatch);
             EnemyManager.Draw(spriteBatch);
             Player.Draw(spriteBatch);
-            WeaponManager.Draw(spriteBatch, Player.position, Player.direction);
+            WeaponManager.Draw(
+                spriteBatch,
+                Player.position,
+                Player.attackIsCoolingDown,
+                Player.attackDirection
+            );
 
             if (playerInEncounter)
-                HUDManager.Draw(spriteBatch);
+                HUDManager.Draw(spriteBatch, Player);
         }
 
         // Here we assume that Remove affects The enemies and their manager
         public override void Remove()
         {
-            // These fields are static so we need to remove them too 
+            // These fields are static so we need to remove them too
             EnemyManager = null;
             EnemyManager.Enemies = null;
+
             HUDManager = null;
-            HUDManager.healthBarTilePattern = null;
-            HUDManager.manaBarTilePattern = null;
-            HUDManager.healthBarTextures = new();
-            HUDManager.manaBarTextures = new();
-            HUDManager.iteration = 0;
+
             CombatHandler.ResetCombatParameters();
+
+            WeaponManager = null;
+            WeaponManager.playerHoldsWeapon = false;
+            WeaponManager.directionX = null;
+            WeaponManager.layerDepth = 0.1f;
+            WeaponManager.rectangle = new Rectangle();
+            WeaponManager.rotation = 0;
         }
     }
 }

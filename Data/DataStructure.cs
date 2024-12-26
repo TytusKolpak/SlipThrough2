@@ -45,7 +45,7 @@ namespace SlipThrough2.Data
         public string PlayerPath { get; set; }
         public List<Tile> Potion { get; set; }
         public List<FloorTile> Floor { get; set; }
-        public Tile[] Enemy { get; set; }
+        public List<Tile> Enemy { get; set; }
         public List<Tile> Weapon { get; set; }
     }
 
@@ -87,7 +87,7 @@ namespace SlipThrough2.Data
         public string Name { get; set; }
         public Rooms Rooms { get; set; }
         public string[][] RoomPattern { get; set; } // Can't be string[,]
-        public string[][] EncounterBuilding {get;set;}
+        public string[][] EncounterBuilding { get; set; }
     }
 
     public class Rooms

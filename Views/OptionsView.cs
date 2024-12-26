@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using SlipThrough2.Data;
 using SlipThrough2.Managers;
 
@@ -8,8 +9,13 @@ namespace SlipThrough2.Views
     public class Options : View
     {
         private static readonly Settings data = DataStructure._constants.Settings;
+        private MovingBackground myBackground;
 
-        public Options(string viewName) => view = viewName;
+        public Options(string viewName, Texture2D Background)
+        {
+            view = viewName;
+            myBackground = new MovingBackground(Background);
+        }
 
         public override void Draw()
         {
@@ -18,28 +24,30 @@ namespace SlipThrough2.Views
                 view,
                 new Vector2(data.WindowWidth, data.WindowHeight),
                 "right",
-                Color.Black
+                Color.White
             );
 
-            string mapType = MapManager.newMappingApplied ? "new" : "old";
-            string mapTypetext = $"Currently its: {mapType}";
+            string mapTypeText = MapManager.newMappingApplied ? "old" : "new";
             string audioText = AudioManager.enableSoundEffects ? "off" : "on";
             string[] textToDisplay =
             {
                 "- Press Q to Quit",
                 "- Press Esc key to Resume",
                 "- Press R key to Restart",
-                "- Press S key to Switch between old and new",
-                "main map (game will reset)",
-                mapTypetext,
+                $"- Press S key to Switch to {mapTypeText} main map",
                 $"- Press E to turn sound effects {audioText}",
             };
 
-            DisplayLinesOfText(textToDisplay, Color.Black);
+            DisplayLinesOfText(textToDisplay, Color.White);
+            myBackground.Draw(spriteBatch);
         }
 
         public override void Remove() { }
 
-        public override void Update(GameTime gameTime) { }
+        public override void Update(GameTime gameTime)
+        {
+            float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            myBackground.Update(elapsed * MovingBackground.scrollingSpeed);
+        }
     }
 }

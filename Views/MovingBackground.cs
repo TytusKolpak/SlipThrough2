@@ -4,7 +4,7 @@ using SlipThrough2.Data;
 
 namespace SlipThrough2.Views
 {
-    public class StartViewBackground
+    public class MovingBackground
     {
         // The texture to draw as a background.
         private Texture2D background;
@@ -14,7 +14,7 @@ namespace SlipThrough2.Views
         private float scale;
         private bool backgroundTooNarrow;
 
-        public StartViewBackground(Texture2D Background)
+        public MovingBackground(Texture2D Background)
         {
             background = Background;
 
@@ -59,8 +59,6 @@ namespace SlipThrough2.Views
                     Color.White
                 );
             }
-
-            // Note: We can add different patterns to make the background movement nonlinear (like +sin())
         }
     }
 }

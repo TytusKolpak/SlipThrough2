@@ -44,7 +44,7 @@ namespace SlipThrough2.Handlers
                         sourceRectangle: null,
                         color: Color.White,
                         rotation: 0,
-                        origin: new Vector2(0, 0),
+                        origin: Vector2.Zero,
                         effects: SpriteEffects.None,
                         layerDepth: actualLayerDepth
                     );

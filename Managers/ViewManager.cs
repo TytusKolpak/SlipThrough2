@@ -43,7 +43,10 @@ namespace SlipThrough2.Managers
                 gameAssets.Background
             );
             views[viewsData.MainGame.Name] = new MainGame(viewsData.MainGame.Name, gameAssets);
-            views[viewsData.Options.Name] = new Options(viewsData.Options.Name);
+            views[viewsData.Options.Name] = new Options(
+                viewsData.Options.Name,
+                gameAssets.Background
+            );
 
             View.font = gameAssets.Font;
             View.spriteBatch = gameAssets.spriteBatch;

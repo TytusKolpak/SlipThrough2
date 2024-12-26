@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SlipThrough2.Data;
 using SlipThrough2.Handlers;
 using SlipThrough2.Managers;
 
@@ -10,15 +11,18 @@ namespace SlipThrough2.Entities
     public class Player : Entity
     {
         public static bool[] availableMoves;
+        public Vector2 attackDirection;
 
         public Player(Texture2D playerTexture)
         {
             texture = playerTexture;
+
             // Starting position is cell: (1,1) for example
             position = new Vector2(settingsData.CellSize * 10, settingsData.CellSize * 10);
+            size = new(settingsData.CellSize, settingsData.CellSize);
 
             // -1 just means "for the player"
-            AssignStats(-1);
+            AssignStats(-1, "Player");
         }
 
         public void Update()
@@ -55,54 +59,90 @@ namespace SlipThrough2.Entities
             PerformMovement();
 
             // Might be here, might be in weapon manager
-            CheckForWeaponPickup();
+            WeaponManager.CheckForWeaponPickup(position);
 
             // Play sound if there is in fact some movement
             // (its always on but if the direction is 0,0 vector then there is no shift)
-            bool keepPlayingSound = direction != new Vector2(0, 0);
+            bool keepPlayingSound = direction != Vector2.Zero;
             AudioManager.PlayLoopedWalkingSound(keepPlayingSound);
 
-            if (!entityIsCooledDown)
+
+            // If the player has just attacked disable them from attacking
+            if (attackIsCoolingDown)
+                HandleAttackCooldown();
+            else
+                KeyManager.HandlePlayerAttackKeys(this);
+
+            if (!movementIsCooledDown)
             {
-                HandleCooldown();
+                HandleMovementCooldown();
                 return;
             }
 
-            KeyManager.SetPlayerDirection(this);
+            KeyManager.HandlePlayerMovementKeys(this);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(
                 texture: texture,
-                destinationRectangle: new Rectangle(
-                    x: (int)position.X,
-                    y: (int)position.Y,
-                    width: settingsData.CellSize,
-                    height: settingsData.CellSize
-                ),
+                destinationRectangle: new Rectangle(position.ToPoint(), size),
                 sourceRectangle: null,
                 color: Color.White,
                 rotation: 0,
-                origin: new Vector2(0, 0),
+                origin: Vector2.Zero,
                 effects: SpriteEffects.None,
                 layerDepth: 0.5f
             );
         }
 
-        private void CheckForWeaponPickup()
+        public void PerformAttack()
         {
+            // If the player doesn't hold a or and isn't in an encounter - don't attack
             if (
-                !WeaponManager.attachedToPlayer
-                && WeaponManager.rectangle.X == position.X
-                && WeaponManager.rectangle.Y == position.Y
+                !WeaponManager.playerHoldsWeapon
+                || MapHandler.mapName != Data.DataStructure._constants.Maps.EasyEncounter.Name
             )
+                return;
+
+            Console.Write("Performing attack! ");
+
+            // Mark player as having just attacked, usted to temporary change the hitbox to attacking one
+            attackIsCoolingDown = true;
+            attackCooldownIterations = 20; // about 0.33s
+
+            if (WeaponManager.enemyInHitBox)
             {
-                Console.WriteLine($"Player picks up a weapon at: {WeaponManager.rectangle}");
-                // Attach its position to the player (+ offsets and rotation)
-                WeaponManager.attachedToPlayer = true;
-                WeaponManager.rotation = MathHelper.ToRadians(45);
-                WeaponManager.direction = "right";
+                Console.WriteLine("Hit!");
+
+                // Iterate through all enemies
+                int numberOfEnemies = EnemyManager.Enemies.Count;
+                for (int i = 0; i < numberOfEnemies; i++)
+                {
+                    Enemy enemy = EnemyManager.Enemies[i];
+
+                    // Check if this is the one who is being hit
+                    Vector2 enemyCellPostion =
+                        new(
+                            (float)Math.Round(enemy.position.X / settingsData.CellSize),
+                            (float)Math.Round(enemy.position.Y / settingsData.CellSize)
+                        );
+
+                    Vector2 hitBoxCellPostion = WeaponManager.hitBoxPostion / cellSize;
+                    if (hitBoxCellPostion == enemyCellPostion)
+                    {
+                        // Remove x life from enemy
+                        enemy.health -= attack;
+
+                        Console.WriteLine(
+                            $"Player deals {attack} damage to {enemy.name}, leaving it with {enemy.health}/{enemy.maxHealth} health."
+                        );
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("Miss.");
             }
         }
     }

@@ -9,23 +9,23 @@ namespace SlipThrough2.Entities
     {
         public readonly int modifier = DataStructure._constants.Settings.TimeModifierConstant;
         public readonly int cellSize = DataStructure._constants.Settings.CellSize;
-
         public static readonly Settings settingsData = DataStructure._constants.Settings;
 
         // For texture handling
         public Texture2D texture;
         public Vector2 position,
             direction;
+        public Point size;
 
-        // Alternative for texture handlin
-        public Point location,
-            size;
+        public string name;
 
         // For movement logic
         public int idleIterations,
             timeForShift,
-            adjustedTimeForShift;
-        public bool entityIsCooledDown;
+            adjustedTimeForShift,
+            attackCooldownIterations;
+        public bool movementIsCooledDown,
+            attackIsCoolingDown;
 
         // Combat stats
         public int maxHealth,
@@ -36,7 +36,7 @@ namespace SlipThrough2.Entities
             speed;
 
         // For player it's -1 so that I do not need to make another method as overloaded method
-        public void AssignStats(int doorNumber)
+        public void AssignStats(int doorNumber, string entityName)
         {
             EntityStructures entityData = DataStructure._constants.Entities;
             EntityStructure entity = doorNumber switch
@@ -54,13 +54,14 @@ namespace SlipThrough2.Entities
             mana = entity.Mana;
             attack = entity.Attack;
             speed = entity.Speed;
+            name = entityName;
 
             /* We need to keep shift constant and operate on time for which the velocity is applied
             Shift = Velocity * Time => Time = Shift / Velocity*/
             timeForShift = modifier * cellSize / speed;
         }
 
-        public void HandleCooldown()
+        public void HandleMovementCooldown()
         {
             bool movementIsDiagonal = direction.X != 0 && direction.Y != 0;
             adjustedTimeForShift = movementIsDiagonal
@@ -78,26 +79,41 @@ namespace SlipThrough2.Entities
                     (float)Math.Round(position.X / cellSize) * cellSize,
                     (float)Math.Round(position.Y / cellSize) * cellSize
                 );
-                direction = new Vector2(0, 0);
+                direction = Vector2.Zero;
                 idleIterations = 0;
-                entityIsCooledDown = true;
+                movementIsCooledDown = true;
             }
         }
 
         public void PerformMovement()
         {
+            // Movement by nothing is still movement but no need to compute
+            if (direction == Vector2.Zero)
+                return;
+
             // And adjust shift for diagonal movement so that the speed stays roughly the same regardless of direction
             bool movementIsDiagonal = direction.X != 0 && direction.Y != 0;
             float diagonalFactor = movementIsDiagonal ? (float)(1 / Math.Sqrt(2)) : 1f;
             Vector2 shift = direction * speed / cellSize / modifier * diagonalFactor;
-            position += shift;
 
-            // Only for ther player if he is moving (idle iterations do stay at 0 when not moving) 
-            if (this is Player && idleIterations != 0 )
+            // Performing the movement
+            position += shift;
+            movementIsCooledDown = false;
+
+            // Only for ther player if he is moving (idle iterations do stay at 0 when not moving)
+            if (this is Player && idleIterations != 0)
             {
-                int heightInStepModifier = idleIterations < timeForShift / 2 ? 1 : -1; // 1,1,1,1,-1,-1,-1,-1 
+                int heightInStepModifier = idleIterations < timeForShift / 2 ? 1 : -1; // 1,1,1,1,-1,-1,-1,-1
                 position.Y -= heightInStepModifier; // - because Y axis is upside down
             }
+        }
+
+        public void HandleAttackCooldown()
+        {
+            attackCooldownIterations--;
+
+            if (attackCooldownIterations == 0)
+                attackIsCoolingDown = false;
         }
     }
 }

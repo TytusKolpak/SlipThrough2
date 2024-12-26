@@ -7,12 +7,12 @@ namespace SlipThrough2.Views
     public class Start : View
     {
         private static Settings data = DataStructure._constants.Settings;
-        private StartViewBackground myBackground;
+        private MovingBackground myBackground;
 
         public Start(string viewName, Texture2D Background)
         {
             view = viewName;
-            myBackground = new StartViewBackground(Background);
+            myBackground = new MovingBackground(Background);
         }
 
         public override void Update(GameTime gameTime)
@@ -21,7 +21,7 @@ namespace SlipThrough2.Views
             // Usually it's 0.01(6)s but it is not guaranteed to stay like that when load increases
             // So to mimic normal behavior we will move the background more if more time passed
             float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds; 
-            myBackground.Update(elapsed * StartViewBackground.scrollingSpeed);
+            myBackground.Update(elapsed * MovingBackground.scrollingSpeed);
         }
 
         public override void Draw()
