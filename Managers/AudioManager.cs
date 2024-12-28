@@ -32,6 +32,7 @@ namespace SlipThrough2.Managers
                 "door" => 0,
                 "walking" => 1,
                 "death" => 2,
+                "attack" => 3,
                 _ => throw new System.NotImplementedException()
             };
 

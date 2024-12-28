@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.ConstrainedExecution;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SlipThrough2.Data;
 using SlipThrough2.Entities;
 using SlipThrough2.Handlers;
+using SlipThrough2.Views;
 
 namespace SlipThrough2.Managers
 {
@@ -122,6 +124,8 @@ namespace SlipThrough2.Managers
                 // And make them move down
                 // (otherwise they would keep moving up despite being in the main map)
                 Player.direction = new(0, 1);
+
+                CheckIfGameIsWon();
             }
         }
 
@@ -130,6 +134,7 @@ namespace SlipThrough2.Managers
             int numberOfEncounters = DataStructure._constants.Encounters.EnemySet.Length,
                 minimumDistance = 5;
             List<Vector2> encounterDoorPositions = new();
+            
             Random rnd = new();
 
             for (int i = 0; i < numberOfEncounters; i++)
@@ -161,6 +166,7 @@ namespace SlipThrough2.Managers
                     i--;
             }
 
+            // I know this is funky
             encounterDoorPositions.Sort(
                 (a, b) => // return 1 if a should come after b. -1 if order is correct
                     a.Y != b.Y // If the 2 values of Y are different then (one is higher than the other)
@@ -431,7 +437,7 @@ namespace SlipThrough2.Managers
             {
                 for (int j = 0; j < functionalPattern.GetLength(1); j++) // Columns
                 {
-                    Console.Write($"{functionalPattern[i, j], 4}"); // Format spacing
+                    Console.Write($"{functionalPattern[i, j], 3}"); // Format spacing
                 }
                 Console.WriteLine(); // Move to the next row
             }
@@ -480,6 +486,26 @@ namespace SlipThrough2.Managers
             }
             // ShowLayout(layout);
             return layout;
+        }
+
+        private static void CheckIfGameIsWon()
+        {
+            Console.WriteLine("Checking if game is won.");
+
+            // Check if there are any unclosed doors, if not then the game is over and you win
+            int lengthY = MapHandler.currentFunctionalPattern.GetLength(0);
+            for (int i = 0; i < lengthY; i++)
+            {
+                int lengthX = MapHandler.currentFunctionalPattern.GetLength(1);
+                for (int j = 0; j < lengthX; j++)
+                {
+                    if (MapHandler.currentFunctionalPattern[i, j] >= 2)
+                        return;
+                }
+            }
+            
+            // If there is no open door then the game is over
+            MainGame.isGameOver = true;
         }
     }
 }

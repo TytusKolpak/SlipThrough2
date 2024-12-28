@@ -11,8 +11,6 @@ namespace SlipThrough2.Managers
     class WeaponManager
     {
         private readonly List<Tile> weaponData = DataStructure._constants.Tiles.Weapon;
-        private readonly List<Tile> enemyData = DataStructure._constants.Tiles.Enemy;
-
         private readonly int cellSize = DataStructure._constants.Settings.CellSize;
         private static readonly Maps mapsData = DataStructure._constants.Maps;
         private readonly List<Texture2D> TEXTURES;
@@ -43,6 +41,9 @@ namespace SlipThrough2.Managers
         )
         {
             DetermineHitBoxPosition(playerPosition, attackDirection);
+            
+            if (!playerHoldsWeapon)
+                CheckForWeaponPickup(playerPosition);
 
             CheckEnemiesInHitBox(enemies);
             DetermineWeaponPosition(playerDirection);
@@ -75,7 +76,7 @@ namespace SlipThrough2.Managers
         private void SetWeaponParameters(int x, int y, string name)
         {
             weaponIndex = weaponData.FindIndex(element => element.Name == name);
-            Point position = new(x * cellSize, y * cellSize);
+            Point position = Player.ChooseStartingPosition().ToPoint();
             size = new(cellSize, cellSize);
             rectangle = new(position, size);
         }

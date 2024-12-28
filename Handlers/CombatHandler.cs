@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SlipThrough2.Entities;
 using SlipThrough2.Managers;
+using SlipThrough2.Views;
 
 namespace SlipThrough2.Handlers
 {
@@ -9,7 +10,7 @@ namespace SlipThrough2.Handlers
     {
         public static bool combatIsOver;
 
-        public static void Update(List<Enemy> enemies)
+        public void Update(List<Enemy> enemies, Player player)
         {
             // Next stage (of closing doors) every second
             if (combatIsOver)
@@ -20,6 +21,24 @@ namespace SlipThrough2.Handlers
                 combatIsOver = enemies.All(enemy => enemy.isDead);
             }
 
+            // Check player death
+            if (player.health <= 0)
+            {
+                player.isDead = true;
+                MainGame.isGameOver = true;
+            }
+
+            CheckEnemyDeaths(enemies);
+        }
+
+        public static void ResetCombatParameters()
+        {
+            combatIsOver = false;
+        }
+
+        private void CheckEnemyDeaths(List<Enemy> enemies)
+        {
+            // Check for death of all the enemies
             for (int i = 0; i < enemies.Count; i++)
             {
                 Enemy enemy = enemies[i];
@@ -29,7 +48,7 @@ namespace SlipThrough2.Handlers
                     continue;
 
                 // wasJustHit is here to wait a bit before removing enemy
-                if (enemy.health == 0 && !enemy.wasJustHit)
+                if (enemy.health <= 0 && !enemy.wasJustHit)
                 {
                     // Enemy dies
                     System.Console.WriteLine($"Enemy: {enemy.name} is Dead!");
@@ -37,11 +56,6 @@ namespace SlipThrough2.Handlers
                     AudioManager.PlaySoundOnce("death");
                 }
             }
-        }
-
-        public static void ResetCombatParameters()
-        {
-            combatIsOver = false;
         }
     }
 }

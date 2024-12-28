@@ -22,9 +22,12 @@ namespace SlipThrough2.Entities
 
             // Disable movement and change color for a while after being hit
             if (wasJustHit)
+            {
                 HandleRecovery();
-            else
-                PerformMovement();
+                return; // We want to stop the movement but also the movement cooldown
+            }
+
+            PerformMovement();
 
             // Right now the enemy attacks player by standing on them
             if (attackIsCoolingDown)
@@ -52,9 +55,11 @@ namespace SlipThrough2.Entities
                 layerDepth = 0.2f;
             Vector2 offset = Vector2.Zero;
 
-            if (wasJustHit)
+            Console.WriteLine($"wasJustHit: {wasJustHit}, isDead: {isDead}");
+            if (wasJustHit )
                 color = Color.Red;
-            else if (isDead)
+            
+            if (isDead)
             {
                 color = Color.Gray;
                 rotation = MathHelper.ToRadians(90);
@@ -105,7 +110,10 @@ namespace SlipThrough2.Entities
 
         private void PerformAttack(Player player)
         {
+            // Affect the player
             player.health -= attack;
+            player.wasJustHit = true;
+            player.recoveryIterations = 6;
 
             // Mark enemy as having just attacked
             attackIsCoolingDown = true;
@@ -122,14 +130,6 @@ namespace SlipThrough2.Entities
 
             // Time for the color change
             recoveryIterations = 6;
-        }
-
-        private void HandleRecovery()
-        {
-            recoveryIterations--;
-
-            if (recoveryIterations == 0)
-                wasJustHit = false;
         }
     }
 }

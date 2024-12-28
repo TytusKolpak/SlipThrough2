@@ -16,9 +16,7 @@ namespace SlipThrough2.Entities
         public Player(Texture2D playerTexture)
         {
             texture = playerTexture;
-
-            // Starting position is cell: (1,1) for example
-            position = new Vector2(settingsData.CellSize * 10, settingsData.CellSize * 10);
+            position = ChooseStartingPosition();
             size = new(settingsData.CellSize, settingsData.CellSize);
 
             // -1 just means "for the player"
@@ -27,39 +25,15 @@ namespace SlipThrough2.Entities
 
         public void Update()
         {
-            int PCX = (int)position.X / settingsData.CellSize;
-            int PCY = (int)position.Y / settingsData.CellSize;
-
-            int[,] pattern = MapHandler.currentFunctionalPattern;
-
-            bool IsValid(int y, int x)
+            // Disable movement and change color for a while after being hit
+            if (wasJustHit)
             {
-                // Player is within bounds (don't check outside the map)
-                if (y < 0 || y >= settingsData.MapHeight || x < 0 || x >= settingsData.MapWidth)
-                    return false;
-
-                // Player wants to eneter a terrain cell (1) or door cell (-1, 1 and above)
-                // Walls are 0
-                return pattern[y, x] != 0;
+                HandleRecovery();
+                return; // We want to stop the movement but also the movement cooldown
             }
 
-            // Define movement validity checks (order is important)
-            availableMoves = new bool[]
-            {
-                IsValid(PCY - 1, PCX + 1), // Right Up
-                IsValid(PCY + 1, PCX + 1), // Right Down
-                IsValid(PCY + 1, PCX - 1), // Left Down
-                IsValid(PCY - 1, PCX - 1), // Left Up
-                IsValid(PCY - 1, PCX), // Up
-                IsValid(PCY, PCX + 1), // Right
-                IsValid(PCY + 1, PCX), // Down
-                IsValid(PCY, PCX - 1), // Left
-            };
-
+            CheckAvailableMoves();
             PerformMovement();
-
-            // Might be here, might be in weapon manager
-            WeaponManager.CheckForWeaponPickup(position);
 
             // Play sound if there is in fact some movement
             // (its always on but if the direction is 0,0 vector then there is no shift)
@@ -87,7 +61,7 @@ namespace SlipThrough2.Entities
                 texture: texture,
                 destinationRectangle: new Rectangle(position.ToPoint(), size),
                 sourceRectangle: null,
-                color: Color.White,
+                color: wasJustHit ? Color.Red : Color.White,
                 rotation: 0,
                 origin: Vector2.Zero,
                 effects: SpriteEffects.None,
@@ -95,16 +69,63 @@ namespace SlipThrough2.Entities
             );
         }
 
+        public static Vector2 ChooseStartingPosition()
+        {
+            Random rnd = new();
+            Vector2 tmpPostion = Vector2.Zero;
+
+            // Select one of the cells at random, if it's on the ground, accept oi
+            while (tmpPostion == Vector2.Zero)
+            {
+                int x = (int)(rnd.NextInt64() % (settingsData.MapWidth - 1));
+                int y = (int)(rnd.NextInt64() % (settingsData.MapHeight - 1));
+
+                if (MapHandler.currentFunctionalPattern[y, x] == 1)
+                    tmpPostion = new(x * settingsData.CellSize, y * settingsData.CellSize);
+            }
+            return tmpPostion;
+        }
+
+        private static bool IsMoveValid(int y, int x)
+        {
+            // Player is within bounds (don't check outside the map)
+            if (y < 0 || y >= settingsData.MapHeight || x < 0 || x >= settingsData.MapWidth)
+                return false;
+
+            // Player wants to eneter a terrain cell (1) or door cell (-1, 1 and above), walls are 0
+            return MapHandler.currentFunctionalPattern[y, x] != 0;
+        }
+
+        private void CheckAvailableMoves()
+        {
+            int PCX = (int)position.X / cellSize;
+            int PCY = (int)position.Y / cellSize;
+
+            // Define movement validity checks (order is important)
+            availableMoves = new bool[]
+            {
+                IsMoveValid(PCY - 1, PCX + 1), // Right Up
+                IsMoveValid(PCY + 1, PCX + 1), // Right Down
+                IsMoveValid(PCY + 1, PCX - 1), // Left Down
+                IsMoveValid(PCY - 1, PCX - 1), // Left Up
+                IsMoveValid(PCY - 1, PCX), // Up
+                IsMoveValid(PCY, PCX + 1), // Right
+                IsMoveValid(PCY + 1, PCX), // Down
+                IsMoveValid(PCY, PCX - 1), // Left
+            };
+        }
+
         public void PerformAttack()
         {
             // If the player doesn't hold a or and isn't in an encounter - don't attack
             if (
                 !WeaponManager.playerHoldsWeapon
-                || MapHandler.mapName != Data.DataStructure._constants.Maps.EasyEncounter.Name
+                || MapHandler.mapName != DataStructure._constants.Maps.EasyEncounter.Name
             )
                 return;
 
             Console.Write("Performing attack! ");
+            AudioManager.PlaySoundOnce("attack");
 
             // Mark player as having just attacked, usted to temporary change the hitbox to attacking one
             attackIsCoolingDown = true;

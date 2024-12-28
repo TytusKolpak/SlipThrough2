@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SlipThrough2.Data;
 using SlipThrough2.Entities;
-using SlipThrough2.Handlers;
 
 namespace SlipThrough2.Managers
 {
@@ -12,7 +11,6 @@ namespace SlipThrough2.Managers
     {
         private static List<Tile> potionTiles = DataStructure._constants.Tiles.Potion;
         private static Settings settingsData = DataStructure._constants.Settings;
-        private static EntityStructures entitiesData = DataStructure._constants.Entities;
         private static List<Texture2D> textures;
         private readonly SpriteFont Font;
         public static int cellSize = settingsData.CellSize;

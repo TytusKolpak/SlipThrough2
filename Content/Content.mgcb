@@ -16,6 +16,12 @@
 #begin Data.json
 /copy:Data.json
 
+#begin doorOpening.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:doorOpening.wav
+
 #begin Font1.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -40,6 +46,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:starfield.png
+
+#begin swordAttack.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:swordAttack.wav
 
 #begin Tiles/tile_0000.png
 /importer:TextureImporter
@@ -1696,12 +1708,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Tiles/tile_3052.png
-
-#begin tx0_fire1.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:tx0_fire1.wav
 
 #begin walkingOnSand.wav
 /importer:WavImporter

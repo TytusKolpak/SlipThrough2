@@ -113,5 +113,13 @@ namespace SlipThrough2.Entities
             if (attackCooldownIterations == 0)
                 attackIsCoolingDown = false;
         }
+
+        public void HandleRecovery()
+        {
+            recoveryIterations--;
+
+            if (recoveryIterations == 0)
+                wasJustHit = false;
+        }
     }
 }

@@ -62,9 +62,10 @@ namespace SlipThrough2
             List<SoundEffect> soundEffect =
                 new()
                 {
-                    Content.Load<SoundEffect>("tx0_fire1"),
+                    Content.Load<SoundEffect>("doorOpening"),
                     Content.Load<SoundEffect>("walkingOnSand"),
                     Content.Load<SoundEffect>("splat"),
+                    Content.Load<SoundEffect>("swordAttack"),
                 };
 
             Texture2D background = Content.Load<Texture2D>("starfield");
