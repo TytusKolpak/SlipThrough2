@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using SlipThrough2.Entities;
 using SlipThrough2.Managers;
 
@@ -13,20 +14,29 @@ namespace SlipThrough2.Handlers
             // Next stage (of closing doors) every second
             if (combatIsOver)
                 MapManager.HandleOpeningDoors();
+            else
+            {
+                // combat is over when all enemies are dead
+                combatIsOver = enemies.All(enemy => enemy.isDead);
+            }
 
             for (int i = 0; i < enemies.Count; i++)
             {
                 Enemy enemy = enemies[i];
 
-                // Enemy dies
-                if (enemy.health == 0)
+                // Dont check if this enemy is dead if we know that they are already dead
+                if (enemy.isDead)
+                    continue;
+
+                // wasJustHit is here to wait a bit before removing enemy
+                if (enemy.health == 0 && !enemy.wasJustHit)
                 {
-                    enemies.RemoveAt(i);
+                    // Enemy dies
+                    System.Console.WriteLine($"Enemy: {enemy.name} is Dead!");
+                    enemy.isDead = true;
                     AudioManager.PlaySoundOnce("death");
                 }
             }
-
-            combatIsOver = !combatIsOver && enemies.Count == 0;
         }
 
         public static void ResetCombatParameters()

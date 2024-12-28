@@ -139,13 +139,16 @@ Done:
 6. Have enemies
     1. Have their health displayed beneath the sprite.
     2. Be able to attack.
-7. Control the direction of attack with ILKJ keys instead of player direction
-8. Display encounter difficulity instead of door number in the message
+7. Control the direction of attack with ILKJ keys instead of player direction.
+8. Display encounter difficulity instead of door number in the message.
+9. Make the enemy turn red and stop for a while after being hit.
+10. On death enemy turns gray and turns over.
 
 For version 3.X.X
 
 1. Give enemy unique movement pattern.
-1. Control the hitbox pattern per-weapon, put this data in Data.json
+2. Control the hitbox pattern per-weapon, put this data in Data.json
+3. Maybe display numbers flying off of a hit target
 
 ## 8. Refactoring (more like filling in the gaps of logic xd)
 

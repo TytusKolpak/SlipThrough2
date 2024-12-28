@@ -10,22 +10,20 @@ namespace SlipThrough2.Entities
         public readonly int modifier = DataStructure._constants.Settings.TimeModifierConstant;
         public readonly int cellSize = DataStructure._constants.Settings.CellSize;
         public static readonly Settings settingsData = DataStructure._constants.Settings;
-
-        // For texture handling
         public Texture2D texture;
         public Vector2 position,
             direction;
         public Point size;
-
         public string name;
-
-        // For movement logic
         public int idleIterations,
             timeForShift,
             adjustedTimeForShift,
-            attackCooldownIterations;
+            attackCooldownIterations,
+            recoveryIterations;
         public bool movementIsCooledDown,
-            attackIsCoolingDown;
+            attackIsCoolingDown,
+            wasJustHit,
+            isDead;
 
         // Combat stats
         public int maxHealth,

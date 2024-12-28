@@ -94,9 +94,12 @@ namespace SlipThrough2.Managers
             }
             else if (tileValue == -1)
             {
-                AudioManager.PlaySoundOnce("door");
                 // This means the tile is a door in an encounter
                 // and the player will return to the main map
+                AudioManager.PlaySoundOnce("door");
+
+                // Clear the dead enemies
+                EnemyManager.Enemies = null;
 
                 // Door nr 1 has a tile with value 2, door 2 with value 3 and so on
                 doorNumber++;

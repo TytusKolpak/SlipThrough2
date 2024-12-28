@@ -66,7 +66,6 @@ namespace SlipThrough2.Entities
             bool keepPlayingSound = direction != Vector2.Zero;
             AudioManager.PlayLoopedWalkingSound(keepPlayingSound);
 
-
             // If the player has just attacked disable them from attacking
             if (attackIsCoolingDown)
                 HandleAttackCooldown();
@@ -131,8 +130,7 @@ namespace SlipThrough2.Entities
                     Vector2 hitBoxCellPostion = WeaponManager.hitBoxPostion / cellSize;
                     if (hitBoxCellPostion == enemyCellPostion)
                     {
-                        // Remove x life from enemy
-                        enemy.health -= attack;
+                        enemy.ReceiveDamage(attack);
 
                         Console.WriteLine(
                             $"Player deals {attack} damage to {enemy.name}, leaving it with {enemy.health}/{enemy.maxHealth} health."

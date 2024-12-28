@@ -17,11 +17,22 @@ namespace SlipThrough2.Entities
 
         public void Update(Player player)
         {
-            PerformMovement();
+            if (isDead)
+                return;
+
+            // Disable movement and change color for a while after being hit
+            if (wasJustHit)
+                HandleRecovery();
+            else
+                PerformMovement();
 
             // Right now the enemy attacks player by standing on them
             if (attackIsCoolingDown)
+            {
+                // This is not used here due to what the enemy does after attack (moves away)
+                // but when their behavior will change this might become necessary
                 HandleAttackCooldown();
+            }
             else
             {
                 if (player.position == position)
@@ -29,29 +40,43 @@ namespace SlipThrough2.Entities
             }
 
             if (!movementIsCooledDown)
-            {
                 HandleMovementCooldown();
-                return;
-            }
-
-            DetermineDirection(player.position);
+            else
+                DetermineDirection(player.position);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            Color color = Color.White;
+            float rotation = 0,
+                layerDepth = 0.2f;
+            Vector2 offset = Vector2.Zero;
+
+            if (wasJustHit)
+                color = Color.Red;
+            else if (isDead)
+            {
+                color = Color.Gray;
+                rotation = MathHelper.ToRadians(90);
+                offset = new(cellSize, 0); // To counteract rotation induced position change
+                layerDepth = 0.19f; // Under the not yet dead enemies
+            }
+
             // Draw the enemy itself
             spriteBatch.Draw(
                 texture: texture,
-                destinationRectangle: new Rectangle(position.ToPoint(), size),
+                destinationRectangle: new Rectangle((position + offset).ToPoint(), size),
                 sourceRectangle: null,
-                color: Color.White,
-                rotation: 0,
+                color: color,
+                rotation: rotation,
                 origin: Vector2.Zero,
                 effects: SpriteEffects.None,
-                layerDepth: 0.2f // Under everything but the ground which is layer 0 (and weapns on ground)
+                layerDepth: layerDepth
             );
 
-            HUDManager.DisplayEnemyHealthBar(spriteBatch, position, health, maxHealth);
+            // No need to draw health if we know it's empty
+            if (!isDead)
+                HUDManager.DisplayEnemyHealthBar(spriteBatch, position, health, maxHealth);
         }
 
         private void DetermineDirection(Vector2 playerPosition)
@@ -85,6 +110,26 @@ namespace SlipThrough2.Entities
             // Mark enemy as having just attacked
             attackIsCoolingDown = true;
             attackCooldownIterations = 20; // about 0.33s
+        }
+
+        public void ReceiveDamage(int damage)
+        {
+            // Remove x life from enemy
+            health -= damage;
+
+            // Used to make the texture get red hue
+            wasJustHit = true;
+
+            // Time for the color change
+            recoveryIterations = 6;
+        }
+
+        private void HandleRecovery()
+        {
+            recoveryIterations--;
+
+            if (recoveryIterations == 0)
+                wasJustHit = false;
         }
     }
 }
