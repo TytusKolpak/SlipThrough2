@@ -35,7 +35,7 @@ namespace SlipThrough2.Managers
         {
             spriteBatch.Begin(
                 samplerState: SamplerState.PointClamp,
-                sortMode: SpriteSortMode.FrontToBack // The default is "Deffered", it ignores provided layerDepth
+                sortMode: SpriteSortMode.FrontToBack // The default is "Deferred", it ignores provided layerDepth
             );
 
             ViewManager.Draw();

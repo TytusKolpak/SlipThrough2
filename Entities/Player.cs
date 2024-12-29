@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SlipThrough2.Data;
 using SlipThrough2.Handlers;
 using SlipThrough2.Managers;
+using SlipThrough2.Views;
 
 namespace SlipThrough2.Entities
 {
@@ -37,7 +38,10 @@ namespace SlipThrough2.Entities
 
             // Play sound if there is in fact some movement
             // (its always on but if the direction is 0,0 vector then there is no shift)
-            bool keepPlayingSound = direction != Vector2.Zero;
+            bool keepPlayingSound = false;
+            if (direction != Vector2.Zero && !MainGame.isGameOver)
+                keepPlayingSound = true;
+
             AudioManager.PlayLoopedWalkingSound(keepPlayingSound);
 
             // If the player has just attacked disable them from attacking
@@ -57,33 +61,29 @@ namespace SlipThrough2.Entities
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(
-                texture: texture,
-                destinationRectangle: new Rectangle(position.ToPoint(), size),
-                sourceRectangle: null,
-                color: wasJustHit ? Color.Red : Color.White,
-                rotation: 0,
-                origin: Vector2.Zero,
-                effects: SpriteEffects.None,
-                layerDepth: 0.5f
-            );
+            if (wasJustHit)
+                color = Color.Red;
+            else
+                color = Color.White;
+            
+            DrawEntity(spriteBatch, layerDepth: 0.5f);
         }
 
         public static Vector2 ChooseStartingPosition()
         {
             Random rnd = new();
-            Vector2 tmpPostion = Vector2.Zero;
+            Vector2 tmpPosition = Vector2.Zero;
 
             // Select one of the cells at random, if it's on the ground, accept oi
-            while (tmpPostion == Vector2.Zero)
+            while (tmpPosition == Vector2.Zero)
             {
                 int x = (int)(rnd.NextInt64() % (settingsData.MapWidth - 1));
                 int y = (int)(rnd.NextInt64() % (settingsData.MapHeight - 1));
 
                 if (MapHandler.currentFunctionalPattern[y, x] == 1)
-                    tmpPostion = new(x * settingsData.CellSize, y * settingsData.CellSize);
+                    tmpPosition = new(x * settingsData.CellSize, y * settingsData.CellSize);
             }
-            return tmpPostion;
+            return tmpPosition;
         }
 
         private static bool IsMoveValid(int y, int x)
@@ -92,7 +92,7 @@ namespace SlipThrough2.Entities
             if (y < 0 || y >= settingsData.MapHeight || x < 0 || x >= settingsData.MapWidth)
                 return false;
 
-            // Player wants to eneter a terrain cell (1) or door cell (-1, 1 and above), walls are 0
+            // Player wants to enter a terrain cell (1) or door cell (-1, 1 and above), walls are 0
             return MapHandler.currentFunctionalPattern[y, x] != 0;
         }
 
@@ -127,7 +127,7 @@ namespace SlipThrough2.Entities
             Console.Write("Performing attack! ");
             AudioManager.PlaySoundOnce("attack");
 
-            // Mark player as having just attacked, usted to temporary change the hitbox to attacking one
+            // Mark player as having just attacked, used to temporary change the hitbox to attacking one
             attackIsCoolingDown = true;
             attackCooldownIterations = 20; // about 0.33s
 
@@ -142,14 +142,14 @@ namespace SlipThrough2.Entities
                     Enemy enemy = EnemyManager.Enemies[i];
 
                     // Check if this is the one who is being hit
-                    Vector2 enemyCellPostion =
+                    Vector2 enemyCellPosition =
                         new(
                             (float)Math.Round(enemy.position.X / settingsData.CellSize),
                             (float)Math.Round(enemy.position.Y / settingsData.CellSize)
                         );
 
-                    Vector2 hitBoxCellPostion = WeaponManager.hitBoxPostion / cellSize;
-                    if (hitBoxCellPostion == enemyCellPostion)
+                    Vector2 hitBoxCellPosition = WeaponManager.hitBoxPosition / cellSize;
+                    if (hitBoxCellPosition == enemyCellPosition)
                     {
                         enemy.ReceiveDamage(attack);
 

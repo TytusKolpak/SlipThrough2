@@ -50,34 +50,21 @@ namespace SlipThrough2.Entities
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            Color color = Color.White;
-            float rotation = 0,
-                layerDepth = 0.2f;
-            Vector2 offset = Vector2.Zero;
-
-            Console.WriteLine($"wasJustHit: {wasJustHit}, isDead: {isDead}");
-            if (wasJustHit )
+            if (wasJustHit)
                 color = Color.Red;
-            
+            else
+                color = Color.White;
+
             if (isDead)
             {
                 color = Color.Gray;
                 rotation = MathHelper.ToRadians(90);
-                offset = new(cellSize, 0); // To counteract rotation induced position change
-                layerDepth = 0.19f; // Under the not yet dead enemies
+                layerDepth = 0.19f; // Under the not yet dead enemies this is a typo2sa
             }
+            else
+                layerDepth = 0.2f;
 
-            // Draw the enemy itself
-            spriteBatch.Draw(
-                texture: texture,
-                destinationRectangle: new Rectangle((position + offset).ToPoint(), size),
-                sourceRectangle: null,
-                color: color,
-                rotation: rotation,
-                origin: Vector2.Zero,
-                effects: SpriteEffects.None,
-                layerDepth: layerDepth
-            );
+            DrawEntity(spriteBatch, layerDepth);
 
             // No need to draw health if we know it's empty
             if (!isDead)

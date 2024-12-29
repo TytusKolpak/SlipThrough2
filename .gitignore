@@ -45,6 +45,7 @@ packages/
 
 # Me specific
 .ignorable/
+Documentation/Notes.md
 
 # Unignore anything from here
 !Builds/*.dll

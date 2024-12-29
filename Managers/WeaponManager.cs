@@ -16,21 +16,22 @@ namespace SlipThrough2.Managers
         private readonly List<Texture2D> TEXTURES;
         private int weaponIndex,
             hitBoxIndex;
-        public static Rectangle rectangle;
-        private Point size,
-            adjustedPlayerPosition;
+        private static readonly float scale = 2;
+        public static Vector2 hitBoxPosition,
+            origin = new(8, 8),
+            adjuster = origin * scale;
+        private Vector2 position;
 
         public static bool playerHoldsWeapon,
             enemyInHitBox;
         public static float layerDepth = 0.1f,
             rotation;
         public static string directionX;
-        public static Vector2 hitBoxPostion;
 
         public WeaponManager(List<Texture2D> weaponTextures)
         {
             TEXTURES = weaponTextures;
-            SetWeaponParameters(11, 10, "Sword");
+            SetWeaponParameters("Sword");
         }
 
         public void Update(
@@ -41,7 +42,7 @@ namespace SlipThrough2.Managers
         )
         {
             DetermineHitBoxPosition(playerPosition, attackDirection);
-            
+
             if (!playerHoldsWeapon)
                 CheckForWeaponPickup(playerPosition);
 
@@ -51,20 +52,24 @@ namespace SlipThrough2.Managers
 
         public void Draw(
             SpriteBatch batch,
-            Vector2 playerPositon,
+            Vector2 playerPosition,
             bool playerJustAttacked,
             Vector2 attackDirection
         )
         {
-            DisplayWeapon(batch, playerPositon);
+            DisplayWeapon(batch, playerPosition);
             DisplayWeaponHitBox(batch, playerJustAttacked, attackDirection);
         }
 
-        public static void CheckForWeaponPickup(Vector2 position)
+        public void CheckForWeaponPickup(Vector2 playerPosition)
         {
-            if (!playerHoldsWeapon && rectangle.X == position.X && rectangle.Y == position.Y)
+            if (
+                !playerHoldsWeapon
+                && position.X == playerPosition.X
+                && position.Y == playerPosition.Y
+            )
             {
-                Console.WriteLine($"Player picks up a weapon at: {rectangle}");
+                Console.WriteLine($"Player picks up a weapon at: {position}");
 
                 // Attach its position to the player (+ offsets and rotation)
                 playerHoldsWeapon = true;
@@ -73,54 +78,50 @@ namespace SlipThrough2.Managers
             }
         }
 
-        private void SetWeaponParameters(int x, int y, string name)
+        private void SetWeaponParameters(string name)
         {
             weaponIndex = weaponData.FindIndex(element => element.Name == name);
-            Point position = Player.ChooseStartingPosition().ToPoint();
-            size = new(cellSize, cellSize);
-            rectangle = new(position, size);
+            position = Player.ChooseStartingPosition();
         }
 
-        private void DisplayWeapon(SpriteBatch batch, Vector2 pPositon)
+        private void DisplayWeapon(SpriteBatch batch, Vector2 playerPosition)
         {
-            if (
-                MapHandler.mapName == mapsData.NewMain.Name
-                || (playerHoldsWeapon && MapHandler.mapName == mapsData.EasyEncounter.Name)
-            )
+            // Don't draw if player is in encounter while not holding a weapon
+            if (MapHandler.mapName == mapsData.EasyEncounter.Name && !playerHoldsWeapon)
+                return;
+
+            // Overwrite the original weapon location - make player carry the weapon
+            if (playerHoldsWeapon)
             {
-                // Overwrite the original weapon location - make player carry the weapon
-                if (playerHoldsWeapon)
+                position = playerPosition;
+                position.Y += 5;
+
+                if (directionX == "right")
                 {
-                    if (directionX == "right")
-                    {
-                        adjustedPlayerPosition = new((int)pPositon.X + cellSize, (int)pPositon.Y);
-                        rotation = MathHelper.ToRadians(45);
-                    }
-
-                    if (directionX == "left")
-                    {
-                        adjustedPlayerPosition = new(
-                            (int)pPositon.X - cellSize * 3 / 4,
-                            (int)pPositon.Y + cellSize * 3 / 4
-                        );
-                        rotation = MathHelper.ToRadians(-45);
-                    }
-
-                    rectangle = new Rectangle(adjustedPlayerPosition, size);
-                    layerDepth = 0.6f; // Just above the player
+                    position.X += 20;
+                    rotation = MathHelper.ToRadians(45);
                 }
 
-                batch.Draw(
-                    texture: TEXTURES[weaponIndex],
-                    destinationRectangle: rectangle,
-                    sourceRectangle: null,
-                    color: Color.White,
-                    rotation: rotation,
-                    origin: Vector2.Zero,
-                    effects: SpriteEffects.None,
-                    layerDepth: layerDepth // Above ground, below enemy
-                );
+                if (directionX == "left")
+                {
+                    position.X -= 20;
+                    rotation = MathHelper.ToRadians(-45);
+                }
+
+                layerDepth = 0.6f; // Just above the player
             }
+
+            batch.Draw(
+                texture: TEXTURES[weaponIndex],
+                position: position + adjuster,
+                sourceRectangle: null,
+                color: Color.White,
+                rotation: rotation,
+                origin: origin,
+                scale: scale,
+                effects: SpriteEffects.None,
+                layerDepth: layerDepth
+            );
         }
 
         private void DetermineHitBoxPosition(Vector2 playerPosition, Vector2 attackDirection)
@@ -133,7 +134,7 @@ namespace SlipThrough2.Managers
             playerPosition.Y = (float)Math.Round(playerPosition.Y / cellSize);
 
             // Back to coordinates position after adding direction of attack
-            hitBoxPostion = (playerPosition + attackDirection) * cellSize;
+            hitBoxPosition = (playerPosition + attackDirection) * cellSize;
         }
 
         private void DetermineWeaponPosition(Vector2 playerDirection)
@@ -150,17 +151,17 @@ namespace SlipThrough2.Managers
                 return;
 
             enemyInHitBox = false;
-            Vector2 enemyCellPostion;
+            Vector2 enemyCellPosition;
             foreach (Enemy enemy in enemies)
             {
-                enemyCellPostion = Vector2.Divide(enemy.position, cellSize);
-                enemyCellPostion.Round(); // Is this necessary?
+                enemyCellPosition = Vector2.Divide(enemy.position, cellSize);
+                enemyCellPosition.Round(); // Is this necessary?
 
                 // If the hitbox is over enemy mark it as so (later it changes the hitbox icon)
-                Vector2 hitBoxCellPostion = Vector2.Divide(hitBoxPostion, cellSize);
-                hitBoxCellPostion.Round();
+                Vector2 hitBoxCellPosition = Vector2.Divide(hitBoxPosition, cellSize);
+                hitBoxCellPosition.Round();
 
-                enemyInHitBox = hitBoxCellPostion == enemyCellPostion;
+                enemyInHitBox = hitBoxCellPosition == enemyCellPosition;
 
                 // No need to check further if one is already inside
                 if (enemyInHitBox)
@@ -197,16 +198,15 @@ namespace SlipThrough2.Managers
             }
             hitBoxIndex = weaponData.FindIndex(element => element.Name == hitBoxType);
 
-            Rectangle hitBoxRectangle = new(hitBoxPostion.ToPoint(), size);
-
             // Draw selected hitbox
             batch.Draw(
                 texture: TEXTURES[hitBoxIndex],
-                destinationRectangle: hitBoxRectangle,
+                position: hitBoxPosition,
                 sourceRectangle: null,
                 color: Color.White,
                 rotation: 0,
                 origin: Vector2.Zero,
+                scale: scale,
                 effects: SpriteEffects.None,
                 layerDepth: 0.3f // Above enemy
             );

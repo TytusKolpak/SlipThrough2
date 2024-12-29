@@ -15,7 +15,7 @@ namespace SlipThrough2
 
         public Game1()
         {
-            // Json data related precomputations at the very beginning
+            // Json data related pre-computations at the very beginning
             DataStructure.LoadJsonData();
             Settings settingsData = DataStructure._constants.Settings;
 

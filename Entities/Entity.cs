@@ -10,10 +10,21 @@ namespace SlipThrough2.Entities
         public readonly int modifier = DataStructure._constants.Settings.TimeModifierConstant;
         public readonly int cellSize = DataStructure._constants.Settings.CellSize;
         public static readonly Settings settingsData = DataStructure._constants.Settings;
+
+        // For drawing
         public Texture2D texture;
         public Vector2 position,
             direction;
+
+        // We have 16x16 sprites so this will not change for a long time
+        public static readonly float scale = 2f;
+        public static readonly Vector2 origin = new(8, 8), // This is here to allow rotation around sprite's center
+            adjuster = origin * scale; // To keep the position of a sprite as it's left upper corner for convenience
         public Point size;
+        public Color color = Color.White;
+        public float rotation,
+            layerDepth;
+
         public string name;
         public int idleIterations,
             timeForShift,
@@ -32,6 +43,21 @@ namespace SlipThrough2.Entities
             mana,
             attack,
             speed;
+
+        public void DrawEntity(SpriteBatch spriteBatch, float layerDepth)
+        {
+            spriteBatch.Draw(
+                texture: texture,
+                position: position + adjuster,
+                sourceRectangle: null,
+                color: color,
+                rotation: rotation,
+                origin: origin,
+                scale: scale,
+                effects: SpriteEffects.None,
+                layerDepth: layerDepth
+            );
+        }
 
         // For player it's -1 so that I do not need to make another method as overloaded method
         public void AssignStats(int doorNumber, string entityName)
@@ -98,7 +124,7 @@ namespace SlipThrough2.Entities
             position += shift;
             movementIsCooledDown = false;
 
-            // Only for ther player if he is moving (idle iterations do stay at 0 when not moving)
+            // Only for when player if he is moving (idle iterations do stay at 0 when not moving)
             if (this is Player && idleIterations != 0)
             {
                 int heightInStepModifier = idleIterations < timeForShift / 2 ? 1 : -1; // 1,1,1,1,-1,-1,-1,-1

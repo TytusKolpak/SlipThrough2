@@ -43,7 +43,7 @@ namespace SlipThrough2.Handlers
             {
                 Enemy enemy = enemies[i];
 
-                // Dont check if this enemy is dead if we know that they are already dead
+                // Don't check if this enemy is dead if we know that they are already dead
                 if (enemy.isDead)
                     continue;
 

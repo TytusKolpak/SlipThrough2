@@ -99,7 +99,7 @@ namespace SlipThrough2.Managers
             // otherwise it will be shadowed by any vertical/horizontal one
             var movements = new (Keys[] keys, int moveIndex, Vector2 direction)[]
             {
-                // WDSA keys
+                // W,D,S,A keys
                 (new[] { Keys.W, Keys.D }, 0, new Vector2(cellSize, -cellSize)), // Right Up
                 (new[] { Keys.D, Keys.S }, 1, new Vector2(cellSize, cellSize)), // Right Down
                 (new[] { Keys.S, Keys.A }, 2, new Vector2(-cellSize, cellSize)), // Left Down

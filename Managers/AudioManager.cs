@@ -44,7 +44,7 @@ namespace SlipThrough2.Managers
         {
             if (!enableSoundEffects)
                 return;
-                
+
             soundEffectInstance.IsLooped = true;
 
             if (doPlay)
@@ -62,14 +62,17 @@ namespace SlipThrough2.Managers
             {
                 // Stop playing but only after a slight delay
                 if (bufferIterations > 2)
-                {
-                    soundEffectInstance.Pause();
-                    soundWasPlaying = false;
-                    bufferIterations = 0;
-                }
+                    StopLoopingSound();
                 else
                     bufferIterations++;
             }
+        }
+
+        public static void StopLoopingSound()
+        {
+            soundEffectInstance.Pause();
+            soundWasPlaying = false;
+            bufferIterations = 0;
         }
     }
 }

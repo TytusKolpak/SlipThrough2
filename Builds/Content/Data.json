@@ -271,7 +271,7 @@
         }
     },
     "Entities": {
-        "Player": { "MaxHealth": 10, "Health": 8, "MaxMana": 3, "Mana": 1, "Attack": 1, "Speed": 8 },
+        "Player": { "MaxHealth": 10, "Health": 10, "MaxMana": 3, "Mana": 1, "Attack": 1, "Speed": 8 },
         "EasyEnemy": { "MaxHealth": 2, "Health": 2, "MaxMana": 1, "Mana": 1, "Attack": 1, "Speed": 1 },
         "MediumEnemy": { "MaxHealth": 4, "Health": 4, "MaxMana": 2, "Mana": 2, "Attack": 2, "Speed": 1 },
         "HardEnemy": { "MaxHealth": 8, "Health": 8, "MaxMana": 5, "Mana": 5, "Attack": 3, "Speed": 1 }

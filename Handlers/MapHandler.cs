@@ -30,7 +30,7 @@ namespace SlipThrough2.Handlers
 
                     string[] specialTilesToCoverPlayer = { "Wo8v1", "Wo2v1" };
 
-                    // If contains then 0.9 means at the top of all else other than the HUD, othervise 0 - underneath all else
+                    // If contains then 0.9 means at the top of all else other than the HUD, otherwise 0 - underneath all else
                     float actualLayerDepth = specialTilesToCoverPlayer.Contains(tileCode) ? 0.9f : 0;
 
                     spriteBatch.Draw(

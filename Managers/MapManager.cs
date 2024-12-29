@@ -134,7 +134,7 @@ namespace SlipThrough2.Managers
             int numberOfEncounters = DataStructure._constants.Encounters.EnemySet.Length,
                 minimumDistance = 5;
             List<Vector2> encounterDoorPositions = new();
-            
+
             Random rnd = new();
 
             for (int i = 0; i < numberOfEncounters; i++)
@@ -503,9 +503,11 @@ namespace SlipThrough2.Managers
                         return;
                 }
             }
-            
+
             // If there is no open door then the game is over
+            Console.WriteLine("The game is over.");
             MainGame.isGameOver = true;
+            AudioManager.StopLoopingSound();
         }
     }
 }

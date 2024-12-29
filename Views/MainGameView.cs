@@ -107,7 +107,6 @@ namespace SlipThrough2.Views
             WeaponManager.playerHoldsWeapon = false;
             WeaponManager.directionX = null;
             WeaponManager.layerDepth = 0.1f;
-            WeaponManager.rectangle = new Rectangle();
             WeaponManager.rotation = 0;
 
             isGameOver = false;
