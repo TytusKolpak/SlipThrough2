@@ -27,14 +27,12 @@ namespace SlipThrough2.Views
                 Color.White
             );
 
-            string mapTypeText = MapManager.newMappingApplied ? "old" : "new";
             string audioText = AudioManager.enableSoundEffects ? "off" : "on";
             string[] textToDisplay =
             {
                 "- Press Q to Quit",
                 "- Press Esc key to Resume",
                 "- Press R key to Restart",
-                $"- Press S key to Switch to {mapTypeText} main map",
                 $"- Press E to turn sound effects {audioText}",
             };
 

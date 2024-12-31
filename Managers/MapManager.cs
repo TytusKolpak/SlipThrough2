@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.ConstrainedExecution;
+using System.Reflection.PortableExecutable;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SlipThrough2.Data;
@@ -23,7 +23,6 @@ namespace SlipThrough2.Managers
         public static readonly Dictionary<string, string[,]> allMapTileLayouts = new(); // For how it looks
         public static readonly Dictionary<string, int[,]> allFunctionalMaps = new(); // For how it works
         public static int doorNumber;
-        public static bool newMappingApplied = true;
         public MapHandler MapHandler;
 
         // Constructor to initialize maps
@@ -32,11 +31,9 @@ namespace SlipThrough2.Managers
             LoadMaps();
             MapHandler = new MapHandler(mapTextures);
 
-            if (newMappingApplied)
-                GenerateNewTypeMap();
+            GenerateNewTypeMap();
 
-            string mapToSet = newMappingApplied ? mapsData.NewMain.Name : mapsData.Main.Name;
-            SetMap(mapToSet);
+            SetMap(mapsData.NewMain.Name);
         }
 
         public void Update(Player Player)
@@ -52,16 +49,6 @@ namespace SlipThrough2.Managers
         public void Draw(SpriteBatch spriteBatch)
         {
             MapHandler.Draw(spriteBatch);
-        }
-
-        public static void ChangeMainMapType()
-        {
-            newMappingApplied = !newMappingApplied;
-
-            if (newMappingApplied)
-                GenerateNewTypeMap();
-            else
-                SetMap(mapsData.Main.Name);
         }
 
         private static void CheckIfEnteringDoor(int PCY, int PCX, Player Player)
@@ -106,10 +93,7 @@ namespace SlipThrough2.Managers
                 // Door nr 1 has a tile with value 2, door 2 with value 3 and so on
                 doorNumber++;
 
-                string currentMainMap = newMappingApplied
-                    ? mapsData.NewMain.Name
-                    : mapsData.Main.Name;
-
+                string currentMainMap = mapsData.NewMain.Name;
                 Vector2 doorPosition = FindPositionOfDoors(currentMainMap, doorNumber);
 
                 // Modify the map (close the doors)
@@ -256,7 +240,7 @@ namespace SlipThrough2.Managers
 
         public static void GenerateNewTypeMap()
         {
-            // In short this map is generated in  much different, random way so it needs it's own function
+            // In short this map is generated in much different, random way so it needs it's own function
             Console.WriteLine("Generating new type map");
 
             // Select the position od encounter buildings at random
@@ -285,15 +269,20 @@ namespace SlipThrough2.Managers
             // Put the buildings on the layout
             for (int i = 0; i < encounterPositions.Count; i++)
             {
+                // 3 and 2 are here so the position is of the building doors,
+                // not its top left corner. Just the specificity of the room.
                 Vector2 offsetForDoorsInBuilding = new(-2, -3);
                 Vector2 doorPosition = encounterPositions[i] + offsetForDoorsInBuilding;
-                Console.WriteLine(doorPosition);
+                Console.WriteLine($"Putting encounter at {doorPosition}.");
+
+                // Put at most 3 enemies on the building
+                int maxEnemiesPut = 3;
+                List<string> enemiesPut = new();
+
                 for (int y = 0; y < encounterBuildingLayout.Length; y++)
                 {
                     for (int x = 0; x < encounterBuildingLayout[0].Length; x++)
                     {
-                        // 3 and 2 are here so the position is of the building doors,
-                        // not its top left corner. Just the specificity of the room.
                         int adjustedX = (int)doorPosition.X + x;
                         int adjustedY = (int)doorPosition.Y + y;
                         if (
@@ -306,11 +295,20 @@ namespace SlipThrough2.Managers
                             newMainLayout[adjustedY, adjustedX] = encounterBuildingLayout[y][x];
 
                             // If this is the middle of the building then put an enemy there
-                            // Change constants to encounterBuildingLayout derivatives
                             for (int j = 0; j < enemyData[i].Length; j++)
                             {
-                                if (y == 1 & x == j + 1)
-                                    newMainLayout[adjustedY, adjustedX] = enemyData[i][j];
+                                // string like "Brown rat"
+                                string enemyName = enemyData[i][j];
+                                if (
+                                    y == 1
+                                    && x == j + 1
+                                    && enemiesPut.Count < maxEnemiesPut
+                                    && !enemiesPut.Contains(enemyName) // Put only one enemy of its type
+                                )
+                                {
+                                    newMainLayout[adjustedY, adjustedX] = enemyName;
+                                    enemiesPut.Add(enemyName);
+                                }
                             }
                         }
                     }
@@ -390,18 +388,10 @@ namespace SlipThrough2.Managers
             Console.WriteLine("Inserted encounter doors");
         }
 
-        private static void LoadMaps()
+        private void LoadMaps()
         {
-            // Use data from Data.json as template to create local variables
-            string name = mapsData.Main.Name;
-            allMapRoomPatterns[name] = mapsData.Main.RoomPattern;
-
-            allMapTileLayouts[name] = TranslateMapPatternToLayout(name);
-            InsertDoorsIntoMap(name, new(1, 0), new(2, 0));
-            InsertDoorsIntoMap(name, new(2, 0), new(4, 0));
-
-            // The same for the second map (EasyEncounter)
-            name = mapsData.EasyEncounter.Name;
+            // Load all the maps to be used besides the main map (EasyEncounter)
+            string name = mapsData.EasyEncounter.Name;
             allMapRoomPatterns[name] = mapsData.EasyEncounter.RoomPattern;
             allMapTileLayouts[name] = TranslateMapPatternToLayout(name);
         }
@@ -458,9 +448,11 @@ namespace SlipThrough2.Managers
             Console.WriteLine("End");
         }
 
-        private static string[,] TranslateMapPatternToLayout(string name)
+        private string[,] TranslateMapPatternToLayout(string name)
         {
-            Map map = GetObjectsPropertyValue(mapsData, name); // This is now whole EasyEncounter object or MainMap object, found by its name
+            // This is now whole EasyEncounter object or MainMap object, found by its name
+            Map map = GetObjectsPropertyValue(mapsData, name);
+
             int patternHeight = settingsData.RowCount;
             int patternWidth = settingsData.ColumnCount;
             int roomHeight = settingsData.RoomSize;
@@ -473,7 +465,9 @@ namespace SlipThrough2.Managers
             {
                 for (int column = 0; column < patternWidth; column++)
                 {
-                    string roomName = pattern[row][column]; // As in "OLD" (Open left down which holds string[][])
+                    // As in "RE" ("Right Edge" which holds string[][])
+                    string roomName = GetRoomName(row, column, patternHeight, patternWidth);
+
                     string[][] room = GetObjectsPropertyValue(map.Rooms, roomName); // This is its contents
                     for (int y = 0; y < roomHeight; y++)
                     {
@@ -486,6 +480,40 @@ namespace SlipThrough2.Managers
             }
             // ShowLayout(layout);
             return layout;
+        }
+
+        private string GetRoomName(int row, int column, int maxRow, int maxColumn)
+        {
+            maxRow -= 1; // To account for indexing (last row in 10 element array has index 9)
+            maxColumn -= 1;
+
+            if (row == 0)
+            {
+                if (column == 0)
+                    return "LUE"; // Left upper edge
+                else if (column == maxColumn)
+                    return "RUE"; // Right upper edge
+                else
+                    return "UE"; // Upper edge
+            }
+            else if (row == maxRow)
+            {
+                if (column == 0)
+                    return "LDE"; // Left down edge
+                else if (column == maxColumn)
+                    return "RDE"; // Right down edge
+                else
+                    return "DE"; // Down edge
+            }
+            else
+            {
+                if (column == 0)
+                    return "LE"; // Left edge
+                else if (column == maxColumn)
+                    return "RE"; // Right edge
+                else
+                    return "C"; // Center
+            }
         }
 
         private static void CheckIfGameIsWon()

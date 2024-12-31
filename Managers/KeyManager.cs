@@ -64,18 +64,6 @@ namespace SlipThrough2.Managers
                             ViewManager.ResetViews(mainView);
                             break;
 
-                        case Keys.S:
-                            // Switch main map type
-                            if (ViewManager.currentView == startView)
-                                MapManager.ChangeMainMapType();
-                            else if (ViewManager.currentView == optionsView)
-                            {
-                                MapManager.ChangeMainMapType();
-                                ViewManager.ResetViews(mainView);
-                            }
-
-                            break;
-
                         case Keys.E:
                             AudioManager.enableSoundEffects = !AudioManager.enableSoundEffects;
                             if (AudioManager.enableSoundEffects)

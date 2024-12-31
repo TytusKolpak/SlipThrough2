@@ -69,7 +69,7 @@ namespace SlipThrough2.Entities
                 0 => entityData.EasyEnemy,
                 1 => entityData.MediumEnemy,
                 2 => entityData.HardEnemy,
-                _ => throw new System.NotImplementedException()
+                _ => entityData.EasyEnemy
             };
 
             maxHealth = entity.MaxHealth;

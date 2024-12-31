@@ -110,18 +110,21 @@
     2. Make movement horizontal.
     3. Put in another moving image with transparent background which moves faster in the same direction as the firs one to create a parallax effect.
 
-## To be done in 3.X.X
-
 ### Window resolution
 
-1. It would be cool if it was 16:9 to enable fullscreen without stretching at different rates
+1. Remove old main map data
+2. Dynamically specify which room to use in an encounter without hardcoding it since we know the pattern
+3. It would be cool if it was 16:9 to enable fullscreen without stretching at different rates
     1. Right now it's:
         1. 6("rooms")x6(cells)x32px = 1152 width,
         2. 3("rooms")x6(cells)x32px = 576 height,
         3. So proportion is 2:1
-    2. 16 x room width x 32 = 506 x room width -> If we want 3 cell room then width of window is 1518 already
+    2. 16 x room width x 32 = 506 x room width -> If we want 3 cell room then width of window is 1536 already
     3. height would be 9 x 3 x 32 = 865
     4. We can give it a try and see how it goes
+        1. Looks fine
+
+## To be done in 3.X.X
 
 ### Weaponry
 
