@@ -59,6 +59,7 @@ namespace SlipThrough2
 
             SpriteFont font = Content.Load<SpriteFont>("Font1");
 
+            // All this hardcoded elements should be put into Data.json
             List<SoundEffect> soundEffect =
                 new()
                 {
@@ -68,7 +69,16 @@ namespace SlipThrough2
                     Content.Load<SoundEffect>("swordAttack"),
                 };
 
-            Texture2D background = Content.Load<Texture2D>("starfield");
+            List<Texture2D> backgroundTextures =
+                new()
+                {
+                    Content.Load<Texture2D>("sky"),
+                    Content.Load<Texture2D>("far-clouds"),
+                    Content.Load<Texture2D>("near-clouds"),
+                    Content.Load<Texture2D>("far-mountains"),
+                    Content.Load<Texture2D>("mountains"),
+                    Content.Load<Texture2D>("trees"),
+                };
 
             var gameAssets = (
                 PlayerTextureAsset: playerTexture,
@@ -77,7 +87,7 @@ namespace SlipThrough2
                 HUDTexturesAsset: HUDTextures,
                 WeaponTextures: weaponTextures,
                 FontAsset: font,
-                Background: background,
+                BackgroundTexturesAsset: backgroundTextures,
                 SpriteBatch: _spriteBatch
             );
 

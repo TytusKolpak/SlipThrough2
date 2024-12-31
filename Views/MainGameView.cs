@@ -31,7 +31,7 @@ namespace SlipThrough2.Views
                 List<Texture2D> HUDTextures,
                 List<Texture2D> WeaponTextures,
                 SpriteFont Font,
-                Texture2D Background,
+                List<Texture2D> BackgroundTextures,
                 SpriteBatch spriteBatch
             ) gameAssets
         )

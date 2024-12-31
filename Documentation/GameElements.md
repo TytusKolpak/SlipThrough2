@@ -103,23 +103,43 @@
     1. Show You Lose if player dies
 14. Make player red after being attacked too
 
-## To be done in 3.X.X
-
-### Misc cleanup and Quality of Life changes
-
-4. Introduce Testing?
-
-### Background image
+## Done in 3.X.X
 
 1. Background image
-    1. Change the to something thematic.
-    2. Make movement horizontal
-    3. Put in another moving image with transparent background which moves faster in the same direction as the firs one to create a parallax effect
+    1. Change the image to something thematic.
+    2. Make movement horizontal.
+    3. Put in another moving image with transparent background which moves faster in the same direction as the firs one to create a parallax effect.
+
+## To be done in 3.X.X
+
+### Window resolution
+
+1. It would be cool if it was 16:9 to enable fullscreen without stretching at different rates
+    1. Right now it's:
+        1. 6("rooms")x6(cells)x32px = 1152 width,
+        2. 3("rooms")x6(cells)x32px = 576 height,
+        3. So proportion is 2:1
+    2. 16 x room width x 32 = 506 x room width -> If we want 3 cell room then width of window is 1518 already
+    3. height would be 9 x 3 x 32 = 865
+    4. We can give it a try and see how it goes
+
+### Weaponry
+
+1. Introduce a new building
+2. Have inside be built as a completely new, full size map representing inside of a building
+3. Inside a new weapon can be picked up (and then used)
+4. Potions can be bought? (would require gold acquiring in some way)
+    1. And used to regain health, mana or some other stats
+5. Shield can be bought (needs to be used with B - blocks an enemy attack)
+6. Have weapons have a hitting animation - like a little rotation + position change
 
 ### Map
 
-1. Moving map - be able to get to the right side of current map and load next half of the map to the right thus making it look like there is still some land. Make the move smooth, not a jump.
-2. Smith/shop building with its contents after entering - whole new map layout
+1. Moving map.
+    1. Be able to get to the right side of current map and load next half of the map to the right.
+        1. Thus making it look like there is still some land.
+    2. Make the move smooth, not a jump.
+    3. Generate the new map portion as 100% of view (in full window size).
 
 ### Enemy
 
@@ -134,16 +154,6 @@
 1. Put in a number of enemies of the same type and a boss with larger texture and bigger stats
     1. Boss be random one of the inside enemies, appearing after all others are defeated
 2. Maybe add option press C to Continue after a win to reset everything but make enemies stronger to introduce level progression
-
-### Weaponry
-
-1. Introduce a new building
-2. Have inside be built as a completely new, full size map representing inside of a building
-3. Inside a new weapon can be picked up (and then used)
-4. Potions can be bought? (would require gold acquiring in some way)
-    1. And used to regain health, mana or some other stats
-5. Shield can be bought (needs to be used with B - blocks an enemy attack)
-6. Have weapons have a hitting animation - like a little rotation + position change
 
 ## Topic to keep in mind
 

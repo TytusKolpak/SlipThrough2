@@ -19,7 +19,7 @@ namespace SlipThrough2.Managers
             List<Texture2D> HUDTextures,
             List<Texture2D> WeaponTextures,
             SpriteFont Font,
-            Texture2D Background,
+            List<Texture2D> BackgroundTextures,
             SpriteBatch spriteBatch
         ) gameAssetsBackup;
 
@@ -31,7 +31,7 @@ namespace SlipThrough2.Managers
                 List<Texture2D> HUDTextures,
                 List<Texture2D> WeaponTextures,
                 SpriteFont Font,
-                Texture2D Background,
+                List<Texture2D> BackgroundTextures,
                 SpriteBatch spriteBatch
             ) gameAssets
         )
@@ -40,12 +40,12 @@ namespace SlipThrough2.Managers
 
             views[viewsData.StartScreen.Name] = new Start(
                 viewsData.StartScreen.Name,
-                gameAssets.Background
+                gameAssets.BackgroundTextures
             );
             views[viewsData.MainGame.Name] = new MainGame(viewsData.MainGame.Name, gameAssets);
             views[viewsData.Options.Name] = new Options(
                 viewsData.Options.Name,
-                gameAssets.Background
+                gameAssets.BackgroundTextures
             );
 
             View.font = gameAssets.Font;

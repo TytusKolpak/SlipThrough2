@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SlipThrough2.Data;
@@ -10,10 +11,10 @@ namespace SlipThrough2.Views
         private static readonly Settings data = DataStructure._constants.Settings;
         private MovingBackground myBackground;
 
-        public Options(string viewName, Texture2D Background)
+        public Options(string viewName, List<Texture2D> BackgroundTextures)
         {
             view = viewName;
-            myBackground = new MovingBackground(Background);
+            myBackground = new MovingBackground(BackgroundTextures);
         }
 
         public override void Draw()
