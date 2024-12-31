@@ -82,172 +82,73 @@
     },
     "Settings": {
         "CellSize": 32,
-        "ColumnCount": 6,
-        "RowCount": 3,
-        "RoomSize": 6,
+        "ColumnCount": 16,
+        "RowCount": 9,
+        "RoomSize": 3,
         "TimeModifierConstant": 2,
         "FontSize": 24,
-        "WindowWidth": 1152,
-        "WindowHeight": 576,
-        "MapWidth": 36,
-        "MapHeight": 18,
+        "WindowWidth": 1536,
+        "WindowHeight": 865,
+        "MapWidth": 48,
+        "MapHeight": 27,
         "TrackedKeys": [
             { "Name": "Enter", "Value": 13 },
             { "Name": "Esc", "Value": 27 },
             { "Name": "E", "Value": 69 },
             { "Name": "Q", "Value": 81 },
-            { "Name": "R", "Value": 82 },
-            { "Name": "S", "Value": 83 }
+            { "Name": "R", "Value": 82 }
         ]
     },
     "Maps": {
-        "Main": {
-            "Name": "Main",
-            "Rooms": {
-                "OLD": [
-                    ["Wo8v1", "Wo1v1", "Wo1v1", "Wo1v1", "Wo1v1", "Wo2v1"],
-                    ["Wo4v2", "To0v1", "To0v2", "To0v1", "To0v3", "Wo3v1"],
-                    ["To0v1", "To0v1", "To0v1", "To0v1", "To0v1", "Wo3v1"],
-                    ["Wo2v2", "To0v1", "To0v2", "To0v2", "To0v1", "Wo3v1"],
-                    ["Wo7v1", "Cs0v1", "To0v1", "To0v1", "To0v1", "Wo3v1"],
-                    ["Wo6v1", "Wo5v1", "Wo2v2", "To0v1", "Wo8v2", "Wo4v1"]
-                ],
-                "OR": [
-                    ["Wo8v1", "Wo1v1", "Wo7v3", "Ds1v1", "Wo3v3", "Wo2v1"],
-                    ["Wo7v1", "To0v1", "To0v2", "To0v1", "To0v1", "Wo6v2"],
-                    ["Wo7v1", "To0v1", "To0v1", "To0v1", "To0v1", "To0v1"],
-                    ["Wo7v1", "To0v1", "To0v1", "To0v2", "To0v1", "Wo8v2"],
-                    ["Wo7v1", "To0v1", "To0v1", "To0v3", "Cs0v1", "Wo3v1"],
-                    ["Wo6v1", "Wo5v1", "Wo5v1", "Wo5v1", "Wo5v1", "Wo4v1"]
-                ],
-                "OLU": [
-                    ["Wo8v1", "Wo1v1", "Wo4v2", "To0v1", "Wo6v2", "Wo2v1"],
-                    ["Wo4v2", "To0v1", "To0v1", "To0v1", "To0v1", "Wo3v1"],
-                    ["To0v1", "To0v1", "To0v1", "To0v1", "To0v3", "Wo3v1"],
-                    ["Wo2v2", "To0v1", "To0v2", "To0v2", "To0v1", "Wo3v1"],
-                    ["Wo7v1", "To0v1", "To0v1", "To0v1", "To0v1", "Wo3v1"],
-                    ["Wo6v1", "Wo5v1", "Wo5v1", "Wo5v1", "Wo5v1", "Wo4v1"]
-                ],
-                "ORU": [
-                    ["Wo8v1", "Wo1v1", "Wo4v2", "To0v1", "Wo6v2", "Wo2v1"],
-                    ["Wo7v1", "To0v1", "To0v1", "To0v1", "To0v1", "Wo6v2"],
-                    ["Wo7v1", "Cs0v1", "To0v1", "To0v1", "To0v1", "To0v1"],
-                    ["Wo7v1", "To0v1", "To0v2", "To0v1", "To0v1", "Wo8v2"],
-                    ["Wo7v1", "To0v1", "To0v1", "To0v1", "To0v1", "Wo3v1"],
-                    ["Wo6v1", "Wo5v1", "Wo5v1", "Wo5v1", "Wo5v1", "Wo4v1"]
-                ],
-                "OL": [
-                    ["Wo8v1", "Wo1v1", "Wo1v1", "Wo1v1", "Wo1v1", "Wo2v1"],
-                    ["Wo4v2", "To0v3", "To0v2", "To0v1", "To0v1", "Wo3v1"],
-                    ["To0v1", "To0v1", "To0v1", "To0v1", "To0v1", "Wo3v1"],
-                    ["Wo2v2", "To0v1", "To0v1", "To0v1", "To0v1", "Wo3v1"],
-                    ["Wo7v1", "To0v1", "To0v1", "To0v1", "To0v1", "Wo3v1"],
-                    ["Wo6v1", "Wo5v1", "Wo5v1", "Wo5v1", "Wo5v1", "Wo4v1"]
-                ],
-                "ORD": [
-                    ["Wo8v1", "Wo1v1", "Wo1v1", "Wo1v1", "Wo1v1", "Wo2v1"],
-                    ["Wo7v1", "To0v1", "To0v2", "To0v1", "To0v1", "Wo6v2"],
-                    ["Wo7v1", "To0v2", "To0v1", "To0v1", "To0v1", "To0v1"],
-                    ["Wo7v1", "To0v1", "To0v1", "To0v1", "To0v1", "Wo8v2"],
-                    ["Wo7v1", "To0v1", "To0v1", "To0v1", "To0v1", "Wo3v1"],
-                    ["Wo6v1", "Wo5v1", "Wo2v2", "To0v1", "Wo8v2", "Wo4v1"]
-                ],
-                "ORL": [
-                    ["Wo8v1", "Wo1v1", "Wo1v1", "Wo1v1", "Wo1v1", "Wo2v1"],
-                    ["Wo4v2", "To0v1", "To0v2", "To0v1", "To0v1", "Wo6v2"],
-                    ["To0v1", "To0v1", "To0v1", "To0v1", "To0v1", "To0v1"],
-                    ["Wo2v2", "To0v1", "To0v3", "To0v1", "To0v1", "Wo8v2"],
-                    ["Wo7v1", "To0v2", "To0v1", "To0v1", "To0v1", "Wo3v1"],
-                    ["Wo6v1", "Wo5v1", "Wo5v1", "Wo5v1", "Wo5v1", "Wo4v1"]
-                ]
-            },
-            "RoomPattern": [
-                ["OR", "ORL", "ORL", "ORL", "ORL", "OLD"],
-                ["ORD", "ORL", "ORL", "ORL", "ORL", "OLU"],
-                ["ORU", "ORL", "ORL", "ORL", "ORL", "OL"]
-            ]
-        },
         "EasyEncounter": {
             "Name": "EasyEncounter",
             "Rooms": {
                 "LUE": [
-                    ["To8v4", "To1v4", "To1v4", "To1v4", "To1v4", "To1v4"],
-                    ["To7v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
-                    ["To7v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
-                    ["To7v4", "To0v4", "To0v5", "To0v4", "To0v4", "To0v4"],
-                    ["To7v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
-                    ["To7v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"]
+                    ["To8v4", "To1v4", "To1v4"],
+                    ["To7v4", "To0v4", "To0v4"],
+                    ["To7v4", "To0v4", "To0v4"]
                 ],
                 "RUE": [
-                    ["To1v4", "To1v4", "To1v4", "To1v4", "To1v5", "To2v4"],
-                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To3v4"],
-                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To3v4"],
-                    ["To0v4", "To0v4", "To0v5", "To0v4", "To0v4", "To3v4"],
-                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To3v4"],
-                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To3v4"]
+                    ["To1v4", "To1v5", "To2v4"],
+                    ["To0v4", "To0v4", "To3v4"],
+                    ["To0v4", "To0v4", "To3v4"]
                 ],
                 "UE": [
-                    ["To1v4", "To1v4", "To1v4", "To1v4", "To1v4", "To1v4"],
-                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
-                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
-                    ["To0v4", "To0v4", "To0v5", "To0v4", "To0v4", "To0v4"],
-                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
-                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"]
+                    ["To1v4", "To1v4", "To1v4"],
+                    ["To0v4", "To0v4", "To0v4"],
+                    ["To0v4", "To0v4", "To0v4"]
                 ],
                 "C": [
-                    ["To0v5", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
-                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
-                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
-                    ["To0v4", "To0v4", "To0v5", "To0v4", "To0v4", "To0v4"],
-                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
-                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"]
+                    ["To0v5", "To0v4", "To0v4"],
+                    ["To0v4", "To0v4", "To0v4"],
+                    ["To0v4", "To0v4", "To0v4"]
                 ],
                 "LE": [
-                    ["To7v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
-                    ["To7v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
-                    ["To7v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
-                    ["To7v4", "To0v4", "To0v5", "To0v4", "To0v4", "To0v4"],
-                    ["To7v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
-                    ["To7v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"]
+                    ["To7v4", "To0v4", "To0v4"],
+                    ["To7v4", "To0v4", "To0v4"],
+                    ["To7v4", "To0v4", "To0v4"]
                 ],
                 "RE": [
-                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To3v4"],
-                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To3v4"],
-                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To3v4"],
-                    ["To0v4", "To0v5", "To0v4", "To0v4", "To0v4", "To3v4"],
-                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To3v4"],
-                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To3v4"]
+                    ["To0v5",  "To0v4", "To3v4"],
+                    ["To0v4",  "To0v4", "To3v4"],
+                    ["To0v4",  "To0v4", "To3v4"]
                 ],
                 "DE": [
-                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
-                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
-                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
-                    ["To0v4", "To0v5", "To0v4", "To0v4", "To0v4", "To0v4"],
-                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
-                    ["To5v4", "To5v4", "To5v4", "To5v4", "To5v4", "To5v4"]
+                    ["To0v5", "To0v4", "To0v4"],
+                    ["To0v4", "To0v4", "To0v4"],
+                    ["To5v4", "To5v4", "To5v4"]
                 ],
                 "LDE": [
-                    ["To7v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
-                    ["To7v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
-                    ["To7v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
-                    ["To7v4", "To0v5", "To0v4", "To0v4", "To0v4", "To0v4"],
-                    ["To7v4", "To0v4", "To0v4", "To0v4", "To0v4", "To0v4"],
-                    ["To6v4", "To5v4", "To5v4", "To5v4", "To5v4", "To5v4"]
+                    ["To7v4", "To0v4", "To0v4"],
+                    ["To7v4", "To0v4", "To0v4"],
+                    ["To6v4", "To5v4", "To5v4"]
                 ],
                 "RDE": [
-                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To3v4"],
-                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To3v4"],
-                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To3v4"],
-                    ["To0v4", "To0v5", "To0v4", "To0v4", "To0v4", "To3v4"],
-                    ["To0v4", "To0v4", "To0v4", "To0v4", "To0v4", "To3v4"],
-                    ["To5v4", "To5v4", "To5v4", "To5v4", "To5v4", "To4v4"]
+                    ["To0v5", "To0v4", "To3v4"],
+                    ["To0v4", "To0v4", "To3v4"],
+                    ["To5v4", "To5v4", "To4v4"]
                 ]
-            },
-            "RoomPattern": [
-                ["LUE", "UE", "UE", "UE", "UE", "RUE"],
-                ["LE", "C", "C", "C", "C", "RE"],
-                ["LDE", "DE", "DE", "DE", "DE", "RDE"]
-            ]
+            }
         },
         "NewMain": {
             "Name": "NewMain",
@@ -274,13 +175,13 @@
         "Player": { "MaxHealth": 10, "Health": 10, "MaxMana": 3, "Mana": 1, "Attack": 1, "Speed": 8 },
         "EasyEnemy": { "MaxHealth": 2, "Health": 2, "MaxMana": 1, "Mana": 1, "Attack": 1, "Speed": 1 },
         "MediumEnemy": { "MaxHealth": 4, "Health": 4, "MaxMana": 2, "Mana": 2, "Attack": 2, "Speed": 1 },
-        "HardEnemy": { "MaxHealth": 1, "Health": 1, "MaxMana": 5, "Mana": 5, "Attack": 3, "Speed": 1 }
+        "HardEnemy": { "MaxHealth": 8, "Health": 8, "MaxMana": 5, "Mana": 5, "Attack": 3, "Speed": 1 }
     },
     "Encounters": {
         "EnemySet": [
-            ["Bat", "Spider", "Crab"],
+            ["Bat", "Spider", "Crab","Crab"],
             ["Cyclops", "Brown Rat", "Gray Rat"],
-            ["Dark Wizard", "Ghost"]
+            ["Dark Wizard", "Ghost", "Ghost"]
         ]
     }
 }
